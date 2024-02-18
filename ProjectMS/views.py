@@ -49,3 +49,6 @@ def results(request):
 
 def milestones(request):
     return render(request, 'supervisors/milestones.html')
+
+def student_upload(request):
+    return render(request, 'supervisors/student_upload.html')

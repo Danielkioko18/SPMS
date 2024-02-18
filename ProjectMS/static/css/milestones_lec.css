@@ -12,15 +12,15 @@
   /* Media query for responsive sidebar */
   @media (max-width: 768px) {
       .sidebar {
-          width: 100%;
-          position: static;
-          padding-top: 60px;
-
+        width: 100%;
+        position: static;
+        padding-top: 60px;
+        display: block;
       }
       /* Style for content area */
       .content {
-      margin-left: 0; /* same width as sidebar */
-      padding: 20px;
-      margin-top: 60px;
+        margin-left: 0; /* same width as sidebar */
+        padding: 20px;
+        margin-top: 60px;
       }
     }

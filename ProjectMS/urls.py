@@ -19,5 +19,6 @@ urlpatterns = [
     path('supervisor/upload_resource/', views.lec_resource, name='resource_upload'),
     path('supervisor/students/results/', views.results, name='student_results'),
     path('supervisor/milestones/', views.milestones, name='milestones'),
+    path('supervisors/student/upload/regno/', views.student_upload, name='student_upload'),
     
 ]
