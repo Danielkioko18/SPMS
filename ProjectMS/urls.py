@@ -22,9 +22,12 @@ urlpatterns = [
     path('supervisors/student/upload/regno/', views.student_upload, name='student_upload'),
 
 
-
     path('coordinator/dashboard', views.cordinator_dashboard, name='cordinator_dashboard'),
     path('coordinator/supervisors', views.supervisors, name='supervisors'),
-    path('registered_students/', views.reg_students, name='registered_students')
+    path('registered_students/', views.reg_students, name='registered_students'),
+    path('view_projects/', views.view_projects, name='view_projects'),
+    path('projects/pending/', views.pending_titles, name='pending_titles'),
+    path('projects/approved/', views.approved_titles, name='approved_titles'),
+    path('projects/miletones/', views.view_milestones_cord, name='view_milestones'),
 
 ]

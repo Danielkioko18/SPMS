@@ -12,7 +12,19 @@
           <a class="nav-link" href="{% url 'Supervisors' %}">Supervisors</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'Registered Students' %}">Students</a>
+          <a class="nav-link" href="{% url 'registered_students' %}">Students</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'view_projects' %}">Project Titles</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'pending_titles' %}">Pending Approvals</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'approved_titles' %}">Approved Titles</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'view_milestones' %}">Milestones</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'announcement' %}">Announcements</a>

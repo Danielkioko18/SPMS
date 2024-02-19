@@ -63,4 +63,17 @@ def supervisors(request):
     return render(request, 'cordinator/supervisors.html')
 
 def reg_students(request):
-    return render(request, 'cordinator/students')
+    return render(request, 'cordinator/students.html')
+
+def view_projects(request):
+    return render(request, 'cordinator/projects.html')
+
+def pending_titles(request):
+    return render(request, 'cordinator/pending_titles.html')
+
+def approved_titles(request):
+    return render(request, 'cordinator/aproved_titles.html')
+
+def view_milestones_cord(request):
+    return render(request, 'cordinator/milstones_cord.html')
+
