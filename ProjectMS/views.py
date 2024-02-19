@@ -77,3 +77,8 @@ def approved_titles(request):
 def view_milestones_cord(request):
     return render(request, 'cordinator/milstones_cord.html')
 
+def make_announcement(request):
+    return render(request, 'cordinator/make_announcement.html')
+
+def view_project_title(request):
+    return render(request, 'cordinator/view_project.html')
