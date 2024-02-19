@@ -52,3 +52,15 @@ def milestones(request):
 
 def student_upload(request):
     return render(request, 'supervisors/student_upload.html')
+
+
+# Coordinator's views
+
+def cordinator_dashboard(request):
+    return render(request, 'cordinator/cord_dashboard.html')
+
+def supervisors(request):
+    return render(request, 'cordinator/supervisors.html')
+
+def reg_students(request):
+    return render(request, 'cordinator/students')

@@ -20,5 +20,11 @@ urlpatterns = [
     path('supervisor/students/results/', views.results, name='student_results'),
     path('supervisor/milestones/', views.milestones, name='milestones'),
     path('supervisors/student/upload/regno/', views.student_upload, name='student_upload'),
-    
+
+
+
+    path('coordinator/dashboard', views.cordinator_dashboard, name='cordinator_dashboard'),
+    path('coordinator/supervisors', views.supervisors, name='supervisors'),
+    path('registered_students/', views.reg_students, name='registered_students')
+
 ]
