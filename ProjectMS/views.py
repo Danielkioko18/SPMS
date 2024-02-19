@@ -72,10 +72,10 @@ def pending_titles(request):
     return render(request, 'cordinator/pending_titles.html')
 
 def approved_titles(request):
-    return render(request, 'cordinator/aproved_titles.html')
+    return render(request, 'cordinator/approved_titles.html')
 
 def view_milestones_cord(request):
-    return render(request, 'cordinator/milstones_cord.html')
+    return render(request, 'cordinator/milestones_cord.html')
 
 def make_announcement(request):
     return render(request, 'cordinator/make_announcement.html')
