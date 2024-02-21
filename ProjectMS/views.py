@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login
 # Students Views here
 
 def Home(request):
-    return render(request, 'acounts/login.html')
+    return render(request, 'acounts/student_login.html')
 
 def SignUp(request):
     return render(request, 'acounts/signup.html')
@@ -32,6 +32,9 @@ def resources(request):
 
 # Supervisors views
 
+def supervisor_login(request):
+    return render(request, 'accounts/super_login.html')
+
 def supervisor_dashboard(request):
     return render(request, 'supervisors/super_dashboard.html')
 
@@ -55,6 +58,9 @@ def student_upload(request):
 
 
 # Coordinator's views
+
+def cordinator_login(request):
+    return render(request, 'accounts/cord_login.html')
 
 def cordinator_dashboard(request):
     return render(request, 'cordinator/cord_dashboard.html')
