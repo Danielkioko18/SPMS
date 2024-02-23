@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Style for fixed header */
+    .fixed-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #333;
+      color: #fff;
+      padding: 10px 0;
+      text-align: center;
+      z-index: 1000; /* Ensure the header is above other content */
+    }
+
+    /* Style for sidebar navigation */
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 67px; /* height of fixed header */
+      bottom: 0;
+      width: 250px;
+      background-color: #f8f9fa;
+      padding: 20px;
+    }
+
+    /* Style for sidebar links */
+    .sidebar a {
+      display: block;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    /* Style for active link */
+    .sidebar a.active {
+      font-weight: bold;
+    }
+    
+    /* Style for content area */
+    .content {
+      margin-left: 250px; /* same width as sidebar */
+      padding-top: 60px; /* height of fixed header */
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    /* Media query for responsive sidebar */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        position: static;
+      }
+      .content {
+        margin-left: 0;
+        padding-top: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Fixed Header -->
+<div class="fixed-header">
+  <h2>Student Dashboard</h2>
+</div>
+
+<!-- Sidebar Navigation -->
+<div class="sidebar">
+  <a href="#" class="active">Dashboard</a>
+  <a href="#">Profile</a>
+  <a href="#">Courses</a>
+  <a href="#">Grades</a>
+  <a href="#">Calendar</a>
+  <a href="#">Settings</a>
+  <a href="#">Logout</a>
+</div>
+
+<!-- Content Area -->
+<div class="content">
+  <div class="container-fluid">
+    <h3>Main Content</h3>
+    <p>This is where your main content will go...</p>
+    <h2 class="w-100">My Project Information</h2>
+            <div class="card">
+                <div class="card-header">
+                    <strong>Project Title</strong>
+                </div>
+                <div class="card-body">
+                    <h2>Student Project management system</h2>
+                </div>
+            </div>
+            <div class="card mt-3">
+                <div class="card-header">
+                    <strong>Project Title</strong>
+                </div>
+                <div class="card-body">
+                    <h2>Student Project management system</h2>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <strong>Project Title</strong>
+                </div>
+                <div class="card-body">
+                    <h2>Student Project management system</h2>
+                </div>
+            </div>
+            <div class="card mt-3">
+                <div class="card-header">
+                    <strong>Project Title</strong>
+                </div>
+                <div class="card-body">
+                    <h2>Student Project management system</h2>
+                </div>
+            </div>
+            <div class="card mt-3">
+                <div class="card-header">
+                    <strong>Project Title</strong>
+                </div>
+                <div class="card-body">
+                    <h2>Student Project management system</h2>
+                </div>
+            </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

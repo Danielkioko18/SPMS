@@ -1,0 +1,219 @@
+{% load static %}
+
+<!doctype html>
+<html class="no-js h-100" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+   
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+   
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /*header {
+            background-color: #007BFF;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+
+        header .left {
+            display: flex;
+            align-items: center;
+        }
+
+        header .logo {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        header .profile-pic {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .body-container {
+            display: flex;
+            padding: 20px;
+        }
+
+        .column {
+            flex: 1;
+            margin: 0 10px;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+
+        .column-1, .column-3 {
+            flex: 0.2;
+        }
+
+        .column button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .column button i {
+            margin-right: 10px;
+        }
+
+        .column button:hover {
+            background-color: #0056b3;
+        }
+
+        .column-2 .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .column-2 .header div {
+            display: flex;
+            gap: 10px;
+        }
+
+        .column-2 .header div button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(90deg, #007BFF, #0056b3);
+        }
+
+        .column-2 .header div button:hover {
+            background: linear-gradient(90deg, #0056b3, #007BFF);
+        }
+
+        .column-2 .app {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f7f7f7;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .column-2 .app-icon {
+            font-size: 24px;
+            margin-right: 15px;
+        }
+
+        .column-2 .app-name {
+            flex: 1;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .column-2 .app-time {
+            color: #888;
+        }
+
+        .column-2 .app-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .column-2 .app-actions button {
+            padding: 5px 10px;
+            border-radius: 3px;
+            background: linear-gradient(90deg, #007BFF, #0056b3);
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .column-2 .app-actions button:hover {
+            background: linear-gradient(90deg, #0056b3, #007BFF);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            width: 300px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .modal-content button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }*/
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <!--
+    <header>
+        <div class="left">
+            <img src="{% static 'images/hms_logo/logo.ico'%}" alt="Logo" class="logo">
+            <h1>File Converter</h1>
+        </div>
+        <div class="right">
+            <i class="fas fa-search"></i>
+            <i class="fas fa-bell"></i>
+            <i class="fas fa-question-circle"></i>
+            <i class="fas fa-cog"></i>
+            <img src="{% static 'images/avatars/1.jpg'%}" alt="Profile Picture" class="profile-pic">
+            <span class="username">Username</span>
+        </div>
+    </header>-->
+    {% block content %}
+    {% endblock %}
