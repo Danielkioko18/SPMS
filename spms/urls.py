@@ -1,5 +1,5 @@
 from django.urls import path, include
-from ProjectMS import views
+from projectsApp import views
 
 """
 URL configuration for spms project.
@@ -22,5 +22,6 @@ from django.urls import path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('ProjectMS.urls'))
+    #path('', include('ProjectMS.urls')),
+    path('', include('projectsApp.urls'))
 ]

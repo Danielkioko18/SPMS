@@ -40,8 +40,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'ProjectMS',
+    'projectsApp',
 ]
+
+AUTH_USER_MODEL = 'projectsApp.Coordinator'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'projectsApp.backends.StudentBackend',
+]
+
+'''AUTHENTICATION_BACKENDS = [
+    
+    'projectsApp.backends.MyAuthenticationBackend',
+]
+'''
+LOGIN_URL = 'home' 
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
