@@ -48,13 +48,11 @@ AUTH_USER_MODEL = 'projectsApp.Coordinator'
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'projectsApp.backends.StudentBackend',
+    'projectsApp.backends.LecturerBackend',
+    'projectsApp.backends.CoordinatorBackend',
 ]
 
-'''AUTHENTICATION_BACKENDS = [
-    
-    'projectsApp.backends.MyAuthenticationBackend',
-]
-'''
+
 LOGIN_URL = 'home' 
 
 

@@ -93,7 +93,22 @@ def resources(request):
 # Supervisors views
 
 def supervisor_login(request):
-    return render(request, 'acounts/super_login.html')
+    if request.method == 'POST':
+        '''email = request.POST['email']
+        password = request.POST['password']
+
+        user = authenticate(email=email, password=password)
+        if user is not None:
+            if user.is_staff:
+                login(request, user)
+                return redirect('cord_dashboard')
+            else:
+                 return render(request, 'acounts/cord_login.html', {'error_message': "You are not authorized to access this page."})
+        else:
+             return render(request, 'cord_login.html', {'error_message': "Invalid username or password."})'''
+        
+    else:
+        return render(request, 'acounts/super_login.html')
 
 def supervisor_dashboard(request):
     return render(request, 'supervisors/super_dashboard.html')
@@ -120,7 +135,21 @@ def student_upload(request):
 # Coordinator's views
 
 def cordinator_login(request):
-    return render(request, 'acounts/cord_login.html')
+    if request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+
+        coordinator = authenticate(email=email, password=password)
+        if coordinator is not None:
+            if coordinator.is_staff:
+                login(request, coordinator)
+                return redirect('cordinator_dashboard')
+            else:
+                 return render(request, 'acounts/cord_login.html', {'error_message': "You are not authorized to access this page."})
+        else:
+             return render(request, 'acounts/cord_login.html', {'error_message': "Invalid Email or Password."})
+    else:
+        return render(request, 'acounts/cord_login.html')
 
 def cordinator_dashboard(request):
     return render(request, 'cordinator/cord_dashboard.html')
