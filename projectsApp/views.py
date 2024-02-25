@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import login_required
-from .models import Student
+from django.contrib.auth import authenticate, login,logout
+
+from .models import Student,Coordinator,Lecturer
 from django.contrib.auth.hashers import make_password
 from django.utils import timezone
+from .AccessControl import coordinator_required, student_required
 # ==================================================================================================================
 # Students Views here
 
@@ -35,6 +36,9 @@ def Home(request):
 
     return render(request, 'acounts/student_login.html')
 
+def logout_view(request):
+    logout(request)   
+    return redirect('home') 
 
 # Student registration
 def SignUp(request):
@@ -67,7 +71,7 @@ def SignUp(request):
     return render(request, 'acounts/signup.html')
 
 
-@login_required
+@student_required
 def student_dashboard(request):
     return render(request, 'students/student_dashboard.html')
 
@@ -94,7 +98,7 @@ def resources(request):
 
 def supervisor_login(request):
     if request.method == 'POST':
-        '''email = request.POST['email']
+       ''' email = request.POST['email']
         password = request.POST['password']
 
         user = authenticate(email=email, password=password)
@@ -143,7 +147,7 @@ def cordinator_login(request):
         if coordinator is not None:
             if coordinator.is_staff:
                 login(request, coordinator)
-                return redirect('cordinator_dashboard')
+                return redirect('cordinator_dashboard')                
             else:
                  return render(request, 'acounts/cord_login.html', {'error_message': "You are not authorized to access this page."})
         else:
@@ -151,6 +155,7 @@ def cordinator_login(request):
     else:
         return render(request, 'acounts/cord_login.html')
 
+@coordinator_required
 def cordinator_dashboard(request):
     return render(request, 'cordinator/cord_dashboard.html')
 

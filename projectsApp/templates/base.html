@@ -124,8 +124,18 @@
             <h1>SPMS</h1>
         </div>
         <div class="right">
-            <span class="username mb-3">Hello, <strong>Username</strong></span>
-            <img src="{% static 'images/avatars/1.jpg'%}" alt="Profile Picture" class="profile-pic mb-3"> 
+            <span class="username mb-3">
+                Hello, 
+                <strong>
+                    {% if request.user.is_authenticated %}
+                        {% if request.user.is_staff %}  {{ request.user.username }}  {% else %}
+                            {{ request.user.name }}  {% endif %}
+                    {% else %}
+                    Guest
+                    {% endif %}
+                </strong>
+            </span>
+            <a href="{% url 'logout' %}" class="btn btn-warning">Logout</a>
             <i class="fas fa-cog mb-3"></i>
             
             <i class="fas fa-bell mb-3"></i>
