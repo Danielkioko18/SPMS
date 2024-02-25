@@ -10,47 +10,34 @@
     <div class="container-fluid">
         <div class="row">
             <div class="card border-info">
-                <div class="card-heard text-center">
-                    <h5>Registered Students</h5>
+                <div class="card-header text-center">
+                    <h4><b>Registered Students</b></h4>
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered table-hover  table-striped border-info">
                         <thead class="thead-dark">
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Reg No</th>
-                                <th scope="col">Student Name</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Phone No.</th>
-                                <th scope="col">Program</th>
+                                <th scope="col"><b>#</b></b></th>
+                                <th scope="col"><b>Reg No</b></th>
+                                <th scope="col"><b>Student Name</b></th>
+                                <th scope="col"><b>Email</b></th>
+                                <th scope="col"><b>Phone No.</b></th>
+                                <th scope="col"><b>Program</b></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>Mark</td>
-                                <td>Otto</td>            
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>@twitter</td>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                            </tr>
-                            </tbody>
+                            {% for student in students %}
+                                <tr>
+                                    <th scope="row">{{student.index}}</th>
+                                    <td>{{student.regno}}</td>
+                                    <td>{{student.name}}</td>
+                                    <td>{{student.email}}</td>
+                                    <td>{{student.phone_number}}</td>
+                                    <td>{{student.intake_year}}</td>            
+                                </tr>
+                            {% endfor %}                            
+                            
+                        </tbody>
                     </table>
                 </div>
             </div>                

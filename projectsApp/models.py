@@ -30,9 +30,14 @@ class Lecturer(models.Model):
     phone = models.IntegerField(null=True, blank=True)
     password = models.CharField(max_length=128, null=False, blank=False)
     user_id = models.AutoField(primary_key=True)
+    last_login = models.DateTimeField(blank=True, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name', 'phone']
 
+    @property
+    def is_authenticated(self):
+        return True
+    
     class Meta:
         db_table = "Lecturers"

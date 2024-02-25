@@ -8,43 +8,31 @@
     <div class="container-fluid">
         <div class="row">
             <div class="card border-info">
-                <div class="card-heard text-center">
-                    <h5>Projects</h5>
+                <div class="card-header text-center">
+                    <h4><b>Supervisors</b></h4>
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered table-hover  table-striped border-info">
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">ID</th>
                                 <th scope="col">Name</th>
-                                <th scope="col">Phone</th>
                                 <th scope="col">Email</th>
+                                <th scope="col">Phone</th>                                
                                 <th scope="col">Total Projects</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>15</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                                <td>15</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>@twitter</td>
-                                <td>15</td>
-                            </tr>
+                            {% for supervisor in supervisors %}
+                              <tr>
+                                <th scope="row">{{supervisor.index}}</th>
+                                <td><b>{{supervisor.name}}</b></td>
+                                <td>{{supervisor.email}}</td>
+                                <td>{{supervisor.phone}}</td>
+                                <td>{{supervisor.last_login}}</td>
+                            </tr>  
+                            {% endfor %}
+                            
                         </tbody>
                     </table>
                 </div>

@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login,logout
 from .models import Student,Coordinator,Lecturer
 from django.contrib.auth.hashers import make_password
 from django.utils import timezone
-from .AccessControl import coordinator_required, student_required
+from .AccessControl import coordinator_required, student_required,supervisor_required
 # ==================================================================================================================
 # Students Views here
 
@@ -98,22 +98,20 @@ def resources(request):
 
 def supervisor_login(request):
     if request.method == 'POST':
-       ''' email = request.POST['email']
+        email = request.POST['email']
         password = request.POST['password']
 
         user = authenticate(email=email, password=password)
         if user is not None:
-            if user.is_staff:
-                login(request, user)
-                return redirect('cord_dashboard')
-            else:
-                 return render(request, 'acounts/cord_login.html', {'error_message': "You are not authorized to access this page."})
+            login(request, user)
+            return redirect('supervisor_dashboard')
         else:
-             return render(request, 'cord_login.html', {'error_message': "Invalid username or password."})'''
+             return render(request, 'acounts/super_login.html', {'error_message': "Invalid username or password."})
         
     else:
         return render(request, 'acounts/super_login.html')
 
+@supervisor_required
 def supervisor_dashboard(request):
     return render(request, 'supervisors/super_dashboard.html')
 
@@ -159,11 +157,49 @@ def cordinator_login(request):
 def cordinator_dashboard(request):
     return render(request, 'cordinator/cord_dashboard.html')
 
+@coordinator_required
 def supervisors(request):
-    return render(request, 'cordinator/supervisors.html')
+    supervisors = Lecturer.objects.all().order_by('name')
+    for i, supervisor in enumerate(supervisors):
+        supervisor.index = i + 1 
+    context = {'supervisors':supervisors}
+    return render(request, 'cordinator/supervisors.html', context)
 
+@coordinator_required
+def add_supervisor(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        name = request.POST['names']
+        phone_number = request.POST['phone']
+        password = request.POST['password']
+        confirm_pass = request.POST['confirm_pass']
+
+        # Check if passwords match
+        if password != confirm_pass:
+            error_message = "Passwords do not match"
+            return render(request, 'acounts/signup.html', {'error_message': error_message})
+
+        # Hash password
+        hashed_password = make_password(password)
+
+        # Create new student object
+        lecturer = Lecturer(email=email, name=name, phone=phone_number, password=hashed_password)
+
+        # Save student object to database
+        lecturer.save()
+
+        success_message = "Registration successful. Please login to continue."
+        return render(request, 'cordinator/add_lecturer.html', {'success_message': success_message})
+
+    return render(request, 'cordinator/add_lecturer.html')
+
+@coordinator_required
 def reg_students(request):
-    return render(request, 'cordinator/students.html')
+    students = Student.objects.all().order_by('regno')
+    for i, student in enumerate(students):
+        student.index = i + 1 
+    context = {'students':students}
+    return render(request, 'cordinator/students.html', context)
 
 def view_projects(request):
     return render(request, 'cordinator/projects.html')

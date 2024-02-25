@@ -26,7 +26,8 @@ urlpatterns = [
 
     path('coordinator/', views.cordinator_login, name='cordinator_login'),
     path('coordinator/dashboard/', views.cordinator_dashboard, name='cordinator_dashboard'),
-    path('coordinator/supervisors/', views.supervisors, name='supervisors'),
+    path('coordinator/supervisors/add/', views.add_supervisor, name='add_supervisor'),
+    path('coordinator/supervisors/', views.supervisors, name='view_supervisors'),
     path('registered_students/', views.reg_students, name='registered_students'),
     path('coordinator/view_projects/', views.view_projects, name='view_projects'),
     path('projects/pending/', views.pending_titles, name='pending_titles'),

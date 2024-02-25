@@ -22,7 +22,7 @@ class LecturerBackend(BaseBackend):
     def authenticate(self, request, email=None, password=None):
         try:
             lecturer = Lecturer.objects.get(email=email)
-            if lecturer.check_password(password):
+            if check_password(password, lecturer.password):
                 return lecturer
         except Lecturer.DoesNotExist:
             return None
