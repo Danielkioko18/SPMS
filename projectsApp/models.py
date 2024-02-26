@@ -1,9 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+
+#Cordinator model
 class Coordinator(AbstractUser):
     pass
 
+# Student model
 class Student(models.Model):
     regno = models.CharField(max_length=255, unique=True)
     email = models.EmailField(max_length=255, unique=True)
@@ -24,6 +27,7 @@ class Student(models.Model):
     class Meta:
         db_table = "students"
 
+# lecturer model
 class Lecturer(models.Model):
     email = models.EmailField(max_length=255, unique=True, blank=False)
     name = models.CharField(max_length=255)
@@ -41,3 +45,44 @@ class Lecturer(models.Model):
     
     class Meta:
         db_table = "Lecturers"
+
+# projects model
+class Projects(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    objectives = models.TextField()
+    lecturer = models.ForeignKey(Lecturer, on_delete=models.SET_NULL, null=True, blank=True)
+    status = models.CharField(max_length=50, choices=[
+        ('pending', 'Pending'), 
+        ('approved', 'Approved'), 
+        ('rejected', 'Rejected')
+    ], default='pending')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+# Notifications model
+class Notifications(models.Model):
+    sender = models.ForeignKey(Lecturer, on_delete=models.CASCADE)
+    recipient = models.ForeignKey(Student, on_delete=models.CASCADE)
+    message = models.TextField()
+    read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+# Milestones Model 
+class Milestone(models.Model):
+    project = models.ForeignKey(Projects, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    due_date = models.DateTimeField()
+    is_completed = models.BooleanField(default=False)
+
+# Announcements model
+class Announcements(models.Model):
+    sender = models.ForeignKey(Lecturer, on_delete=models.CASCADE)
+    subject = models.CharField(max_length=255)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']  # Order announcements by creation date (newest first)
