@@ -9,6 +9,12 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
+                
+                {% if success_message %}
+                    <div class="alert alert-info" role="alert">
+                        {{ success_message }}
+                    </div>
+                {% endif %}
                 <div class="card mb-5 bg-primary">
                     <div class="card-header text-center">
                         <b><h4>Project Title</h4></b>

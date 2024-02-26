@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login,logout
-
-from .models import Student,Coordinator,Lecturer
+from .AccessControl import coordinator_required, student_required,supervisor_required
+from .models import Student,Coordinator,Lecturer, Projects
 from django.contrib.auth.hashers import make_password
 from django.utils import timezone
-from .AccessControl import coordinator_required, student_required,supervisor_required
+
 # ==================================================================================================================
 # Students Views here
 
@@ -36,6 +36,7 @@ def Home(request):
 
     return render(request, 'acounts/student_login.html')
 
+# Logout from the system
 def logout_view(request):
     logout(request)   
     return redirect('home') 
@@ -75,8 +76,31 @@ def SignUp(request):
 def student_dashboard(request):
     return render(request, 'students/student_dashboard.html')
 
+@student_required
 def upload_title(request):
-    return render(request, 'students/upload_title.html')
+    if request.method == 'POST':
+        title=request.POST['title']
+        description=request.POST['description']
+        objectives=request.POST['objectives']
+    
+        project = Projects(title=title, description=description,objectives=objectives)
+        project.student = request.user
+        project.save()
+
+        success_message = "Project Created"
+        return redirect('student_dashboard', {'success_message':success_message})
+    
+        """if saving:
+            success_message = "Project Created"
+            return redirect('student_dashboard', {'success_message':success_message})
+        else:
+            error_message = "Error When Uploading Details"
+            return render(request, 'students/upload_title.html', {'error_message':error_message})"""
+        
+
+    else:
+        return render(request, 'students/upload_title.html')
+
 
 def upload_file(request):
     return render(request, 'students/upload_docs.html')
@@ -89,8 +113,6 @@ def notifications(request):
 
 def resources(request):
     return render(request, 'students/resources.html')
-
-
 
 
 # =================================================================================================================
@@ -157,13 +179,7 @@ def cordinator_login(request):
 def cordinator_dashboard(request):
     return render(request, 'cordinator/cord_dashboard.html')
 
-@coordinator_required
-def supervisors(request):
-    supervisors = Lecturer.objects.all().order_by('name')
-    for i, supervisor in enumerate(supervisors):
-        supervisor.index = i + 1 
-    context = {'supervisors':supervisors}
-    return render(request, 'cordinator/supervisors.html', context)
+
 
 @coordinator_required
 def add_supervisor(request):
@@ -192,6 +208,16 @@ def add_supervisor(request):
         return render(request, 'cordinator/add_lecturer.html', {'success_message': success_message})
 
     return render(request, 'cordinator/add_lecturer.html')
+
+
+@coordinator_required
+def supervisors(request):
+    supervisors = Lecturer.objects.all().order_by('name')
+    for i, supervisor in enumerate(supervisors):
+        supervisor.index = i + 1 
+    context = {'supervisors':supervisors}
+    return render(request, 'cordinator/supervisors.html', context)
+
 
 @coordinator_required
 def reg_students(request):
