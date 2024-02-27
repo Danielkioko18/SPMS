@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login,logout
 from .AccessControl import coordinator_required, student_required,supervisor_required
 from .models import Student,Coordinator,Lecturer, Projects
@@ -210,6 +210,7 @@ def add_supervisor(request):
     return render(request, 'cordinator/add_lecturer.html')
 
 
+# View all supervisors registered
 @coordinator_required
 def supervisors(request):
     supervisors = Lecturer.objects.all().order_by('name')
@@ -218,7 +219,7 @@ def supervisors(request):
     context = {'supervisors':supervisors}
     return render(request, 'cordinator/supervisors.html', context)
 
-
+# View all regoistered students
 @coordinator_required
 def reg_students(request):
     students = Student.objects.all().order_by('regno')
@@ -227,14 +228,41 @@ def reg_students(request):
     context = {'students':students}
     return render(request, 'cordinator/students.html', context)
 
+
+# View all uploaded titles
+@coordinator_required
 def view_projects(request):
-    return render(request, 'cordinator/projects.html')
+    projects = Projects.objects.all().order_by('-created_at')
+    for i,project in enumerate(projects):
+        project.index = i+1
+        student = project.student
+        project.reg_number = student.regno
+    context = {'projects':projects}
+    return render(request, 'cordinator/projects.html',context)
 
+
+# pending titles
+@coordinator_required
 def pending_titles(request):
-    return render(request, 'cordinator/pending_titles.html')
+    projects = Projects.objects.filter(status="pending").order_by('-created_at')
+    for i,project in enumerate(projects):
+        project.index = i+1
+        student = project.student
+        project.reg_number = student.regno
+    context = {'projects':projects}
+    return render(request, 'cordinator/pending_titles.html', context)
 
+
+# Approved titles
+@coordinator_required
 def approved_titles(request):
-    return render(request, 'cordinator/approved_titles.html')
+    projects = Projects.objects.filter(status="approved").order_by('-created_at')
+    for i,project in enumerate(projects):
+        project.index = i+1
+        student = project.student
+        project.reg_number = student.regno
+    context = {'projects':projects}
+    return render(request, 'cordinator/approved_titles.html', context)
 
 def view_milestones_cord(request):
     return render(request, 'cordinator/milestones_cord.html')
@@ -242,5 +270,9 @@ def view_milestones_cord(request):
 def make_announcement(request):
     return render(request, 'cordinator/make_announcement.html')
 
-def view_project_title(request):
-    return render(request, 'cordinator/view_project.html')
+
+# View Project details including descripton and objectives
+def view_project_title(request, project_id):
+    project =  get_object_or_404(Projects, pk=project_id)
+    context = {'project':project}
+    return render(request, 'cordinator/view_project.html', context)

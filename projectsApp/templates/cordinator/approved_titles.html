@@ -26,31 +26,26 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>Mark</td>
-                                <td><a href=""> View Project </a></td>            
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                                <td>Mark</td>
-                                <td><a href=""> View Project </a></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>@twitter</td>
-                                <td>Mark</td>
-                                <td><a href=""> View Project </a></td>
-                            </tr>
-                            </tbody>
+                            {% if projects.exists %}
+                                {% for project in projects %}
+                                    <tr>
+                                        <th scope="row">{{project.index}}</th>
+                                        <td>{{project.reg_number}}</td>
+                                        <td>{{project.title}}</td>
+                                        <td>{{project.lecturer}}</td>
+                                        <td class="text-success">{{project.updated_at}}</td>
+                                        <td><a href="{% url "view_project_details" project.id %}"> View Details </a></td>           
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="6" class="text-center text-danger">No approved projects found.</td>
+                                </tr>
+                            {% endif %}
+
+                            
+                            
+                        </tbody>
                     </table>
                 </div>
             </div>                

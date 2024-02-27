@@ -25,28 +25,24 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>Mark</td>
-                                <td>{% url "view_project_details" %}</td>            
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>Mark</td>
-                                <td>{% url "view_project_details" %}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>Mark</td>
-                                <td>{% url "view_project_details" %}</td>
-                            </tr>
-                            </tbody>
+                            {% if projects.exists %}
+                                {% for project in projects %}
+                                    <tr>
+                                        <th scope="row">{{project.index}}</th>
+                                        <td>{{project.reg_number}}</td>
+                                        <td>{{project.title}}</td>
+                                        <td>{{project.created_at}}</td>
+                                        <td><a href="{% url "view_project_details" project.id %}"> View Details </a></td>            
+                                    </tr> 
+                            {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="6" class="text-center text-danger">No Pending projects found.</td>
+                                </tr>
+                            {% endif %}
+                            
+                            
+                        </tbody>
                     </table>
                 </div>
             </div>                
