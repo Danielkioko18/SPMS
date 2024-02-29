@@ -34,7 +34,7 @@ urlpatterns = [
     path('projects/approved/', views.approved_titles, name='approved_titles'),
     path('projects/miletones/', views.view_milestones_cord, name='view_milestones'),
     path('cordinator/make announcement/', views.make_announcement, name='make_announcement'),
-    path('projects/view/details/<int:project_id>/', views.view_project_title, name='view_project_details'),
+    path('projects/view/details/<int:project_id>/', views.view_project_details, name='view_project_details'),
 
     path('logout/', views.logout_view, name='logout'),
 ]

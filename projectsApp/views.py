@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login,logout
 from .AccessControl import coordinator_required, student_required,supervisor_required
-from .models import Student,Coordinator,Lecturer, Projects
+from .models import Student,CoordinatorFeedbacks,Lecturer, Projects
 from django.contrib.auth.hashers import make_password
 from django.utils import timezone
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.contrib import messages
 
 # ==================================================================================================================
 # Students Views here
@@ -256,12 +259,16 @@ def pending_titles(request):
 # Approved titles
 @coordinator_required
 def approved_titles(request):
-    projects = Projects.objects.filter(status="approved").order_by('-created_at')
+    projects = Projects.objects.filter(status="Approved").order_by('-created_at')
+    alloc_lec = projects.lecturer.user.get_full_name()
     for i,project in enumerate(projects):
         project.index = i+1
         student = project.student
         project.reg_number = student.regno
-    context = {'projects':projects}
+    context = {
+        'projects':projects,
+        'alloc_lec':alloc_lec
+        }
     return render(request, 'cordinator/approved_titles.html', context)
 
 def view_milestones_cord(request):
@@ -272,7 +279,40 @@ def make_announcement(request):
 
 
 # View Project details including descripton and objectives
-def view_project_title(request, project_id):
+@coordinator_required
+def view_project_details(request, project_id):
     project =  get_object_or_404(Projects, pk=project_id)
-    context = {'project':project}
+    lecturer = Lecturer.objects.all()
+    approved_project = Projects.objects.get(pk=project_id)
+
+    # Updating project details
+    if request.method =="POST":
+        allocated_lec = request.POST['allocated_lecturer']
+        comment = request.POST['comment']
+
+        print(f"Submitted data:")
+        print(f"- allocated_lecturer: {allocated_lec}")
+        print(f"- comment: {comment}")
+
+        if allocated_lec and comment:
+            project.status = 'Approved'
+            lecturer_obj = Lecturer.objects.get(pk=allocated_lec)
+            project.lecturer = lecturer_obj
+            
+            project.save()
+
+            feedback = CoordinatorFeedbacks.objects.create(sender=request.user, project=approved_project, comment=comment)
+            
+            feedback.save()
+
+            messages.success(request, 'Project details updated successfully!')
+            return HttpResponseRedirect(reverse('view_project_details', args=[project.id]))
+        else:
+           messages.error(request, 'Missing comment or allocated lecturer data.')
+
+    context = {
+        'project':project,
+        'lecturer':lecturer
+        }
+    
     return render(request, 'cordinator/view_project.html', context)
