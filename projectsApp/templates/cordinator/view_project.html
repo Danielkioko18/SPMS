@@ -67,7 +67,7 @@
                                   <select class="form-control" id="allocated_lecturer" name="allocated_lecturer">
                                     <option value="">select</option>
                                     {% for lecturer in lecturer %}
-                                        <option value="{{ lecturer.user_id }}">{{ lecturer.user_id }}  {{ lecturer.name }}</option>
+                                        <option value="{{ lecturer.user_id }}">{{ lecturer.name }}</option>
                                     {% endfor %}
                                   </select>
                                 </div>

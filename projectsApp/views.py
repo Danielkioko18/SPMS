@@ -91,7 +91,11 @@ def upload_title(request):
         project.save()
 
         success_message = "Project Created"
-        return redirect('student_dashboard', {'success_message':success_message})
+        context = {
+            'success_message':success_message
+        }
+        
+        return redirect('student_dashboard')
     
         """if saving:
             success_message = "Project Created"
@@ -217,6 +221,11 @@ def add_supervisor(request):
 @coordinator_required
 def supervisors(request):
     supervisors = Lecturer.objects.all().order_by('name')
+
+    # Add project count to each supervisor
+    for supervisor in supervisors:
+        project_count = Projects.objects.filter(lecturer=supervisor).count()
+        supervisor.project_count = project_count
     for i, supervisor in enumerate(supervisors):
         supervisor.index = i + 1 
     context = {'supervisors':supervisors}
@@ -260,14 +269,12 @@ def pending_titles(request):
 @coordinator_required
 def approved_titles(request):
     projects = Projects.objects.filter(status="Approved").order_by('-created_at')
-    alloc_lec = projects.lecturer.user.get_full_name()
     for i,project in enumerate(projects):
         project.index = i+1
         student = project.student
         project.reg_number = student.regno
     context = {
         'projects':projects,
-        'alloc_lec':alloc_lec
         }
     return render(request, 'cordinator/approved_titles.html', context)
 
@@ -294,7 +301,7 @@ def view_project_details(request, project_id):
         print(f"- allocated_lecturer: {allocated_lec}")
         print(f"- comment: {comment}")
 
-        if allocated_lec and comment:
+        if allocated_lec:
             project.status = 'Approved'
             lecturer_obj = Lecturer.objects.get(pk=allocated_lec)
             project.lecturer = lecturer_obj

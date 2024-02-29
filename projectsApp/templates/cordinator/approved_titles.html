@@ -32,7 +32,7 @@
                                         <th scope="row">{{project.index}}</th>
                                         <td>{{project.reg_number}}</td>
                                         <td>{{project.title}}</td>
-                                        <td>{{alloc_lec}}</td>
+                                        <td>{{project.lecturer.name}}</td>
                                         <td class="text-success">{{project.updated_at}}</td>
                                         <td><a href="{% url "view_project_details" project.id %}"> View Details </a></td>           
                                     </tr>

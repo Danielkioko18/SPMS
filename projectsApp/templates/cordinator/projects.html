@@ -33,7 +33,7 @@
                                         <td>{{project.reg_number}}</td>
                                         <td>{{project.title}}</td>
                                         <td>{{project.created_at}}</td>
-                                        <td class="text-success">{{project.status}}</td>
+                                        <td class="text-danger "><b>{{project.status}}</b></td>
                                         <td><a href="{% url "view_project_details" project.id%}"> View Details </a></td>            
                                     </tr>
                             {% endfor %}
