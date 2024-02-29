@@ -184,7 +184,19 @@ def cordinator_login(request):
 
 @coordinator_required
 def cordinator_dashboard(request):
-    return render(request, 'cordinator/cord_dashboard.html')
+    supervisor_count = Lecturer.objects.all().count()
+    student_count = Student.objects.all().count()
+    project_count = Projects.objects.all().count()
+    approved_count = Projects.objects.filter(status="Approved").count()
+    pending_count = Projects.objects.filter(status="pending").count()  
+    context = {
+        'supervisor_count': supervisor_count,
+        'student_count':student_count,
+        'project_count':project_count,
+        'approved_count':approved_count,
+        'pending_count':pending_count,
+    }
+    return render(request, 'cordinator/cord_dashboard.html', context)
 
 
 

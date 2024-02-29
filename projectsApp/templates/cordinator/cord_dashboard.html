@@ -13,7 +13,7 @@
                     </div>
                     <div class="card-body">
                         <h2 class="text-center">Total</h2>
-                        <h4 class="text-center">20</h4>
+                        <h4 class="text-center">{{supervisor_count}}</h4>
                         <a href="{% url "add_supervisor" %}" class="btn btn-primary">Add Supervisor</a>
                         <a href="{% url "view_supervisors" %}" class="btn btn-primary">View All</a>
                     </div>
@@ -24,8 +24,8 @@
                     </div>
                     <div class="card-body">
                         <h2 class="text-center">Total</h2>
-                        <h4 class="text-center">100</h4>
-                        <a href="http://" class="btn btn-primary text-center">View All</a>
+                        <h4 class="text-center">{{student_count}}</h4>
+                        <a href="{% url "registered_students" %}" class="btn btn-primary text-center">View All</a>
                     </div>
                 </div>
                 <div class="card mb-5 bg-success">
@@ -33,8 +33,8 @@
                         <h4></h4><strong>Project Titles</strong></h4>
                     </div>
                     <div class="card-body">
-                        <h4 class="text-center">Total: <b>20</b></h4>
-                        <a href="http://" class="btn btn-primary">View All</a>
+                        <h4 class="text-center">Total: <b>{{project_count}}</b></h4>
+                        <a href="{% url "view_projects" %}" class="btn btn-primary">View All</a>
                     </div>
                 </div>
                 <div class="card mb-5 bg-info">
@@ -42,9 +42,18 @@
                         <h4></h4><strong>Approved Titles</strong></h4>
                     </div>
                     <div class="card-body">
-                        <h2 class="text-center">Total Approved Titles</h2>
-                        <h4 class="text-center">100</h4><br>
-                        <a href="http://" class="btn btn-primary">View All</a>
+                        <h4 class="text-center">{{approved_count}}</h4><br>
+                        <a href="{% url "approved_titles" %}" class="btn btn-primary">View All</a>
+                    </div>
+                </div>
+                <div class="card mb-5 bg-info">
+                    <div class="card-header text-center">
+                        <h4></h4><strong>Pending Titles</strong></h4>
+                    </div>
+                    <div class="card-body">
+                        <h2 class="text-center">Total</h2>
+                        <h4 class="text-center">{{pending_count}}</h4><br>
+                        <a href="{% url "pending_titles" %}" class="btn btn-primary">View All</a>
                     </div>
                 </div>
                 <div class="card mb-5 bg-warning">
