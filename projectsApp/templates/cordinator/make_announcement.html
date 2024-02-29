@@ -14,7 +14,17 @@
                     <h3 class="auth-form__title text-center mb-4"><Strong>Make Announcement</Strong></h3>
                 </div>
                 <div class="card-body">
-                    <form action="" method="post">
+                    {% if error_message %}
+                      <div class="alert alert-danger" role="alert">
+                          {{ error_message }}
+                      </div>
+                    {% endif %}
+                    {% if success_message %}
+                      <div class="alert alert-info" role="alert">
+                          {{ success_message }}
+                      </div>
+                    {% endif %}
+                    <form action="{% url "make_announcement" %}" method="post">
                         {% csrf_token %}
                         <div class="form-group">
                             <label for="subject"><b>Subject</b></label>

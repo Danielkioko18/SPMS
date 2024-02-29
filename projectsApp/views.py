@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login,logout
 from .AccessControl import coordinator_required, student_required,supervisor_required
-from .models import Student,CoordinatorFeedbacks,Lecturer, Projects
+from .models import Student, CoordinatorFeedbacks, CoordinatorAnnouncements, Lecturer, Projects
 from django.contrib.auth.hashers import make_password
 from django.utils import timezone
 from django.http import HttpResponseRedirect
@@ -278,11 +278,42 @@ def approved_titles(request):
         }
     return render(request, 'cordinator/approved_titles.html', context)
 
+
+# View milestones
+@coordinator_required
 def view_milestones_cord(request):
     return render(request, 'cordinator/milestones_cord.html')
 
+
+# Make announcemnts view
+@coordinator_required
 def make_announcement(request):
-    return render(request, 'cordinator/make_announcement.html')
+    if request.method == 'POST':
+        subject = request.POST['subject']
+        message = request.POST['message']
+
+        if subject and message:
+            announcement = CoordinatorAnnouncements.objects.create(sender=request.user, 
+                                                                   subject=subject, 
+                                                                   message=message
+                                                                   )
+            announcement.save()
+            success_message = 'Announcement Made Successfully'
+            context = {'success_message':success_message}
+            return render(request, 'cordinator/make_announcement.html', context)
+        else:
+            error_message = 'Error all fields must be filled'
+            context = {'error_message':error_message}
+            return render(request, 'cordinator/make_announcement.html', context)  
+
+    else:
+        return render(request, 'cordinator/make_announcement.html')
+
+
+# Make announcemnts view
+@coordinator_required
+def upload_resource(request):
+    return render(request, 'cordinator/resource.html')
 
 
 # View Project details including descripton and objectives

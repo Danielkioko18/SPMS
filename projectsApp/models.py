@@ -96,3 +96,13 @@ class CoordinatorFeedbacks(models.Model):
 
     class Meta:
         ordering = ['-created_at']  # Order announcements by creation date (newest first)
+
+# Announcements model
+class CoordinatorAnnouncements(models.Model):
+    sender = models.ForeignKey(Coordinator, on_delete=models.CASCADE)
+    subject = models.CharField(max_length=255)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']  # Order announcements by creation date (newest first)
