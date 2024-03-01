@@ -19,68 +19,21 @@
                           <tr>
                             <th scope="col">#</th>
                             <th scope="col">Reg No</th>
-                            <th scope="col">STudent Name</th>
+                            <th scope="col">Student Name</th>
                             <th scope="col">Project Title</th>
                             <th scope="col">Details</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td><button class="btn btn-success">View</button></td>
-                          </tr>
-                          <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                            <td><button class="btn btn-success">View</button></td>
-                          </tr>
-                          <tr>
-                            <th scope="row">3</th>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
-                            <td><button class="btn btn-success">View</button></td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      
-                      <table class="table table-bordered table-hover  table-striped">
-                        <thead class="thead-light">
-                          <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Reg No</th>
-                            <th scope="col">STudent Name</th>
-                            <th scope="col">Project Title</th>
-                            <th scope="col">Details</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td><button class="btn btn-success">View</button></td>
-                          </tr>
-                          <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                            <td><button class="btn btn-success">View</button></td>
-                          </tr>
-                          <tr>
-                            <th scope="row">3</th>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
-                            <td><button class="btn btn-success">View</button></td>
-                          </tr>
+                          {% for project in projects %}
+                            <tr>
+                              <th scope="row">{{project.index}}</th>
+                              <td>{{project.student.regno}}</td>
+                              <td>{{project.student.name}}</td>
+                              <td>{{project.title}}</td>
+                              <td><a class="btn btn-success" href="{% url "" %}">View Details</a></td>
+                            </tr>
+                          {% endfor %}
                         </tbody>
                       </table>
                 </div>

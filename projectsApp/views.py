@@ -144,8 +144,18 @@ def supervisor_login(request):
 def supervisor_dashboard(request):
     return render(request, 'supervisors/super_dashboard.html')
 
+
+@supervisor_required
 def mystudents(request):
-    return render(request, 'supervisors/mystudents.html')
+    lecturer = request.user
+    #lecturer = Lecturer.objects.get(user=current_user)
+    projects = Projects.objects.filter(lecturer=lecturer)
+    
+    for i, project in enumerate(projects):
+        project.index=i+1
+
+    context = {'projects':projects}
+    return render(request, 'supervisors/mystudents.html', context)
 
 def announcemnt(request):
     return render(request, 'supervisors/announcement.html')
@@ -161,6 +171,8 @@ def milestones(request):
 
 def student_upload(request):
     return render(request, 'supervisors/student_upload.html')
+
+
 
 
 # Coordinator's views

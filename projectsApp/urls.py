@@ -13,7 +13,6 @@ urlpatterns = [
     path('student/uploads/resources/', views.resources, name='resources'),
     
 
-
     path('supervisor/', views.supervisor_login, name='supervisor_login'),
     path('supervisor/dashboard/', views.supervisor_dashboard, name='supervisor_dashboard'),
     path('supervisor/mystundents/', views.mystudents, name='mystudents'),
