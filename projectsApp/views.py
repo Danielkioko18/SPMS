@@ -142,13 +142,19 @@ def supervisor_login(request):
 
 @supervisor_required
 def supervisor_dashboard(request):
-    return render(request, 'supervisors/super_dashboard.html')
+    current_user = request.user
+    project_count = Projects.objects.filter(lecturer = current_user).count()
+    announcement_count = Announcements.objects.filter(sender=current_user).count()
+    context = {
+        'project_count':project_count,
+        'announcement_count':announcement_count
+    }
+    return render(request, 'supervisors/super_dashboard.html', context)
 
 
 @supervisor_required
 def mystudents(request):
     lecturer = request.user
-    #lecturer = Lecturer.objects.get(user=current_user)
     projects = Projects.objects.filter(lecturer=lecturer)
     
     for i, project in enumerate(projects):

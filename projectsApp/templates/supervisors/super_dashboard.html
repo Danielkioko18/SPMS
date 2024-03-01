@@ -9,25 +9,14 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <h1 class="text-center" style="width: 100%; border-bottom:lightblue;">Announcements</h1><br>
-                <div class="card mb-5 bg-primary">
-                    <div class="card-header text-center">
-                        <b><h4>Allocated Students</h4></b>
-                    </div>
-                    <div class="card-body">
-                        <h2 class="text-center">Total</h2>
-                        <h4 class="text-center">20</h4>
-                        <a href="http://" class="btn btn-primary">View</a>
-                    </div>
-                </div>
                 <div class="card mb-5 bg-primary">
                     <div class="card-header text-center">
                         <b><h4>Allocated Projects</h4></b>
                     </div>
                     <div class="card-body">
                         <h2 class="text-center">Total</h2>
-                        <h4 class="text-center">20</h4>
-                        <a href="http://" class="btn btn-primary text-center">View</a>
+                        <h4 class="text-center">{{project_count}}</h4>
+                        <a href="{% url "mystudents" %}" class="btn btn-primary text-center">View</a>
                     </div>
                 </div>
                 <div class="card mb-5 bg-success">
@@ -36,8 +25,8 @@
                     </div>
                     <div class="card-body">
                         <h2 class="text-center">Announcements Made</h2>
-                        <h4 class="text-center">20</h4>
-                        <a href="http://" class="btn btn-primary">Make New Announcement</a>
+                        <h4 class="text-center">{{announcement_count}}</h4>
+                        <a href="{% url "announcement" %}" class="btn btn-primary">Make New Announcement</a>
                     </div>
                 </div>
                 <div class="card mb-5 bg-info">
@@ -46,7 +35,7 @@
                     </div>
                     <div class="card-body">
                             <h2 class="text-center">Total Student Uploads</h2>
-                            <h4 class="text-center">100</h4><br>
+                            <h4 class="text-center">{{announcement_count}}</h4><br>
                             <a href="http://" class="btn btn-primary">View Uploaded documents</a>
                     </div>
                 </div>
@@ -55,9 +44,6 @@
                             <strong><h4>Milestones</h4></strong>
                     </div>
                     <div class="card-body">
-                            <h2>Milestone 1</h2>
-                            <h2>Milestone 1</h2>
-                            <h2>Milestone 1</h2>
                             <h2>Milestone 1</h2>
                             <h2>Milestone 1</h2>
                             <h2>Milestone 1</h2>

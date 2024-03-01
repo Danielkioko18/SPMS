@@ -10,8 +10,8 @@
     <div class="container-fluid">
         <div class="row">
             <div class="card border-info">
-                <div class="card-heard text-center">
-                    <h5>Projects</h5>
+                <div class="card-header text-center">
+                    <h4><b>My Projects & Students</b></h4>
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered table-hover  table-striped border-info">
@@ -31,7 +31,7 @@
                               <td>{{project.student.regno}}</td>
                               <td>{{project.student.name}}</td>
                               <td>{{project.title}}</td>
-                              <td><a class="btn btn-success" href="{% url "student_project" project.id %}">View Details</a></td>
+                              <td><a class="btn btn-info" href="{% url "student_project" project.id %}">View Details</a></td>
                             </tr>
                           {% endfor %}
                         </tbody>

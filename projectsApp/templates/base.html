@@ -124,21 +124,25 @@
             <h1>SPMS</h1>
         </div>
         <div class="right">
-            <span class="username mb-3">
+            <span class="username mb-3" style="padding:10px; font">
                 Hello, 
                 <strong>
                     {% if request.user.is_authenticated %}
-                        {% if request.user.is_staff %}  {{ request.user.username }}  {% else %}
-                            {{ request.user.name }}  {% endif %}
+                        {% if request.user.is_staff %}  
+                            {{ request.user.username }},  
+                        {% else %}
+                            {{ request.user.name }}, 
+                        {% endif %}
                     {% else %}
-                    Guest
+                        Guest,
                     {% endif %}
                 </strong>
+                Welcome.
             </span>
-            <a href="{% url 'logout' %}" class="btn btn-warning">Logout</a>
-            <i class="fas fa-cog mb-3"></i>
+            <a href="{% url 'logout' %}" class="btn btn-warning" style="padding:5px; font">Logout</a>
+            <i class="fas fa-cog mb-3" style="font-size:23px; padding:5px;"></i>
             
-            <i class="fas fa-bell mb-3"></i>
+            <i class="fas fa-bell mb-3" style="font-size:23px; padding:5px;"></i>
         </div>
     </header>
     {% block content %}
