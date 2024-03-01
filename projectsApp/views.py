@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login,logout
 from .AccessControl import coordinator_required, student_required,supervisor_required
-from .models import Student, CoordinatorFeedbacks, CoordinatorAnnouncements, Lecturer, Projects
+from .models import Student, CoordinatorFeedbacks, CoordinatorAnnouncements, Lecturer, Projects,Notifications,Announcements
 from django.contrib.auth.hashers import make_password
 from django.utils import timezone
 from django.http import HttpResponseRedirect
@@ -157,20 +157,71 @@ def mystudents(request):
     context = {'projects':projects}
     return render(request, 'supervisors/mystudents.html', context)
 
+@supervisor_required
 def announcemnt(request):
-    return render(request, 'supervisors/announcement.html')
+    if request.method == 'POST':
+        subject = request.POST['subject']
+        message = request.POST['message']
 
+        if subject and message:
+            announcement = Announcements.objects.create(sender=request.user, 
+                                                            subject=subject, 
+                                                            message=message
+                                                        )
+            announcement.save()
+            success_message = 'Announcement Send'
+            context = {'success_message':success_message}
+            return render(request, 'supervisors/announcement.html', context)
+        else:
+            error_message = 'Error all fields must be filled'
+            context = {'error_message':error_message}
+            return render(request, 'supervisors/announcement.html', context)  
+
+    else:
+        return render(request, 'supervisors/announcement.html')
+
+
+@supervisor_required
 def lec_resource(request):
     return render(request, 'supervisors/upload_resource.html')
 
+
+@supervisor_required
 def results(request):
     return render(request, 'supervisors/results.html')
 
+
+@supervisor_required
 def milestones(request):
     return render(request, 'supervisors/milestones.html')
 
+
+@supervisor_required
 def student_upload(request):
     return render(request, 'supervisors/student_upload.html')
+
+
+# View Project details including descripton and objectives
+@supervisor_required
+def project_details(request, project_id):
+    project =  get_object_or_404(Projects, pk=project_id)
+    current_user = request.user
+
+    if request.method == 'POST':
+        comment = request.POST['comment']
+        if comment:
+            notification = Notifications.objects.create(
+                sender=current_user, 
+                recipient=project.student, 
+                message=comment
+            )
+            notification.save()
+
+    context = {
+        'project':project,
+        }
+    
+    return render(request, 'supervisors/project_details.html', context)
 
 
 
@@ -351,10 +402,6 @@ def view_project_details(request, project_id):
     if request.method =="POST":
         allocated_lec = request.POST['allocated_lecturer']
         comment = request.POST['comment']
-
-        print(f"Submitted data:")
-        print(f"- allocated_lecturer: {allocated_lec}")
-        print(f"- comment: {comment}")
 
         if allocated_lec:
             project.status = 'Approved'
