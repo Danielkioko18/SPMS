@@ -9,69 +9,80 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-                
-                {% if success_message %}
-                    <div class="alert alert-info" role="alert">
-                        {{ success_message }}
-                    </div>
-                {% endif %}
-                <div class="card mb-5 bg-primary">
-                    <div class="card-header text-center">
-                        <b><h4>Project Title</h4></b>
-                    </div>
-                    <div class="card-body">
-                        <h2>Student Project management system</h2>
-                    </div>
+            {% if success_message %}
+                <div class="alert alert-info" role="alert">
+                    {{ success_message }}
                 </div>
-                <div class="card mb-5 bg-danger">
-                    <div class="card-header text-center">
-                        <strong><h4>Project objectives</h4></strong>
-                    </div>
-                    <div class="card-body">
-                        <ul>
-                            <li>1. Project management</li>
-                            <li>2. Project management</li>
-                            <li>3. Project management</li>
-                            <li>4. Project management</li>
-                            <li>5. Project management</li>
-                            <li>6. Project management</li>
-                        </ul>
-                    </div>
+            {% endif %}
+            <div class="card mb-5 bg-primary">
+                <div class="card-header text-center">
+                    <b><h4>Project Title</h4></b>
                 </div>
-                <div class="card mb-5 bg-success">
-                    <div class="card-header text-center">
-                        <strong>Project status<h4></h4></strong>
-                    </div>
-                    <div class="card-body">
-                        <h2>Approved and in milestone 4</h2>
-                    </div>
+                <div class="card-body">
+                    {% if my_project %}
+                        {% for project in my_project %}
+                                <b><h3>{{ project.title }}</h3></b>
+                        {% endfor %}
+                    {% else %}
+                        <p>You Have not uploaded any project yet</p>
+                    {% endif %}
                 </div>
-                <div class="card mb-5 bg-info">
-                    <div class="card-header text-center">
-                            <strong><h4>Lecturer comments</h4></strong>
-                    </div>
-                    <div class="card-body">
-                            <h2>You have 5 comments from the Lecturer about your milestone uploads</h2>
-                    </div>
+            </div>
+            <div class="card mb-5 bg-danger">
+                <div class="card-header text-center">
+                    <strong><h4>Project objectives</h4></strong>
                 </div>
-                <div class="card mb-5 bg-warning">
-                    <div class="card-header text-center">
-                            <strong>Resources<h4></h4></strong>
-                    </div>
-                    <div class="card-body">
-                            <h2>You have 5 resources from the Lecturer and the coordinator about your milestone uploads</h2>
-                    </div>
+                <div class="card-body">
+                    <ul>
+                        {% if my_project %}
+                        {% for project in my_project %}
+                                <b><li>{{ project.objectives }}</li></b>
+                        {% endfor %}
+                        {% else %}
+                            <p>You Have not uploaded any project yet</p>
+                        {% endif %}
+                    </ul>
                 </div>
-                <div class="card mb-5 bg-secondary">
-                    <div class="card-header text-center">
-                            <strong><h4>Calender</h4></strong>
-                    </div>
-                    <div class="card-body">
-                            <h2>Calender goes here</h2>
-                    </div>
+            </div>
+            <div class="card mb-5 bg-success">
+                <div class="card-header text-center">
+                    <strong>Project status<h4></h4></strong>
                 </div>
+                <div class="card-body">
+                    {% if my_project %}
+                        {% for project in my_project %}
+                                <b><li>{{ project.status|title }}</li></b>
+                        {% endfor %}
+                        {% else %}
+                            <p>You Have not uploaded any project yet</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card mb-5 bg-info">
+                <div class="card-header text-center">
+                        <strong><h4>Lecturer comments</h4></strong>
+                </div>
+                <div class="card-body">
+                        <h2>You have 5 comments from the Lecturer about your milestone uploads</h2>
+                </div>
+            </div>
+            <div class="card mb-5 bg-warning">
+                <div class="card-header text-center">
+                        <strong>Resources<h4></h4></strong>
+                </div>
+                <div class="card-body">
+                        <h2>You have 5 resources from the Lecturer and the coordinator about your milestone uploads</h2>
+                </div>
+            </div>
+            <div class="card mb-5 bg-secondary">
+                <div class="card-header text-center">
+                        <strong><h4>Calender</h4></strong>
+                </div>
+                <div class="card-body">
+                        <h2>Calender goes here</h2>
+                </div>
+            </div>
         </div>
-              
     </div>
 </div>
   

@@ -77,25 +77,35 @@ def SignUp(request):
 
 @student_required
 def student_dashboard(request):
-    return render(request, 'students/student_dashboard.html')
+    student = request.user
+    my_project = Projects.objects.filter(student=student)
+    for project in my_project:
+        print(f"Project Title: {project.title}")
+    context = {
+        'student':student,
+        'my_project':my_project
+    }
+    return render(request, 'students/student_dashboard.html', context)
 
 @student_required
 def upload_title(request):
+    user = request.user
     if request.method == 'POST':
         title=request.POST['title']
         description=request.POST['description']
         objectives=request.POST['objectives']
-    
-        project = Projects(title=title, description=description,objectives=objectives)
-        project.student = request.user
-        project.save()
 
-        success_message = "Project Created"
-        context = {
-            'success_message':success_message
-        }
-        
-        return redirect('student_dashboard')      
+        project_exists = Projects.objects.filter(student=user)
+        if project_exists:
+            error_message='You Already Uploaded A project Please Consinder updating it'
+            context = {'error_message':error_message}
+            return render(request, 'students/upload_title.html', context)
+        else:
+            project = Projects(title=title, description=description,objectives=objectives)
+            project.student = request.user
+            project.save()
+            return redirect('student_dashboard')
+              
 
     else:
         return render(request, 'students/upload_title.html')
@@ -131,6 +141,8 @@ def supervisor_login(request):
             return render(request, 'acounts/super_login.html', {'error_message': error_message})        
     else:
         return render(request, 'acounts/super_login.html')
+
+
 
 @supervisor_required
 def supervisor_dashboard(request):
