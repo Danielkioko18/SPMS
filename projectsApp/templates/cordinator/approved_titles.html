@@ -30,9 +30,9 @@
                                 {% for project in projects %}
                                     <tr>
                                         <th scope="row">{{project.index}}</th>
-                                        <td>{{project.reg_number}}</td>
-                                        <td>{{project.title}}</td>
-                                        <td>{{project.lecturer.name}}</td>
+                                        <td>{{project.reg_number|upper}}</td>
+                                        <td>{{project.title|upper}}</td>
+                                        <td>{{project.lecturer.name|title}}</td>
                                         <td class="text-success">{{project.updated_at}}</td>
                                         <td><a href="{% url "view_project_details" project.id %}"> View Details </a></td>           
                                     </tr>

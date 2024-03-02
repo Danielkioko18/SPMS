@@ -95,15 +95,7 @@ def upload_title(request):
             'success_message':success_message
         }
         
-        return redirect('student_dashboard')
-    
-        """if saving:
-            success_message = "Project Created"
-            return redirect('student_dashboard', {'success_message':success_message})
-        else:
-            error_message = "Error When Uploading Details"
-            return render(request, 'students/upload_title.html', {'error_message':error_message})"""
-        
+        return redirect('student_dashboard')      
 
     else:
         return render(request, 'students/upload_title.html')
@@ -135,8 +127,8 @@ def supervisor_login(request):
             login(request, user)
             return redirect('supervisor_dashboard')
         else:
-             return render(request, 'acounts/super_login.html', {'error_message': "Invalid username or password."})
-        
+            error_message = "Invalid Email or Password"            
+            return render(request, 'acounts/super_login.html', {'error_message': error_message})        
     else:
         return render(request, 'acounts/super_login.html')
 
@@ -307,10 +299,21 @@ def supervisors(request):
     for supervisor in supervisors:
         project_count = Projects.objects.filter(lecturer=supervisor).count()
         supervisor.project_count = project_count
+
     for i, supervisor in enumerate(supervisors):
         supervisor.index = i + 1 
+    if request.method == 'POST':
+        lecturer_id = request.POST.get('lecturer_id')
+        if lecturer_id:
+            lecturer = get_object_or_404(Lecturer, pk=lecturer_id)
+            lecturer.projects_set.update(status="pending")
+            lecturer.delete()
+            return redirect('view_supervisors')
+   
     context = {'supervisors':supervisors}
     return render(request, 'cordinator/supervisors.html', context)
+
+
 
 # View all regoistered students
 @coordinator_required
@@ -337,7 +340,7 @@ def view_projects(request):
 # pending titles
 @coordinator_required
 def pending_titles(request):
-    projects = Projects.objects.filter(status="pending").order_by('-created_at')
+    projects = Projects.objects.filter(status="pending").order_by('created_at')
     for i,project in enumerate(projects):
         project.index = i+1
         student = project.student

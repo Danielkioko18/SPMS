@@ -7,6 +7,11 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
+            {% if success_message %}
+              <div class="alert alert-info" role="alert">
+                  {{ success_message }}
+              </div>
+            {% endif %}
             <div class="card border-info">
                 <div class="card-header text-center">
                     <h4><b>Supervisors</b></h4>
@@ -19,20 +24,31 @@
                                 <th scope="col">Name</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Phone</th>                                
-                                <th scope="col">Total Projects</th>
+                                <th scope="col">Projects</th>
+                                <th scope="col">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for supervisor in supervisors %}
                               <tr>
                                 <th scope="row">{{supervisor.index}}</th>
-                                <td><b>{{supervisor.name}}</b></td>
+                                <td><b>{{supervisor.name|title}}</b></td>
                                 <td>{{supervisor.email}}</td>
                                 <td>{{supervisor.phone}}</td>
                                 <td>{{supervisor.project_count}}</td>
-                            </tr>  
+                                <td>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <form action="{% url 'view_supervisors' %}" method="POST">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="lecturer_id" value="{{ supervisor.user_id }}">
+                                                <button type="submit"  class="btn btn-danger" onclick="return confirm('Are you sure you want to delete {{supervisor.name}}?')"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
                             {% endfor %}
-                            
                         </tbody>
                     </table>
                 </div>
@@ -41,7 +57,7 @@
               
     </div>
 </div>
-  
+<!-- Include Bootstrap JavaScript library -->
 <link rel="stylesheet" href="{% static 'css/mystudents.css' %}">
 
 

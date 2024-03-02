@@ -22,17 +22,17 @@
                                 <th scope="col"><b>Student Name</b></th>
                                 <th scope="col"><b>Email</b></th>
                                 <th scope="col"><b>Phone No.</b></th>
-                                <th scope="col"><b>Program</b></th>
+                                <th scope="col"><b>Intake Year</b></th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for student in students %}
                                 <tr>
                                     <th scope="row">{{student.index}}</th>
-                                    <td>{{student.regno}}</td>
-                                    <td>{{student.name}}</td>
+                                    <td>{{student.regno|upper }}</td>
+                                    <td>{{student.name|title}}</td>
                                     <td>{{student.email}}</td>
-                                    <td>{{student.phone_number}}</td>
+                                    <td>{{student.phone_number}}</td> 
                                     <td>{{student.intake_year}}</td>            
                                 </tr>
                             {% endfor %}                            

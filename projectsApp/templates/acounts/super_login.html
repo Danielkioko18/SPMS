@@ -10,7 +10,12 @@
                         <h4 class="auth-form__title text-center mb-4"><Strong>Sign in</Strong></h4>
                     </div>
                     <div class="card-body">
-                        <form action="" method="post">
+                        {% if error_message %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ error_message }}
+                            </div>
+                        {% endif %}
+                        <form action="{% url "supervisor_login" %}" method="post">
                             {% csrf_token %}
                             <div class="form-group mb-4">
                                 <label for="email" class="form-label">Email address</label>
