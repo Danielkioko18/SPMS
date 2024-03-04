@@ -79,8 +79,6 @@ def SignUp(request):
 def student_dashboard(request):
     student = request.user
     my_project = Projects.objects.filter(student=student)
-    for project in my_project:
-        print(f"Project Title: {project.title}")
     context = {
         'student':student,
         'my_project':my_project
