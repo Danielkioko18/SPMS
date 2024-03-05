@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login,logout
 from .AccessControl import coordinator_required, student_required,supervisor_required
-from .models import Student, CoordinatorFeedbacks, CoordinatorAnnouncements, Lecturer, Projects,Notifications,Announcements
+from .models import Student, CoordinatorFeedbacks, CoordinatorAnnouncements, Lecturer, Projects,Notifications,Announcements, Phases, Proposal, Documents
 from django.contrib.auth.hashers import make_password
 from django.utils import timezone
 from django.http import HttpResponseRedirect
@@ -201,12 +201,20 @@ def results(request):
 
 @supervisor_required
 def milestones(request):
-    return render(request, 'supervisors/milestones.html')
+    phases = Phases.objects.all().order_by('order')  # Get all phases in order
 
+    context = {'phases': phases}
+    return render(request, 'supervisors/milestones.html', context)
+
+
+# View uploads
 
 @supervisor_required
-def student_upload(request):
-    return render(request, 'supervisors/student_upload.html')
+def view_student_uploads(request, student_id):
+    student = Student.objects.get(pk=student_id)
+    documents = Documents.objects.filter(proposal__student=student)
+    context = {'student': student, 'documents': documents}
+    return render(request, 'supervisors/student_upload.html', context)
 
 
 # View Project details including descripton and objectives
@@ -376,7 +384,10 @@ def approved_titles(request):
 # View milestones
 @coordinator_required
 def view_milestones_cord(request):
-    return render(request, 'cordinator/milestones_cord.html')
+    phases = Phases.objects.all().order_by('order')  # Get all phases in order
+
+    context = {'phases': phases}
+    return render(request, 'cordinator/milestones_cord.html', context)
 
 
 # Make announcemnts view
@@ -444,3 +455,36 @@ def view_project_details(request, project_id):
         }
     
     return render(request, 'cordinator/view_project.html', context)
+
+
+# Create a phase
+def create_phase(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        description = request.POST.get('description')
+        order = int(request.POST.get('order'))
+        deadline_date = request.POST.get('deadline_date')  # Optional, can be blank
+
+        # Basic validation (improve as needed)
+        if not name or not description or order <= 0:
+            # Handle invalid data (e.g., display error messages)
+            error_message = 'Please fill all required fields and ensure order is a positive integer.'
+            context = {
+                'error_message':error_message
+            }
+            return render(request, 'cordinator/create_phase.html', context)
+
+        # Create and save the phase
+        phase = Phases.objects.create(
+            name=name,
+            description=description,
+            order=order,
+            deadline_date=deadline_date 
+        )
+        phase.save()
+
+        # Redirect to success page or list of phases
+        return redirect('create_phase')
+    else:
+        return render(request, 'cordinator/create_phase.html')  # Render the form for GET requests
+

@@ -21,7 +21,7 @@ urlpatterns = [
     path('supervisor/upload_resource/', views.lec_resource, name='resource_upload'),
     path('supervisor/students/results/', views.results, name='student_results'),
     path('supervisor/milestones/', views.milestones, name='milestones'),
-    path('supervisor/student/upload/regno/', views.student_upload, name='student_upload'),
+    path('supervisor/student/upload/regno/', views.view_student_uploads, name='student_upload'),
 
 
     path('coordinator/', views.cordinator_login, name='cordinator_login'),
@@ -36,6 +36,7 @@ urlpatterns = [
     path('coordinator/upload/resource/', views.upload_resource, name='upload_resource'),
     path('cordinator/make announcement/', views.make_announcement, name='make_announcement'),
     path('projects/view/details/<int:project_id>/', views.view_project_details, name='view_project_details'),
+    path('cordinator/phases/create/', views.create_phase, name='create_phase'),
 
     path('logout/', views.logout_view, name='logout'),
 ]

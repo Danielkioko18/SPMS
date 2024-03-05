@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 
 
@@ -61,6 +62,45 @@ class Projects(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
+# Phases Model
+class Phases(models.Model):
+    name = models.CharField(max_length=255, unique=True)  # Ensure unique phase names
+    description = models.TextField()
+    order = models.IntegerField(unique=True)  # Ensure unique order for phases
+    deadline_date = models.DateField(null=True, blank=True)  # Optional deadline for phase
+
+    def __str__(self):
+        return self.name
+
+
+# Proposal model 
+class Proposal(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)  # Link to Student model
+    title = models.CharField(max_length=255)
+    current_phase = models.ForeignKey(Phases, on_delete=models.SET_NULL, null=True, related_name='proposals')
+    lecturer = models.ForeignKey(Lecturer, on_delete=models.SET_NULL, null=True, related_name='proposals')
+    project = models.ForeignKey(Projects, on_delete=models.CASCADE, limit_choices_to={'status': 'approved'})  # Filter by project status
+    completed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.student.username} - {self.title}"
+
+# Documents Model   
+class Documents(models.Model):
+    proposal = models.ForeignKey(Proposal, on_delete=models.CASCADE)
+    phase = models.ForeignKey(Phases, on_delete=models.CASCADE)
+    file = models.FileField(upload_to='documents/')
+    uploaded_at = models.DateTimeField(default=timezone.now)
+    status = models.CharField(max_length=50, choices=[
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('revision_requested', 'Revision Required')
+    ], default='pending')
+
+    def __str__(self):
+        return f"{self.proposal.title} - {self.phase.name} - {self.status}"
+    
 # Notifications model
 class Notifications(models.Model):
     sender = models.ForeignKey(Lecturer, on_delete=models.CASCADE)
@@ -68,14 +108,6 @@ class Notifications(models.Model):
     message = models.TextField()
     read = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
-
-# Milestones Model 
-class Milestone(models.Model):
-    project = models.ForeignKey(Projects, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
-    description = models.TextField()
-    due_date = models.DateTimeField()
-    is_completed = models.BooleanField(default=False)
 
 # Announcements model
 class Announcements(models.Model):

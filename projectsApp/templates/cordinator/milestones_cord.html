@@ -1,148 +1,68 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
 {% block content %}
 
-<!-- Content Area -->
 {% include 'column1_cord.html' %}
 
-<!--Milestones-->
-
 <div class="content">
-    <div class="container-fluid">
-        <!-- Horizontal Navigation Tabs -->
-        <div class="row">
-            <div class="col-md-12">
-        
-              <!-- Horizontal Navigation Tabs -->
-              <ul class="nav nav-tabs" id="milestoneTabs">
-                <li class="nav-item">
-                  <a class="nav-link active" id="milestone1-tab" data-toggle="tab" href="#milestone1">Milestone 1</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" id="milestone2-tab" data-toggle="tab" href="#milestone2">Milestone 2</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" id="milestone3-tab" data-toggle="tab" href="#milestone3">Milestone 3</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" id="milestone4-tab" data-toggle="tab" href="#milestone4">Milestone 4</a>
-                </li>
-              </ul>
-        
-              <!-- Tab Content -->
-              <div class="tab-content" id="milestoneTabsContent">
-                <div class="tab-pane fade show active" id="milestone1">
-                    <h3 style="width: 100%;">Milestone 1 Content</h3>
-                    <p style="width: 100%">This is the content for Milestone 1.</p>
-                    <div class="card">
-                        <div class="card-header text-center">
-                            <h4>Projects In Milestone 1</h4>
-                        </div>
-                        <div class="card-body">
-                            <table class="table table-bordered table-hover  table-striped border-info">
-                                <thead class="thead-dark">
-                                  <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Reg No</th>
-                                    <th scope="col">STudent Name</th>
-                                    <th scope="col">Project Title</th>
-                                    <th scope="col">Details</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                    <td><a class="btn btn-warning" href="{% url 'student_upload' %}">View<a></td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                    <td><a class="btn btn-warning" href="{% url 'student_upload' %}">View<a></td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">3</th>
-                                    <td>Larry</td>
-                                    <td>the Bird</td>
-                                    <td>@twitter</td>
-                                    <td><a class="btn btn-warning" href="{% url 'student_upload' %}">View<a></td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                              
-                              <table class="table table-bordered table-hover  table-striped">
-                                <thead class="thead-light">
-                                  <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Reg No</th>
-                                    <th scope="col">STudent Name</th>
-                                    <th scope="col">Project Title</th>
-                                    <th scope="col">Details</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                    <td><a class="btn btn-warning" href="{% url 'student_upload' %}">View<a></td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                    <td><a class="btn btn-warning" href="{% url 'student_upload' %}">View<a></td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">3</th>
-                                    <td>Larry</td>
-                                    <td>the Bird</td>
-                                    <td>@twitter</td>
-                                    <td><a class="btn btn-warning" href="{% url 'student_upload' %}">View<a></td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                              <a href="http://">View Milestone 1 Uploads</a>
-                        </div>
-                    </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
 
+        <ul class="nav nav-tabs" id="milestoneTabs">
+          {% for phase in phases %}
+            <li class="nav-item">
+              <a class="nav-link {% if forloop.first %}active{% endif %}" id="phase-{{ phase.id }}-tab" data-toggle="tab" href="#phase-{{ phase.id }}">{{ phase.name|title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+
+        <div class="tab-content" id="milestoneTabsContent">
+          {% for phase in phases %}
+            <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" id="phase-{{ phase.id }}">
+              <h4><b>Description: </b> </h4>
+              <p>{{ phase.description }}</p>
+
+              <div class="card">
+                <div class="card-header text-center">
+                  <h4>Projects in {{ phase.name }}</h4>
                 </div>
-
-
-                <!-- Tab pane 2 contnet-->
-                <div class="tab-pane fade" id="milestone2">
-                  <h3>Milestone 2 Content</h3>
-                  <p>This is the content for Milestone 2.</p>
-                </div>
-
-
-                <!-- Tab pane 3 contnet-->
-                <div class="tab-pane fade" id="milestone3">
-                  <h3>Milestone 3 Content</h3>
-                  <p>This is the content for Milestone 3.</p>
-                </div>
-
-
-                <!-- Tab pane 4 contnet-->
-                <div class="tab-pane fade" id="milestone4">
-                  <h3>Milestone 4 Content</h3>
-                  <p>This is the content for Milestone 4.</p>
+                <div class="card-body">
+                  <table class="table table-bordered table-hover table-striped border-info">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Reg No</th>
+                        <th scope="col">Student Name</th>
+                        <th scope="col">Project Title</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for student in phase.students.all %}
+                        <tr>
+                          <th scope="row">{{ forloop.counter }}</th>
+                          <td>{{ student.reg_no }}</td>
+                          <td>{{ student.name }}</td>
+                          <td>{{ student.project_title }}</td>
+                        </tr>
+                      {% empty %}
+                        <tr>
+                          <td colspan="4">No students in this phase yet.</td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
                 </div>
               </div>
-              
             </div>
-          </div>
+          {% endfor %}
+        </div>
+      </div>
     </div>
+  </div>
 </div>
-<!-- Bootstrap JS -->
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
