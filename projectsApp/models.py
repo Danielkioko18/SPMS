@@ -88,6 +88,7 @@ class Proposal(models.Model):
 
 # Documents Model   
 class Documents(models.Model):
+    
     proposal = models.ForeignKey(Proposal, on_delete=models.CASCADE)
     phase = models.ForeignKey(Phases, on_delete=models.CASCADE)
     file = models.FileField(upload_to='documents/')
@@ -97,9 +98,13 @@ class Documents(models.Model):
         ('approved', 'Approved'),
         ('revision_requested', 'Revision Required')
     ], default='pending')
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+
 
     def __str__(self):
         return f"{self.proposal.title} - {self.phase.name} - {self.status}"
+    
+    
     
 # Notifications model
 class Notifications(models.Model):

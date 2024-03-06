@@ -107,17 +107,59 @@ def upload_title(request):
 
     else:
         return render(request, 'students/upload_title.html')
+    
 
 
-def upload_file(request):
-    return render(request, 'students/upload_docs.html')
+@student_required
+def view_phases(request):
+    student = request.user
+    # Fetch all phases (ordered by their order field)
+    phases = Phases.objects.all().order_by('order')
+    context = {'phases': phases}
 
+    # Check if a specific phase is requested
+    phase_id = request.GET.get('phase_id')
+    if phase_id:
+        phase = get_object_or_404(Phases, id=phase_id)
+        documents = Documents.objects.filter(phase=phase, student=student)
+        context['phase'] = phase
+        context['documents'] = documents
+
+    return render(request, 'students/view_phases.html', context)
+
+
+
+
+def upload_file(request, document_id):
+    document = get_object_or_404(Documents, pk=document_id)
+
+    # Check if document belongs to a phase associated with the current student
+    student = request.user
+    if document.proposal.student != student or document.proposal.phase not in student.proposals.all().order_by('phase__order'):
+        return redirect('view_phases')  # Redirect if unauthorized access
+
+    if request.method == 'POST':
+        document.file = request.FILES['document_file']
+        document.explanation = request.POST.get('explanation')  # Get document explanation
+        document.save()
+        return redirect('view_phases')  # Redirect after successful upload
+
+    context = {'document': document}
+    return render(request, 'students/view_phases.html', context)
+
+
+
+@student_required
 def announcements(request):
     return render(request, 'students/announcements.html')
 
+
+@student_required
 def notifications(request):
     return render(request, 'students/notifications.html')
 
+
+@student_required
 def resources(request):
     return render(request, 'students/resources.html')
 
