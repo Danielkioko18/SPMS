@@ -93,12 +93,14 @@ class Documents(models.Model):
     phase = models.ForeignKey(Phases, on_delete=models.CASCADE)
     file = models.FileField(upload_to='documents/')
     uploaded_at = models.DateTimeField(default=timezone.now)
+    comment = models.TextField()
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
     status = models.CharField(max_length=50, choices=[
         ('pending', 'Pending'),
         ('approved', 'Approved'),
         ('revision_requested', 'Revision Required')
     ], default='pending')
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    
 
 
     def __str__(self):

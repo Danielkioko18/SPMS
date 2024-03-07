@@ -24,33 +24,38 @@
 
                 <div class="card mb-4 mt-3">
                     <div class="card-body">
-                        <u class="text-center text-success"><h4 ><strong>Project Title</strong></h4></u>
+                        <u class="text-center text-info"><h4 ><strong>Project Title</strong></h4></u>
                         <h2 class="text-center">{{project.title}}</h2>
                     </div>
                 </div>
 
                 <div class="card mb-4">
                     <div class="card-body">
-                        <u class="text-center text-success"><h4> <strong >Project Description</strong></h4></u>
+                        <u class="text-center text-info"><h4> <strong >Project Description</strong></h4></u>
                         <p>{{project.description}}</p>
                     </div>                    
                 </div>
 
                 <div class="card mb-4">
                     <div class="card-body">
-                        <u class="text-center text-success"><h4 ><strong >Project Objectives</strong></h4></u>
+                        <u class="text-center text-info"><h4 ><strong >Project Objectives</strong></h4></u>
                         <p>{{project.objectives}}</p>
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#approveModal">Comment</button>
+                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#approveModal">
+                          Title Revision
+                        </button>
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#acceptTitleModal">
+                          Accept Title
+                        </button>
                     </div>
 
-                    <!-- Approval form -->
+                    <!-- Title revision form to add comment on what to revise -->
                     <div class="modal fade" id="approveModal" tabindex="-1" role="dialog" aria-labelledby="approveModalLabel" aria-hidden="true">
                         <!-- Your modal content here -->
                         <div class="modal-dialog modal-dialog-centered" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 class="modal-title text-center" id="approveModalLabel">Comment On Project</h5>
+                              <h5 class="modal-title text-center" id="approveModalLabel">Reason For Revision</h5>
                               <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                               </button>
@@ -65,7 +70,7 @@
                                   <label class="text-center"><b>{{project.title}}</b></label>
                                 </div>
                                 <div class="form-group">
-                                  <label for="comment"><b>Add Comment:</b></label>
+                                  <label for="comment"><b>Add Reason:</b></label>
                                   <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
                                 </div>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -80,6 +85,30 @@
                         </div>
                     </div>
                     <!-- End Approval form -->
+
+                    <!-- Acceptance modal -->
+
+                    <div class="modal fade" id="acceptTitleModal" tabindex="-1" role="dialog" aria-labelledby="acceptTitleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title text-center" id="acceptTitleModalLabel">Confirm Title Acceptance</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <p>Are you sure you want to accept the project title: <strong>{{ project.title }}</strong>?</p>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <a href="" class="btn btn-primary">Accept</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- End Of acceptance model-->
                 </div>
             </div>            
         </div> 

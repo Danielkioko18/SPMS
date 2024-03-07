@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login,logout
 from .AccessControl import coordinator_required, student_required,supervisor_required
 from .models import Student, CoordinatorFeedbacks, CoordinatorAnnouncements, Lecturer, Projects,Notifications,Announcements, Phases, Proposal, Documents
+from django.core.exceptions import ValidationError
 from django.contrib.auth.hashers import make_password
 from django.utils import timezone
 from django.http import HttpResponseRedirect
@@ -130,22 +131,44 @@ def view_phases(request):
 
 
 
-def upload_file(request, document_id):
-    document = get_object_or_404(Documents, pk=document_id)
+def upload_file(request, project_id, phase_id):
+    project = get_object_or_404(Projects, pk=project_id, student=request.user)
+    phase = get_object_or_404(Phases, pk=phase_id)
 
-    # Check if document belongs to a phase associated with the current student
-    student = request.user
-    if document.proposal.student != student or document.proposal.phase not in student.proposals.all().order_by('phase__order'):
-        return redirect('view_phases')  # Redirect if unauthorized access
+    # Ensure the phase belongs to the project's current proposal
+    current_proposal = project.proposal_set.order_by('-id').first()
+    if current_proposal and current_proposal.current_phase != phase:
+        return redirect('student_project_phases', project_id=project.id)
 
     if request.method == 'POST':
-        document.file = request.FILES['document_file']
-        document.explanation = request.POST.get('explanation')  # Get document explanation
-        document.save()
-        return redirect('view_phases')  # Redirect after successful upload
+        try:
+            file = request.FILES['document']
 
-    context = {'document': document}
-    return render(request, 'students/view_phases.html', context)
+            # Restrict uploads to PDF files
+            if not file.name.lower().endswith('.pdf'):
+                raise ValidationError("Only PDF files are allowed.")
+
+            explanation = request.POST.get('explanation')  # Get document explanation
+
+            # Create the document object with explanation
+            document = Documents.objects.create(
+                proposal=current_proposal,
+                phase=phase,
+                file=file,
+                student=request.user,
+                explanation=explanation,
+            )
+            document.save()
+
+            return redirect('student_project_phases', project_id=project.id)  # Redirect after successful upload
+        except ValidationError as e:
+            # Handle validation errors (e.g., display an error message)
+            context = {'project': project, 'phase': phase, 'error': e}
+            return render(request, 'students/upload_document.html', context)
+
+    # Render the upload form if not a POST request
+    context = {'project': project, 'phase': phase}
+    return render(request, 'students/upload_document.html', context)
 
 
 
