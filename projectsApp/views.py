@@ -269,8 +269,10 @@ def results(request):
 @supervisor_required
 def milestones(request):
     phases = Phases.objects.all().order_by('order')  # Get all phases in order
+    lecturer = request.user  # Get the logged-in user (lecturer)
+    proposals = Proposal.objects.filter(lecturer=lecturer)  # Filter by both lecturer and student
 
-    context = {'phases': phases}
+    context = {'phases': phases,'proposals':proposals}
     return render(request, 'supervisors/milestones.html', context)
 
 # Accept title
@@ -298,11 +300,8 @@ def accept_title(request, project_id):
 # View uploads
 
 @supervisor_required
-def view_student_uploads(request, student_id):
-    student = Student.objects.get(pk=student_id)
-    documents = Documents.objects.filter(proposal__student=student)
-    context = {'student': student, 'documents': documents}
-    return render(request, 'supervisors/milestones.html', context)
+def view_student_uploads(request):
+    return render(request, 'supervisors/milestones.html')
 
 
 # View Project details including descripton and objectives

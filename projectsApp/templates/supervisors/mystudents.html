@@ -28,7 +28,7 @@
                           {% for project in projects %}
                             <tr>
                               <th scope="row">{{project.index}}</th>
-                              <td>{{project.student.regno}}</td>
+                              <td>{{project.student.regno|upper}}</td>
                               <td>{{project.student.name}}</td>
                               <td>{{project.title}}</td>
                               <td><a class="btn btn-info" href="{% url "student_project" project.id %}">View Details</a></td>

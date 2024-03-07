@@ -41,7 +41,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      {% for proposal in phase.proposals.all %}
+                      {% for proposal in proposals %}
                         <tr>
                           <th scope="row">{{ forloop.counter }}</th>
                           <td>{{ proposal.student.regno|upper }}</td>
