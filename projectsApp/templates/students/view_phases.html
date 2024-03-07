@@ -61,16 +61,19 @@
                         <div class="col-md-12">
                             <form action="{% url "upload_file" %}" method="post" enctype="multipart/form-data" class="form-inline">
                             {% csrf_token %}
-                            <div class="form-group mr-2">
-                                <label for="document_file" class="sr-only">Document File:</label>
-                                <input type="file" name="document_file" id="document_file" class="form-control" required>
-                            </div>
-                            <div class="form-group mr-2">
-                                <label for="explanation" class="sr-only">Explanation:</label>
-                                <textarea class="form-control" name="explanation" id="explanation" rows="2" required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Upload</button>
+                              <div class="form-group mr-2">
+                                  <label for="document_file" class="sr-only">Document File:</label>
+                                  <input type="file" name="document_file" id="document_file" class="form-control" required>
+                              </div>
+                              <div class="form-group mr-2">
+                                  <label for="explanation" class="sr-only">Explanation:</label>
+                                  <textarea class="form-control" name="explanation" id="explanation" rows="2" required></textarea>
+                              </div>
+                              <button type="submit" class="btn btn-primary">Upload</button>
                             </form>
+                            {% if error %}
+                              <h4>{{error}}</h4>
+                            {% endif %}
                         </div>
                     {% else %}
                       <p>Upload Approved</p>

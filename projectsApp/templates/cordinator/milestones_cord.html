@@ -39,12 +39,12 @@
                       </tr>
                     </thead>
                     <tbody>
-                      {% for student in phase.students.all %}
+                      {% for proposal in phase.proposals.all %}
                         <tr>
                           <th scope="row">{{ forloop.counter }}</th>
-                          <td>{{ student.reg_no }}</td>
-                          <td>{{ student.name }}</td>
-                          <td>{{ student.project_title }}</td>
+                          <td>{{ proposal.student.regno }}</td>
+                          <td>{{ proposal.student.name }}</td>
+                          <td>{{ proposal.title }}</td>
                         </tr>
                       {% empty %}
                         <tr>

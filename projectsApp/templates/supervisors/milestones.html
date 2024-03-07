@@ -44,7 +44,7 @@
                       {% for proposal in phase.proposals.all %}
                         <tr>
                           <th scope="row">{{ forloop.counter }}</th>
-                          <td>{{ proposal.student.reg_no }}</td>
+                          <td>{{ proposal.student.regno|upper }}</td>
                           <td>{{ proposal.student.name }}</td>
                           <td>{{ proposal.project.title }}</td>
                           <td>{{ proposal.documents.latest.status }}</td>

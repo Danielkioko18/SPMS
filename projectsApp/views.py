@@ -145,12 +145,12 @@ def upload_file(request, project_id, phase_id):
     if request.method == 'POST':
         try:
             file = request.FILES['document']
-
+            explanation = request.POST.get('explanation')  # Get document explanation
             # Restrict uploads to PDF files
             if not file.name.lower().endswith('.pdf'):
                 raise ValidationError("Only PDF files are allowed.")
 
-            explanation = request.POST.get('explanation')  # Get document explanation
+            
 
             # Create the document object with explanation
             document = Documents.objects.create(
@@ -158,7 +158,7 @@ def upload_file(request, project_id, phase_id):
                 phase=phase,
                 file=file,
                 student=request.user,
-                explanation=explanation,
+                comment=explanation,
             )
             document.save()
 
