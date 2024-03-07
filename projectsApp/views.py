@@ -131,6 +131,8 @@ def view_phases(request):
 
 
 
+
+# Upload project details to the portal
 def upload_file(request, project_id, phase_id):
     project = get_object_or_404(Projects, pk=project_id, student=request.user)
     phase = get_object_or_404(Phases, pk=phase_id)
@@ -271,6 +273,27 @@ def milestones(request):
     context = {'phases': phases}
     return render(request, 'supervisors/milestones.html', context)
 
+# Accept title
+def accept_title(request, project_id):
+    project = get_object_or_404(Projects, pk=project_id)
+
+    # Check if proposal already exists for the project
+    proposal = Proposal.objects.filter(project=project).first()
+
+    if not proposal:
+        
+        proposal = Proposal.objects.create(
+            student=project.student, # Assuming student is linked to project
+            title=project.title,
+            lecturer=project.lecturer,  # Assuming supervisor is linked to project
+            project=project,
+        )
+    # Assign the first phase to the proposal
+    first_phase = Phases.objects.order_by('order').first()  # Get the first phase
+    proposal.current_phase = first_phase
+    proposal.save()
+
+    return redirect('student_project', project_id=project_id)  # Redirect to project details
 
 # View uploads
 
@@ -279,7 +302,7 @@ def view_student_uploads(request, student_id):
     student = Student.objects.get(pk=student_id)
     documents = Documents.objects.filter(proposal__student=student)
     context = {'student': student, 'documents': documents}
-    return render(request, 'supervisors/student_upload.html', context)
+    return render(request, 'supervisors/milestones.html', context)
 
 
 # View Project details including descripton and objectives

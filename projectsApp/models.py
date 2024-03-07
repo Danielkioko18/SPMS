@@ -80,11 +80,11 @@ class Proposal(models.Model):
     title = models.CharField(max_length=255)
     current_phase = models.ForeignKey(Phases, on_delete=models.SET_NULL, null=True, related_name='proposals')
     lecturer = models.ForeignKey(Lecturer, on_delete=models.SET_NULL, null=True, related_name='proposals')
-    project = models.ForeignKey(Projects, on_delete=models.CASCADE, limit_choices_to={'status': 'approved'})  # Filter by project status
+    project = models.ForeignKey(Projects, on_delete=models.CASCADE, null=True, related_name='proposals')  # Filter by project status
     completed = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.student.username} - {self.title}"
+        return f"{self.student.name} - {self.title}"
 
 # Documents Model   
 class Documents(models.Model):

@@ -56,7 +56,7 @@
                     </tbody>
                   </table>
                   <!-- Upload  Document form-->
-                  {% if phase.documents.exists %}
+                  {% if not phase.documents.exists %}
                         <div class="row mb-3">
                         <div class="col-md-12">
                             <form action="{% url "upload_file" %}" method="post" enctype="multipart/form-data" class="form-inline">

@@ -18,6 +18,7 @@ urlpatterns = [
     path('supervisor/dashboard/', views.supervisor_dashboard, name='supervisor_dashboard'),
     path('supervisor/mystundents/', views.mystudents, name='mystudents'),
     path('supervisor/project/details/<int:project_id>/', views.project_details, name='student_project'),
+    path('supervisor/project/accept_title/<int:project_id>/', views.accept_title, name='accept_title'),
     path('supervisor/make_announcement/', views.announcemnt, name='announcement'),
     path('supervisor/upload_resource/', views.lec_resource, name='resource_upload'),
     path('supervisor/students/results/', views.results, name='student_results'),
