@@ -91,7 +91,7 @@ class Documents(models.Model):
     
     proposal = models.ForeignKey(Proposal, on_delete=models.CASCADE)
     phase = models.ForeignKey(Phases, on_delete=models.CASCADE)
-    file = models.FileField(upload_to='documents/')
+    file = models.FileField(upload_to='uploads/')
     uploaded_at = models.DateTimeField(default=timezone.now)
     comment = models.TextField()
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
