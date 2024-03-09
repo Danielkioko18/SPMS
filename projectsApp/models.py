@@ -77,7 +77,7 @@ class Phases(models.Model):
 
 # Proposal model 
 class Proposal(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)  # Link to Student model
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='proposals')  # Link to Student model
     title = models.CharField(max_length=255)
     current_phase = models.ForeignKey(Phases, on_delete=models.SET_NULL, null=True, related_name='proposals')
     lecturer = models.ForeignKey(Lecturer, on_delete=models.SET_NULL, null=True, related_name='proposals')

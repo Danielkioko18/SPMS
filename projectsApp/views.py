@@ -277,37 +277,24 @@ def milestones(request):
     phase_proposals = []
     for phase in phases:
         proposals = Proposal.objects.filter(lecturer=lecturer, current_phase=phase)
-        phase_proposals.append({'phase': phase, 'proposals': proposals})
+        documents = Documents.objects.filter(phase=phase)
+        phase_proposals.append({'phase': phase, 'proposals': proposals, 'documents':documents})
+        #print(phase_proposals)
     context = {'phase_proposals': phase_proposals}
+    
     return render(request, 'supervisors/milestones.html', context)
 
-# Accept title
-def accept_title(request, project_id):
-    project = get_object_or_404(Projects, pk=project_id)
-
-    # Check if proposal already exists for the project
-    proposal = Proposal.objects.filter(project=project).first()
-
-    if not proposal:
-        
-        proposal = Proposal.objects.create(
-            student=project.student, # Assuming student is linked to project
-            title=project.title,
-            lecturer=project.lecturer,  # Assuming supervisor is linked to project
-            project=project,
-        )
-    # Assign the first phase to the proposal
-    first_phase = Phases.objects.order_by('order').first()  # Get the first phase
-    proposal.current_phase = first_phase
-    proposal.save()
-
-    return redirect('student_project', project_id=project_id)  # Redirect to project details
 
 # View uploads
 
 @supervisor_required
-def view_student_uploads(request):
-    return render(request, 'supervisors/milestones.html')
+def view_student_uploads(request, phase_id, student_id):
+    phase = get_object_or_404(Phases, pk=phase_id)
+    student = get_object_or_404(Student, pk=student_id)
+    documents = Documents.objects.filter(phase=phase, student=student)
+
+    context = {'phase': phase, 'student': student, 'documents': documents}
+    return render(request, 'supervisors/view_student_uploads.html', context)
 
 
 # View Project details including descripton and objectives
@@ -331,6 +318,29 @@ def project_details(request, project_id):
         }
     
     return render(request, 'supervisors/project_details.html', context)
+
+# Accept title
+def accept_title(request, project_id):
+    project = get_object_or_404(Projects, pk=project_id)
+
+    # Check if proposal already exists for the project
+    proposal = Proposal.objects.filter(project=project).first()
+
+    if not proposal:
+        
+        proposal = Proposal.objects.create(
+            student=project.student, # Assuming student is linked to project
+            title=project.title,
+            lecturer=project.lecturer,  # Assuming supervisor is linked to project
+            project=project,
+        )
+    # Assign the first phase to the proposal
+    first_phase = Phases.objects.order_by('order').first()  # Get the first phase
+    proposal.current_phase = first_phase
+    proposal.save()
+
+    return redirect('student_project', project_id=project_id)  # Redirect to project details
+
 
 
 

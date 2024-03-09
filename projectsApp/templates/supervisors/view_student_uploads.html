@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include 'column1_Lec.html' %}
+
+<div class="content">
+   <div class="container-fluid">
+        <div class="row">    
+            {% for document in documents %}
+                <div class="card mb-5 bg-none">
+                    <div class="card-body">
+                        <h5>Uploaded At: {{ document.uploaded_at }}</h5>
+                        <p>Comment: {{ document.comment|title }}</p>
+                        <p>Status: {{ document.status|title }}</p>
+                        <a href="{{ document.file.url }}" class="btn btn-primary" target="_blank">View File</a>
+                        {% if document.status == 'pending' %}
+                            <a href="" class="btn btn-success">Approve</a>
+                            <a href="" class="btn btn-danger">Request Revision</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+   </div>
+</div>
+
+<link rel="stylesheet" href="{% static 'css/student_dashboard.css' %}">
+
+{% endblock %}

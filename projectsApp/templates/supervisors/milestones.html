@@ -41,15 +41,18 @@
                       </tr>
                     </thead>
                     <tbody>
+                      
                       {% for proposal in phase_proposal.proposals %}
+                      <p>Proposal: {{ proposal.current_phase.id}}</p>
+                      <p>Proposal: {{ proposal.student.user_id}}</p>
                         <tr>
                           <th scope="row">{{ forloop.counter }}</th>
                           <td>{{ proposal.student.regno|upper }}</td>
                           <td>{{ proposal.student.name }}</td>
                           <td>{{ proposal.project.title }}</td>
-                          <td>{{ proposal.documents.latest.status }}</td>
+                          <td>{{ documents.latest.status }}</td>
                           <td>
-                            <a href="{% url 'student_upload' %}">View Uploads</a>
+                            <a href="{% url 'view_student_upload' proposal.current_phase.id proposal.student.user_id %}">View Uploads</a>
                           </td>
                         </tr>
                       {% empty %}
