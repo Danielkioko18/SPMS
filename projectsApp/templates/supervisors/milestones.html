@@ -43,8 +43,6 @@
                     <tbody>
                       
                       {% for proposal in phase_proposal.proposals %}
-                      <p>Proposal: {{ proposal.current_phase.id}}</p>
-                      <p>Proposal: {{ proposal.student.user_id}}</p>
                         <tr>
                           <th scope="row">{{ forloop.counter }}</th>
                           <td>{{ proposal.student.regno|upper }}</td>

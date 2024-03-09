@@ -296,6 +296,16 @@ def view_student_uploads(request, phase_id, student_id):
     context = {'phase': phase, 'student': student, 'documents': documents}
     return render(request, 'supervisors/view_student_uploads.html', context)
 
+# approve upload
+def approve_document(request, document_id):
+    document = Documents.objects.get(pk=document_id)
+    document.status = 'approved'
+    document.save()
+    # Move student to next phase upon document approval
+    proposal = document.proposal
+    proposal.move_to_next_phase()
+    return redirect('view_student_upload')
+
 
 # View Project details including descripton and objectives
 @supervisor_required

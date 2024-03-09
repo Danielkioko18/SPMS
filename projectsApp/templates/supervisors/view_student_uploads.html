@@ -9,22 +9,51 @@
    <div class="container-fluid">
         <div class="row">    
             {% for document in documents %}
-                <div class="card mb-5 bg-none">
+                <div class="card mb-5 border-info">
                     <div class="card-body">
-                        <h5>Uploaded At: {{ document.uploaded_at }}</h5>
-                        <p>Comment: {{ document.comment|title }}</p>
-                        <p>Status: {{ document.status|title }}</p>
+                        <h5><b>Uploaded At:</b> {{ document.uploaded_at }}</h5>
+                        <h5><b>Comment:</b> {{ document.comment|title }}</h5>
+                        <h5><b>Status: </b>{{ document.status|title }}</h5>
                         <a href="{{ document.file.url }}" class="btn btn-primary" target="_blank">View File</a>
-                        {% if document.status == 'pending' %}
-                            <a href="" class="btn btn-success">Approve</a>
+                        {% if document.status != 'approved' %}
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#acceptTitleModal">
+                                Approve
+                            </button>
                             <a href="" class="btn btn-danger">Request Revision</a>
                         {% endif %}
                     </div>
                 </div>
+
+                <!-- Approve modal -->
+                <div class="modal fade" id="acceptTitleModal" tabindex="-1" role="dialog" aria-labelledby="acceptTitleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title text-center" id="acceptTitleModalLabel">Confirm Approval</h5>
+                          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <p><strong>Are you sure you want to approve this document? {{document.file_name}}</strong></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <a href="{% url 'approve_document' document.id %}" class="btn btn-success">Approve</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End Of approve modal-->
+                {%empty%}
+                   <h5>Has Not Uploaded any documents in this phase yet </h5>
             {% endfor %}
         </div>
    </div>
 </div>
+
+<!-- Include Bootstrap JavaScript library -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <link rel="stylesheet" href="{% static 'css/student_dashboard.css' %}">
 

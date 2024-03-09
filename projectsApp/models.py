@@ -84,6 +84,13 @@ class Proposal(models.Model):
     project = models.ForeignKey(Projects, on_delete=models.CASCADE, null=True, related_name='proposals')  # Filter by project status
     completed = models.BooleanField(default=False)
 
+    def move_to_next_phase(self):
+        current_phase = self.current_phase
+        next_phase = Phases.objects.filter(order__gt=current_phase.order).order_by('order').first()
+        if next_phase:
+            self.current_phase = next_phase
+            self.save()
+
     def __str__(self):
         return f"{self.student.name} - {self.title}"
 
