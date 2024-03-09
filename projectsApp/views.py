@@ -114,64 +114,68 @@ def upload_title(request):
 @student_required
 def view_phases(request):
     student = request.user
-    # Fetch all phases (ordered by their order field)
     phases = Phases.objects.all().order_by('order')
-    context = {'phases': phases}
 
-    # Check if a specific phase is requested
+    # Get the phase if a specific phase is requested, otherwise default to the first phase
     phase_id = request.GET.get('phase_id')
     if phase_id:
-        phase = get_object_or_404(Phases, id=phase_id)
-        documents = Documents.objects.filter(phase=phase, student=student)
-        context['phase'] = phase
-        context['documents'] = documents
+        try:
+            phase = Phases.objects.get(id=phase_id)
+        except Phases.DoesNotExist:
+            # Handle the case where the requested phase doesn't exist
+            phase = phases[0]  # Redirect to the first phase if the requested one is not found
+    else:
+        phase = phases[0]  # Set to the first phase if no phase is specified
 
+    # Retrieve documents for the selected phase belonging to the logged-in student
+    documents = Documents.objects.filter(phase=phase, student=student)
+
+    context = {'phases': phases, 'phase': phase, 'documents': documents}
     return render(request, 'students/view_phases.html', context)
 
 
-
+ # Restrict uploads to PDF files
+'''if not file.name.lower().endswith('.pdf'):
+                raise ValidationError("Only PDF files are allowed.")'''
 
 
 # Upload project details to the portal
-def upload_file(request, project_id, phase_id):
-    project = get_object_or_404(Projects, pk=project_id, student=request.user)
-    phase = get_object_or_404(Phases, pk=phase_id)
+def upload_file(request):
+    student = request.user
+    proposal = student.proposal_set.get()
+    print("explanation: ", proposal)
+    print(student)
 
-    # Ensure the phase belongs to the project's current proposal
-    current_proposal = project.proposal_set.order_by('-id').first()
-    if current_proposal and current_proposal.current_phase != phase:
-        return redirect('student_project_phases', project_id=project.id)
 
     if request.method == 'POST':
+      # Access uploaded file and explanation from request.POST and request.FILES
+      document_file = request.FILES.get('document_file')
+      explanation = request.POST.get('explanation')
+      selected_phase_id = request.POST.get('phase') 
+
+      if document_file:
         try:
-            file = request.FILES['document']
-            explanation = request.POST.get('explanation')  # Get document explanation
-            # Restrict uploads to PDF files
-            if not file.name.lower().endswith('.pdf'):
-                raise ValidationError("Only PDF files are allowed.")
+          # Retrieve the selected phase object
+          phase = Phases.objects.get(pk=selected_phase_id)
 
-            
+          # Create a new Documents object and save it
+          document = Documents(
+            student=request.user,
+            proposal=proposal,
+            phase = phase,
+            file=document_file,
+            comment=explanation
+          )
+          document.save()
+          return redirect('my_phases')  # Redirect to document list view after successful upload
+        except Exception as e:
+          print(f"Error uploading document: {e}")
+          # Handle the error (e.g., display an error message to the user)
+      else:
+          print("No document file uploaded")   # Handle the case where no file was uploaded
 
-            # Create the document object with explanation
-            document = Documents.objects.create(
-                proposal=current_proposal,
-                phase=phase,
-                file=file,
-                student=request.user,
-                comment=explanation,
-            )
-            document.save()
-
-            return redirect('student_project_phases', project_id=project.id)  # Redirect after successful upload
-        except ValidationError as e:
-            # Handle validation errors (e.g., display an error message)
-            context = {'project': project, 'phase': phase, 'error': e}
-            return render(request, 'students/upload_document.html', context)
-
-    # Render the upload form if not a POST request
-    context = {'project': project, 'phase': phase}
-    return render(request, 'students/upload_document.html', context)
-
+    context = {'proposal': proposal, 'student':student}
+    return render(request, 'students/view_phases.html', context)  # Redirect to document list view
 
 
 @student_required
