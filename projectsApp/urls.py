@@ -25,8 +25,8 @@ urlpatterns = [
     path('supervisor/upload_resource/', views.lec_resource, name='resource_upload'),
     path('supervisor/students/results/', views.results, name='student_results'),
     path('supervisor/milestones/', views.milestones, name='milestones'),
-    path('supervisor/student/upload/regno/', views.view_student_uploads, name='student_upload'),
-
+    path('supervisor/student/upload//<int:phase_id>/<int:student_id>/', views.view_student_uploads, name='student_upload'),
+    
 
     path('coordinator/', views.cordinator_login, name='cordinator_login'),
     path('coordinator/dashboard/', views.cordinator_dashboard, name='cordinator_dashboard'),

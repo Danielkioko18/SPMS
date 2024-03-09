@@ -274,9 +274,11 @@ def results(request):
 def milestones(request):
     phases = Phases.objects.all().order_by('order')  # Get all phases in order
     lecturer = request.user  # Get the logged-in user (lecturer)
-    proposals = Proposal.objects.filter(lecturer=lecturer)  # Filter by both lecturer and student
-
-    context = {'phases': phases,'proposals':proposals}
+    phase_proposals = []
+    for phase in phases:
+        proposals = Proposal.objects.filter(lecturer=lecturer, current_phase=phase)
+        phase_proposals.append({'phase': phase, 'proposals': proposals})
+    context = {'phase_proposals': phase_proposals}
     return render(request, 'supervisors/milestones.html', context)
 
 # Accept title
