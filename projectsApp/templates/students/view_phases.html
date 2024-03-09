@@ -42,10 +42,10 @@
                     {% for document in documents %}
                         <tr>
                           <th scope="row">{{ forloop.counter }}</th>
-                          <td>{{ document.file.name }}</td>  
+                          <td>{{ document.file_name }}</td>  
                           <td>{{ document.status }}</td>
                           <td>
-                            <a href="{{ document.file.url }}" target="_blank" >View</a>
+                            <a href="{{ document.file.url }}" target="_blank" type="application/pdf">View</a>
                           </td>
                         </tr>
                     {% empty %}

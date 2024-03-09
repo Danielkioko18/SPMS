@@ -1,3 +1,4 @@
+import os
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
@@ -88,10 +89,10 @@ class Proposal(models.Model):
 
 # Documents Model   
 class Documents(models.Model):
-    
     proposal = models.ForeignKey(Proposal, on_delete=models.CASCADE)
     phase = models.ForeignKey(Phases, on_delete=models.CASCADE)
     file = models.FileField(upload_to='uploads/')
+    file_name = models.CharField(max_length=255, default=None)  
     uploaded_at = models.DateTimeField(default=timezone.now)
     comment = models.TextField()
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
@@ -100,6 +101,11 @@ class Documents(models.Model):
         ('approved', 'Approved'),
         ('revision_requested', 'Revision Required')
     ], default='pending')
+
+    def save(self, *args, **kwargs):
+        if not self.file_name:  # If file name is not already set
+            self.file_name = os.path.basename(self.file.name)
+        super().save(*args, **kwargs)
     
 
 
