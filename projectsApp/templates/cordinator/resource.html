@@ -14,7 +14,7 @@
                         <h3 class="auth-form__title text-center mb-4"><Strong>Upload Resources</Strong></h3>
                     </div>
                     <div class="card-body">
-                        <form action="" method="post">
+                        <form action="{% url "upload_resource" %}" method="post">
                             {% csrf_token %}
                             <div class="form-group">
                                 <label for="subject"><b>Subject</b></label>

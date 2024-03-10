@@ -165,6 +165,19 @@ class CoordinatorAnnouncements(models.Model):
     sender = models.ForeignKey(Coordinator, on_delete=models.CASCADE)
     subject = models.CharField(max_length=255)
     message = models.TextField()
+    read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']  # Order announcements by creation date (newest first)
+
+# Announcements model
+class Resources(models.Model):
+    subject = models.CharField(max_length=255, default=None)  
+    file = models.FileField(upload_to='resources/')
+    uploaded_at = models.DateTimeField(default=timezone.now)
+    message = models.TextField()
+    read = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

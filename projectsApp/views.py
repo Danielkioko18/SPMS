@@ -1,15 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login,logout
 from .AccessControl import coordinator_required, student_required,supervisor_required
-from .models import Student, CoordinatorFeedbacks, CoordinatorAnnouncements, Lecturer, Projects,Notifications,Announcements, Phases, Proposal, Documents
+from .models import Student, CoordinatorFeedbacks, CoordinatorAnnouncements, Lecturer, Projects,Notifications,Announcements, Phases, Proposal, Documents, Resources
 from django.core.exceptions import ValidationError
 from django.contrib.auth.hashers import make_password
 from django.utils import timezone
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
-from django.db import transaction
-
 # ==================================================================================================================
 # Students Views here
 
@@ -235,6 +233,7 @@ def notifications(request):
 
 @student_required
 def resources(request):
+
     return render(request, 'students/resources.html')
 
 
@@ -307,6 +306,22 @@ def announcemnt(request):
 
 @supervisor_required
 def lec_resource(request):
+    if request.method == 'POST':
+        # Extract data from the POST request
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+        resource_file = request.FILES.get('resource_file')
+
+        # Create a new resource instance and save it
+        resource = Resources.objects.create(
+            subject=subject,
+            file=resource_file,
+            message=message,
+            uploaded_at=timezone.now()
+        )
+        resource.save
+        # Redirect to resource list page or any other appropriate URL
+        return redirect('resource_list')
     return render(request, 'supervisors/upload_resource.html')
 
 
@@ -604,6 +619,28 @@ def make_announcement(request):
 # Make announcemnts view
 @coordinator_required
 def upload_resource(request):
+    if request.method == 'POST':
+        # Extract data from the POST request
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+        resource_file = request.FILES.get('resource_file')
+
+        # Create a new resource instance and save it
+        if resource_file:
+            try:
+                resource = Resources(
+                    subject=subject,
+                    file=resource_file,
+                    message=message,
+                    uploaded_at=timezone.now()
+                )
+                resource.save()
+                # Redirect to resource list page or any other appropriate URL
+                return redirect(request.path)
+            except Exception as e:
+                print(f"Error uploading document: {e}")
+        else:
+            print("no file")
     return render(request, 'cordinator/resource.html')
 
 
