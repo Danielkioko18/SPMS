@@ -175,7 +175,27 @@ def upload_file(request):
 
 @student_required
 def announcements(request):
-    return render(request, 'students/announcements.html')
+    # Get the current student
+    current_student = request.user
+
+    # Fetch the proposal of the current student
+    project = Projects.objects.filter(student=current_student).first()
+    lecturer = project.lecturer
+
+    # Fetch announcements from the lecturer associated with the proposal
+    if project:
+        lecturer_announcements = Announcements.objects.filter(sender=lecturer)
+    else:
+        lecturer_announcements = Announcements.objects.none() 
+
+    # Fetch announcements from the coordinator
+    coordinator_announcements = CoordinatorAnnouncements.objects.all().order_by('-created_at')
+
+    context = {
+        'lecturer_announcements': lecturer_announcements,
+        'coordinator_announcements': coordinator_announcements,
+    }
+    return render(request, 'students/announcements.html', context)
 
 
 @student_required
