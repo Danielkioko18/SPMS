@@ -26,8 +26,7 @@ urlpatterns = [
     path('supervisor/students/results/', views.results, name='student_results'),
     path('supervisor/milestones/', views.milestones, name='milestones'),
     path('supervisor/student/uploads/<str:phase_id>/<int:student_id>/', views.view_student_uploads, name='view_student_upload'),
-    path('<int:document_id>/', views.approve_document, name='approve_document'),
-    
+    path('supervisor/student/uploads/approve_document/', views.approve_document, name='approve_document'),
 
     path('coordinator/', views.cordinator_login, name='cordinator_login'),
     path('coordinator/dashboard/', views.cordinator_dashboard, name='cordinator_dashboard'),

@@ -8,6 +8,7 @@ from django.utils import timezone
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
+from django.db import transaction
 
 # ==================================================================================================================
 # Students Views here
@@ -116,21 +117,11 @@ def view_phases(request):
     student = request.user
     phases = Phases.objects.all().order_by('order')
 
-    # Get the phase if a specific phase is requested, otherwise default to the first phase
-    phase_id = request.GET.get('phase_id')
-    if phase_id:
-        try:
-            phase = Phases.objects.get(id=phase_id)
-        except Phases.DoesNotExist:
-            # Handle the case where the requested phase doesn't exist
-            phase = phases[0]  # Redirect to the first phase if the requested one is not found
-    else:
-        phase = phases[0]  # Set to the first phase if no phase is specified
+    for phase in phases:
+        phase.documents.set(Documents.objects.filter(phase=phase, student=student).order_by('-uploaded_at'))
+        phase.approved_documents_exist = Documents.objects.filter(phase=phase, student=student, status='approved').exists()
 
-    # Retrieve documents for the selected phase belonging to the logged-in student
-    documents = Documents.objects.filter(phase=phase, student=student)
-
-    context = {'phases': phases, 'phase': phase, 'documents': documents}
+    context = {'phases': phases}
     return render(request, 'students/view_phases.html', context)
 
 
@@ -142,11 +133,9 @@ def view_phases(request):
 # Upload project details to the portal
 def upload_file(request):
     student = request.user
-    proposal = student.proposal_set.get()
-    print("explanation: ", proposal)
-    print(student)
+    proposal = get_object_or_404(Proposal, student=student)
 
-
+    #
     if request.method == 'POST':
       # Access uploaded file and explanation from request.POST and request.FILES
       document_file = request.FILES.get('document_file')
@@ -291,20 +280,50 @@ def milestones(request):
 def view_student_uploads(request, phase_id, student_id):
     phase = get_object_or_404(Phases, pk=phase_id)
     student = get_object_or_404(Student, pk=student_id)
-    documents = Documents.objects.filter(phase=phase, student=student)
+    documents = Documents.objects.filter(phase=phase, student=student).order_by('-uploaded_at')
+    
+
+    current_user = request.user
+    
+    if request.method == 'POST':
+        comment = request.POST['reason']
+        if comment:
+            notification = Notifications.objects.create(
+                sender=current_user, 
+                recipient=student, 
+                message=comment
+            )
+            notification.save()
+        
+        
+        for document in documents:
+            document.status = "revision_requested"
+            document.save()
+
+        return redirect(request.path)  # Redirect to some appropriate URL
 
     context = {'phase': phase, 'student': student, 'documents': documents}
     return render(request, 'supervisors/view_student_uploads.html', context)
 
 # approve upload
-def approve_document(request, document_id):
-    document = Documents.objects.get(pk=document_id)
-    document.status = 'approved'
-    document.save()
-    # Move student to next phase upon document approval
-    proposal = document.proposal
-    proposal.move_to_next_phase()
-    return redirect('view_student_upload')
+def approve_document(request):
+    if request.method == 'POST':
+        # Get the document ID from the form
+        document_id = request.POST.get('document_id')
+        # Update status to "approved" for the specific document
+        document = get_object_or_404(Documents, pk=document_id)
+        document.status = "approved"
+        document.save()
+
+        proposal = document.proposal
+        proposal.move_to_next_phase()
+        proposal.check_completion()
+
+        # Redirect back to the previous page
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+    
+    return redirect(request.path)
+
 
 
 # View Project details including descripton and objectives
@@ -323,9 +342,7 @@ def project_details(request, project_id):
             )
             notification.save()
 
-    context = {
-        'project':project,
-        }
+    context = {'project':project}
     
     return render(request, 'supervisors/project_details.html', context)
 

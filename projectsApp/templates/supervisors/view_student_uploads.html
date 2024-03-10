@@ -16,35 +16,74 @@
                         <h5><b>Status: </b>{{ document.status|title }}</h5>
                         <a href="{{ document.file.url }}" class="btn btn-primary" target="_blank">View File</a>
                         {% if document.status != 'approved' %}
-                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#acceptTitleModal">
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#approveModal{{ document.id }}">
                                 Approve
                             </button>
-                            <a href="" class="btn btn-danger">Request Revision</a>
+                            
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#requestRevisionModal{{ document.id }}">
+                                Request Revision
+                            </button>
+                        
                         {% endif %}
                     </div>
                 </div>
 
-                <!-- Approve modal -->
-                <div class="modal fade" id="acceptTitleModal" tabindex="-1" role="dialog" aria-labelledby="acceptTitleModalLabel" aria-hidden="true">
+                <!-- Request Revision modal -->
+                <div class="modal fade" id="requestRevisionModal{{ document.id }}" tabindex="-1" role="dialog" aria-labelledby="requestRevisionModalLabel{{ document.id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="requestRevisionModalLabel{{ document.id }}">Request Revision</h5>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <h4 class="text-danger" >Please provide a reason for revision</h4>
+                                <form action="." method="post">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <input class="form-control" type="" value="{{document.id}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="reason"><strong>Reason:</strong></label>
+                                        <textarea  id="reason" name="reason" rows="4" required></textarea>
+                                    </div>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End of Request Revision modal -->
+
+                <!-- Approve modal--> 
+                <div class="modal fade" id="approveModal{{ document.id }}" tabindex="-1" role="dialog" aria-labelledby="approveModalLabel{{ document.id }}" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title text-center" id="acceptTitleModalLabel">Confirm Approval</h5>
+                          <h5 class="modal-title text-center" id="approveModalLabel{{ document.id }}">Confirm Approval</h5>
                           <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
                         </div>
                         <div class="modal-body">
-                          <p><strong>Are you sure you want to approve this document? {{document.file_name}}</strong></p>
+                          <p><strong>Are you sure you want to approve this document? {{ document.id }}</strong></p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <a href="{% url 'approve_document' document.id %}" class="btn btn-success">Approve</a>
+                            <form action="{% url "approve_document" %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="approve" value="true">
+                                <input type="hidden" name="document_id" value="{{ document.id }}">
+                                <button type="submit" class="btn btn-success">Approve</button>
+                            </form>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <!-- End Of approve modal-->
+                </div>
+                <!-- End Of approve modal-->
                 {%empty%}
                    <h5>Has Not Uploaded any documents in this phase yet </h5>
             {% endfor %}
@@ -54,6 +93,7 @@
 
 <!-- Include Bootstrap JavaScript library -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 
 <link rel="stylesheet" href="{% static 'css/student_dashboard.css' %}">
 

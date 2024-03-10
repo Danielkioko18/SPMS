@@ -91,18 +91,27 @@ class Proposal(models.Model):
             self.current_phase = next_phase
             self.save()
 
+    """
+        Check if all phases are completed.
+    """
+    def check_completion(self):        
+        remaining_phases = Phases.objects.filter(order__gt=self.current_phase.order)
+        if not remaining_phases.exists():
+            self.completed = True
+            self.save()
+
     def __str__(self):
         return f"{self.student.name} - {self.title}"
 
 # Documents Model   
 class Documents(models.Model):
-    proposal = models.ForeignKey(Proposal, on_delete=models.CASCADE)
-    phase = models.ForeignKey(Phases, on_delete=models.CASCADE)
+    proposal = models.ForeignKey(Proposal, related_name='documents', on_delete=models.CASCADE)
+    phase = models.ForeignKey(Phases, related_name='documents', on_delete=models.CASCADE)
     file = models.FileField(upload_to='uploads/')
     file_name = models.CharField(max_length=255, default=None)  
     uploaded_at = models.DateTimeField(default=timezone.now)
     comment = models.TextField()
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, related_name='documents', on_delete=models.CASCADE)
     status = models.CharField(max_length=50, choices=[
         ('pending', 'Pending'),
         ('approved', 'Approved'),
