@@ -82,14 +82,24 @@ def student_dashboard(request):
     student = request.user
     my_project = Projects.objects.filter(student=student)
 
+    project = Projects.objects.filter(student=student).first()
+    lecturer = project.lecturer
+
     total_notifications = Notifications.objects.filter(recipient=student).count()
     unread_notifications = Notifications.objects.filter(recipient=student, read=False).count()
+
+    lec_announcements = Announcements.objects.filter(sender=lecturer).count()
+    cord_announcements = CoordinatorAnnouncements.objects.filter().count()
+    
+    total_announcements = lec_announcements + cord_announcements
+    
 
     context = {
         'student':student,
         'my_project':my_project,
         'total_notifications':total_notifications,
-        'unread_notifications':unread_notifications
+        'unread_notifications':unread_notifications,
+        'total_announcements':total_announcements
     }
     return render(request, 'students/student_dashboard.html', context)
 
@@ -185,11 +195,21 @@ def announcements(request):
     # Fetch announcements from the lecturer associated with the proposal
     if project:
         lecturer_announcements = Announcements.objects.filter(sender=lecturer)
+        # Update Announcements to read
+        for announcement in lecturer_announcements:
+            announcement.read = True
+            announcement.save()
     else:
         lecturer_announcements = Announcements.objects.none() 
 
+    
+
     # Fetch announcements from the coordinator
     coordinator_announcements = CoordinatorAnnouncements.objects.all().order_by('-created_at')
+    # Update Announcements to read
+    for announcement in coordinator_announcements:
+            announcement.read = True
+            announcement.save()
 
     context = {
         'lecturer_announcements': lecturer_announcements,
@@ -203,10 +223,10 @@ def notifications(request):
     student = request.user
     notifications = Notifications.objects.filter(recipient=student).order_by('-created_at')
 
-    ''' # Mark notifications as read
+    # Mark notifications as read
     for notification in notifications:
         notification.read = True
-        notification.save()'''
+        notification.save()
 
     context = {'notifications':notifications}
 
