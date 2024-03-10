@@ -13,17 +13,17 @@
                 {% for notification in notifications %}
                     <div class="card mb-3 border-info">
                         <div class="card-header border-info">
-                            From: {{ notification.sender }}
+                            <b>From:</b> {{ notification.sender.name }}
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">Message:</h5>
+                            <h5 class="card-title"><b>Message:</b></h5>
                             <p class="card-text">{{ notification.message }}</p>
                             {% if not notification.read %}
                                 <p class="text-muted">Unread</p>
                             {% endif %}
                         </div>
                         <div class="card-footer text-muted border-info">
-                            Sent: {{ notification.created_at }}
+                            <b>Sent:</b> {{ notification.created_at }}
                         </div>
                     </div>
                 {% empty %}

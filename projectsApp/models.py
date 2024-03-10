@@ -140,9 +140,10 @@ class Notifications(models.Model):
 
 # Announcements model
 class Announcements(models.Model):
-    sender = models.ForeignKey(Lecturer, on_delete=models.CASCADE)
+    sender = models.ForeignKey(Lecturer, on_delete=models.CASCADE, related_name='announcements')
     subject = models.CharField(max_length=255)
     message = models.TextField()
+    read = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -150,9 +151,10 @@ class Announcements(models.Model):
 
 # Announcements model
 class CoordinatorFeedbacks(models.Model):
-    sender = models.ForeignKey(Coordinator, on_delete=models.CASCADE)
-    project = models.ForeignKey(Projects, on_delete=models.CASCADE)
+    sender = models.ForeignKey(Coordinator, on_delete=models.CASCADE, related_name='coordinatorfeedbacks')
+    project = models.ForeignKey(Projects, on_delete=models.CASCADE, related_name='coordinatorfeedbacks')
     comment = models.TextField()
+    read = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
