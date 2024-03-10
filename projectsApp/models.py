@@ -132,8 +132,8 @@ class Documents(models.Model):
     
 # Notifications model
 class Notifications(models.Model):
-    sender = models.ForeignKey(Lecturer, on_delete=models.CASCADE)
-    recipient = models.ForeignKey(Student, on_delete=models.CASCADE)
+    sender = models.ForeignKey(Lecturer, on_delete=models.CASCADE, related_name='notifications')
+    recipient = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='notifications')
     message = models.TextField()
     read = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)

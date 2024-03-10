@@ -81,9 +81,15 @@ def SignUp(request):
 def student_dashboard(request):
     student = request.user
     my_project = Projects.objects.filter(student=student)
+
+    total_notifications = Notifications.objects.filter(recipient=student).count()
+    unread_notifications = Notifications.objects.filter(recipient=student, read=False).count()
+
     context = {
         'student':student,
-        'my_project':my_project
+        'my_project':my_project,
+        'total_notifications':total_notifications,
+        'unread_notifications':unread_notifications
     }
     return render(request, 'students/student_dashboard.html', context)
 
@@ -174,7 +180,17 @@ def announcements(request):
 
 @student_required
 def notifications(request):
-    return render(request, 'students/notifications.html')
+    student = request.user
+    notifications = Notifications.objects.filter(recipient=student).order_by('-created_at')
+
+    ''' # Mark notifications as read
+    for notification in notifications:
+        notification.read = True
+        notification.save()'''
+
+    context = {'notifications':notifications}
+
+    return render(request, 'students/notifications.html', context)
 
 
 @student_required
