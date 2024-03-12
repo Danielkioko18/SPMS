@@ -1,3 +1,4 @@
+<!-- Student Dashboard Template -->
 {% extends 'base.html' %}
 {% load static %}
 
@@ -8,31 +9,48 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12">
-                <h1>Notifications</h1>
-                {% for notification in notifications %}
-                    <div class="card mb-3 border-info">
-                        <div class="card-header border-info">
-                            <b>From:</b> {{ notification.sender.name }}
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title"><b>Message:</b></h5>
-                            <p class="card-text text-info">{{ notification.message }}</p>
-                            {% if not notification.read %}
-                                <p class="text-muted">Unread</p>
-                            {% endif %}
-                        </div>
-                        <div class="card-footer text-muted border-info">
-                            <b>Sent:</b> {{ notification.created_at }}
-                        </div>
+            <h1 class="text-center" style="width: 100%; border-bottom:lightblue;">Notifications</h1><br>
+            <!-- Display Notifications -->
+            {% for notification in notifications %}
+                <div class="card mb-3 border-info">
+                    <div class="card-header border-info text-center">
+                        <b>From:</b> {{ notification.sender.name }}
                     </div>
-                {% empty %}
-                    <p>No notifications</p>
-                {% endfor %}
-            </div>
+                    <div class="card-body">
+                        <h5 class="card-title"><b>Message:</b></h5>
+                        <p class="card-text text-info">{{ notification.message }}</p>
+                        {% if not notification.read %}
+                            <p class="text-muted">Unread</p>
+                        {% endif %}                     
+                    </div>
+                    <div class="card-footer text-muted border-info">
+                        {{ notification.created_at }}
+                    </div>
+                </div>
+            {% endfor %}
+
+            <!-- Display coordinator feedbacks -->
+            {% for feedback in coordinator_feedbacks %}
+                <div class="card mb-3 border-info">
+                    <div class="card-header border-info text-center">
+                        <b>From:</b> Projects Coordinator
+                        
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title"><b>Message:</b></h5>
+                        <p class="card-text text-info">{{ feedback.comment }}</p>
+                        {% if not feedback.read %}
+                            <p class="text-muted">Unread</p>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer text-muted border-info">
+                        {{ feedback.created_at }}
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
 </div>
 
-<link rel="stylesheet" href="{% static 'css/student_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/notifications.css' %}">
 {% endblock %}

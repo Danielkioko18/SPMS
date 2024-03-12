@@ -1,0 +1,26 @@
+ /* Style for content area */
+ .content {
+    margin-left: 250px; /* same width as sidebar */
+    padding: 20px;
+    margin-top: 60px;
+  }
+  .card{
+      width: 47%;
+      margin-left: 10px;
+  }
+
+  /* Media query for responsive sidebar */
+  @media (max-width: 768px) {
+      .sidebar {
+          width: 100%;
+          position: static;
+          padding-top: 60px;
+
+      }
+      /* Style for content area */
+      .content {
+      margin-left: 0; /* same width as sidebar */
+      padding: 20px;
+      margin-top: 60px;
+      }
+    }

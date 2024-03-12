@@ -221,20 +221,36 @@ def notifications(request):
     student = request.user
     notifications = Notifications.objects.filter(recipient=student).order_by('-created_at')
 
+    # Fetch coordinator feedbacks
+    coordinator_feedbacks = CoordinatorFeedbacks.objects.filter(project__student=student).order_by('-created_at')
+
+
     # Mark notifications as read
     for notification in notifications:
         notification.read = True
         notification.save()
 
-    context = {'notifications':notifications}
+    # Mark feedback as read
+    for feedback in coordinator_feedbacks:
+        feedback.read = True
+        feedback.save()
+
+    context = {
+        'notifications':notifications,
+        'coordinator_feedbacks':coordinator_feedbacks
+        }
 
     return render(request, 'students/notifications.html', context)
 
 
 @student_required
 def resources(request):
+    # Fetch all resources, arranged by latest upload first
+    resources = Resources.objects.all().order_by('-uploaded_at')
 
-    return render(request, 'students/resources.html')
+    context = {'resources': resources}
+
+    return render(request, 'students/resources.html', context)
 
 
 # =================================================================================================================

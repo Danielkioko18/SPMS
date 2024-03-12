@@ -26,7 +26,7 @@
                         {% endif %}
                     </div>
                     <div class="card-footer text-muted border-info">
-                        <b>Sent:</b> {{ announcement.created_at }}
+                        {{ announcement.created_at }}
                     </div>
                 </div>
             {% endfor %}
@@ -34,7 +34,7 @@
             {% for announcement in coordinator_announcements %}
                 <div class="card mb-3 border-info">
                     <div class="card-header border-info text-center">
-                        <b>From:</b> Coordinator
+                        <b>From:</b> Projects Coordinator
                         
                     </div>
                     <div class="card-body">
@@ -47,7 +47,7 @@
                         {% endif %}
                     </div>
                     <div class="card-footer text-muted border-info">
-                        <b>Sent:</b> {{ announcement.created_at }}
+                        {{ announcement.created_at }}
                     </div>
                 </div>
             {% endfor %}
@@ -55,5 +55,5 @@
     </div>
 </div>
 
-<link rel="stylesheet" href="{% static 'css/student_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/notifications.css' %}">
 {% endblock %}
