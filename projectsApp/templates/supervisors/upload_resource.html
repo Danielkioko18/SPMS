@@ -14,7 +14,17 @@
                         <h3 class="auth-form__title text-center mb-4"><Strong>Upload Resources</Strong></h3>
                     </div>
                     <div class="card-body">
-                        <form action="{% url "upload_resource" %}" method="post">
+                        {% if error_message %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ error_message }}
+                            </div>
+                        {% endif %}
+                        {% if success_message %}
+                            <div class="alert alert-info" role="alert">
+                                {{ success_message }}
+                            </div>
+                        {% endif %}
+                        <form action="{% url "resource_upload" %}" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="form-group">
                                 <label for="subject"><b>Subject</b></label>
@@ -22,11 +32,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="Message"><b>Message</b></label><br>
-                                <textarea name="message" id="Message" cols="50" rows="7" placeholder="Type Your Message/Comment Here...."></textarea>
+                                <textarea name="message" id="Message" cols="50" rows="7" placeholder="Type Your Message/Comment Here...." required></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="file"><b>File Resource</b></label><br>
-                               <input type="file" name="resource_file" id="file">
+                               <input type="file" name="resource_file" id="file" required>
                             </div>
                             <div class="form-group">
                                 <button type="submit"class="btn btn-success">Submit</button>

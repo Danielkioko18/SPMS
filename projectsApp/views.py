@@ -339,7 +339,7 @@ def lec_resource(request):
         else:
             # Error message
             error_message = 'Error: No file received. Please choose a file'
-            print("Error: No file received. Please choose a file to upload")
+            print("Error: No file received. Please choose a file")
             return render(request, 'supervisors/upload_resource.html', {'error_message':error_message})
 
     return render(request, 'supervisors/upload_resource.html')
