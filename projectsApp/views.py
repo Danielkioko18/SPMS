@@ -312,16 +312,36 @@ def lec_resource(request):
         message = request.POST.get('message')
         resource_file = request.FILES.get('resource_file')
 
+        # cupturing messages for user
+        context = {}
+        
+
+        # Print uploaded file for debugging
+        print(f"Uploaded file: {resource_file}")
+
         # Create a new resource instance and save it
-        resource = Resources.objects.create(
-            subject=subject,
-            file=resource_file,
-            message=message,
-            uploaded_at=timezone.now()
-        )
-        resource.save
-        # Redirect to resource list page or any other appropriate URL
-        return redirect('resource_list')
+        if resource_file:
+            try:
+                resource = Resources(
+                    subject=subject,
+                    file=resource_file,
+                    message=message,
+                    uploaded_at=timezone.now()
+                )
+                resource.save()
+                
+                # Redirect to resource list page or any other appropriate URL
+                return redirect(request.path)
+            except Exception as e:
+                error_message = f'Error Uploading Document: {e}'
+                print(f"Error uploading document: {e}")
+                return render(request, 'supervisors/upload_resource.html', {'error_message':error_message})
+        else:
+            # Error message
+            error_message = 'Error: No file received. Please choose a file'
+            print("Error: No file received. Please choose a file to upload")
+            return render(request, 'supervisors/upload_resource.html', {'error_message':error_message})
+
     return render(request, 'supervisors/upload_resource.html')
 
 
@@ -439,11 +459,10 @@ def accept_title(request, project_id):
 
     return redirect('student_project', project_id=project_id)  # Redirect to project details
 
+# ============================================= End Supervisor views ===============================================
 
 
-
-
-# Coordinator's views
+# ============================================= Coordinator's views ================================================
 
 def cordinator_login(request):
     if request.method == 'POST':
@@ -625,6 +644,13 @@ def upload_resource(request):
         message = request.POST.get('message')
         resource_file = request.FILES.get('resource_file')
 
+        # cupturing messages for user
+        context = {}
+        
+
+        # Print uploaded file for debugging
+        print(f"Uploaded file: {resource_file}")
+
         # Create a new resource instance and save it
         if resource_file:
             try:
@@ -635,14 +661,20 @@ def upload_resource(request):
                     uploaded_at=timezone.now()
                 )
                 resource.save()
+                
                 # Redirect to resource list page or any other appropriate URL
                 return redirect(request.path)
             except Exception as e:
+                error_message = f'Error Uploading Document: {e}'
                 print(f"Error uploading document: {e}")
+                return render(request, 'cordinator/resource.html', {'error_message':error_message})
         else:
-            print("no file")
-    return render(request, 'cordinator/resource.html')
+            # Error message
+            error_message = 'Error: No file received. Please choose a file'
+            print("Error: No file received. Please choose a file to upload")
+            return render(request, 'cordinator/resource.html', {'error_message':error_message})
 
+    return render(request, 'cordinator/resource.html')
 
 # View Project details including descripton and objectives
 @coordinator_required

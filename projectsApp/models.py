@@ -175,10 +175,16 @@ class CoordinatorAnnouncements(models.Model):
 class Resources(models.Model):
     subject = models.CharField(max_length=255, default=None)  
     file = models.FileField(upload_to='resources/')
+    file_name = models.CharField(max_length=255, default=None) 
     uploaded_at = models.DateTimeField(default=timezone.now)
     message = models.TextField()
     read = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if not self.file_name:  # If file name is not already set
+            self.file_name = os.path.basename(self.file.name)
+        super().save(*args, **kwargs)
 
     class Meta:
         ordering = ['-created_at']  # Order announcements by creation date (newest first)
