@@ -83,21 +83,31 @@ def student_dashboard(request):
     project = Projects.objects.filter(student=student).first()
     lecturer = project.lecturer
 
-    total_notifications = Notifications.objects.filter(recipient=student).count()
-    unread_notifications = Notifications.objects.filter(recipient=student, read=False).count()
+    # =============================== Coordinator and Lecturer Feedbacks Count ===================================
+    lec_notifications = Notifications.objects.filter(recipient=student).count()
+    cord_notifications = CoordinatorFeedbacks.objects.filter(project__student=student).count()
 
+    # =============================== Unread Feedbacks Count =====================================================
+    unread_notifications = Notifications.objects.filter(recipient=student, read=False).count()
+    unread_feedbacks = CoordinatorFeedbacks.objects.filter(project__student=student, read=False).count()
+
+    # =============================== Announcemnts Count =========================================================
     lec_announcements = Announcements.objects.filter(sender=lecturer).count()
     cord_announcements = CoordinatorAnnouncements.objects.filter().count()
-    
+
+
+    # =============================== Totals ====================================================================
+    total_notifications = lec_notifications + cord_notifications    
     total_announcements = lec_announcements + cord_announcements
+    total_unread = unread_notifications + unread_feedbacks
     
 
     context = {
         'student':student,
         'my_project':my_project,
         'total_notifications':total_notifications,
-        'unread_notifications':unread_notifications,
-        'total_announcements':total_announcements
+        'total_announcements':total_announcements,
+        'total_unread':total_unread
     }
     return render(request, 'students/student_dashboard.html', context)
 

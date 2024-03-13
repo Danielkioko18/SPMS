@@ -36,7 +36,7 @@
                     <ul>
                         {% if my_project %}
                         {% for project in my_project %}
-                                <b><li>{{ project.objectives }}</li></b>
+                                <b><li>{{ project.objectives|linebreaks }}</li></b>
                         {% endfor %}
                         {% else %}
                             <p>You Have not uploaded any project yet</p>
@@ -64,7 +64,7 @@
                 </div>
                 <div class="card-body">
                         <h2>Total:<b class="text-success"> {{total_notifications}}</b></h2>
-                        <h2>New:<b class="text-danger"> {{unread_notifications}}</b></h2>
+                        <h2>New:<b class="text-danger"> {{total_unread}}</b></h2>
                 </div>
             </div>
             <div class="card mb-5 bg-warning">
