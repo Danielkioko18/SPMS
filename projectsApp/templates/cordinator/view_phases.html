@@ -22,27 +22,32 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Name</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Phone</th>                                
-                                <th scope="col">Projects</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Deadline</th> 
                                 <th scope="col">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for supervisor in supervisors %}
+                            {% for phase in phases %}
                               <tr>
-                                <th scope="row">{{ forloop.counter }}</th>
-                                <td><b>{{supervisor.name|title}}</b></td>
-                                <td>{{supervisor.email}}</td>
-                                <td>{{supervisor.phone}}</td>
-                                <td>{{supervisor.project_count}}</td>
+                                <th scope="row">{{forloop.counter}}</th>
+                                <td><b>{{phase.name|title}}</b></td>
+                                <td>{{phase.description|title}}</td>
+                                <td class="text-info"><b>{{phase.deadline_date}}</b></td>
                                 <td>
                                     <div class="row">
                                         <div class="col-4">
-                                            <form action="{% url 'view_supervisors' %}" method="POST">
+                                            <form action="{% url 'view_phases' %}" method="POST">
                                                 {% csrf_token %}
-                                                <input type="hidden" name="lecturer_id" value="{{ supervisor.user_id }}">
-                                                <button type="submit"  class="btn btn-danger" onclick="return confirm('Are you sure you want to delete {{supervisor.name}}?')"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                                <input type="hidden" name="phase_id" value="{{ phase.id }}">
+                                                <button type="submit"  class="btn btn-danger" onclick="return confirm('Are you sure you want to delete {{phase.name}}?')"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                            </form>
+                                        </div>
+                                        <div class="col-4">
+                                            <form action="{% url 'view_phases' %}" method="POST">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="phase_id" value="{{ phase.id }}">
+                                                <a href="{% url 'edit_phase' phase.id %}" class="btn btn-info"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                             </form>
                                         </div>
                                     </div>

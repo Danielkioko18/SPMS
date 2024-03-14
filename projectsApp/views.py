@@ -484,6 +484,7 @@ def accept_title(request, project_id):
 
 # ============================================= Coordinator's views ================================================
 
+# coordinator login
 def cordinator_login(request):
     if request.method == 'POST':
         email = request.POST['email']
@@ -501,6 +502,9 @@ def cordinator_login(request):
     else:
         return render(request, 'acounts/cord_login.html')
 
+
+
+# coordinator dashboard
 @coordinator_required
 def cordinator_dashboard(request):
     supervisor_count = Lecturer.objects.all().count()
@@ -519,6 +523,7 @@ def cordinator_dashboard(request):
 
 
 
+# add supervisor
 @coordinator_required
 def add_supervisor(request):
     if request.method == 'POST':
@@ -557,9 +562,6 @@ def supervisors(request):
     for supervisor in supervisors:
         project_count = Projects.objects.filter(lecturer=supervisor).count()
         supervisor.project_count = project_count
-
-    for i, supervisor in enumerate(supervisors):
-        supervisor.index = i + 1 
     if request.method == 'POST':
         lecturer_id = request.POST.get('lecturer_id')
         if lecturer_id:
@@ -577,10 +579,9 @@ def supervisors(request):
 @coordinator_required
 def reg_students(request):
     students = Student.objects.all().order_by('regno')
-    for i, student in enumerate(students):
-        student.index = i + 1 
     context = {'students':students}
     return render(request, 'cordinator/students.html', context)
+
 
 
 # View all uploaded titles
@@ -595,6 +596,7 @@ def view_projects(request):
     return render(request, 'cordinator/projects.html',context)
 
 
+
 # pending titles
 @coordinator_required
 def pending_titles(request):
@@ -605,6 +607,7 @@ def pending_titles(request):
         project.reg_number = student.regno
     context = {'projects':projects}
     return render(request, 'cordinator/pending_titles.html', context)
+
 
 
 # Approved titles
@@ -621,13 +624,15 @@ def approved_titles(request):
     return render(request, 'cordinator/approved_titles.html', context)
 
 
-# View milestones
+
+# View phases/milestones with students
 @coordinator_required
 def view_milestones_cord(request):
     phases = Phases.objects.all().order_by('order')  # Get all phases in order
 
     context = {'phases': phases}
     return render(request, 'cordinator/milestones_cord.html', context)
+
 
 
 # Make announcemnts view
@@ -763,3 +768,44 @@ def create_phase(request):
     else:
         return render(request, 'cordinator/create_phase.html')  # Render the form for GET requests
 
+
+
+# View phase details
+@coordinator_required
+def view_phases(request):
+    phases = Phases.objects.all().order_by('order')
+
+    # delete phase
+    if request.method == 'POST':
+        phase_id = request.POST.get('phase_id')
+        if phase_id:
+            phase = get_object_or_404(Phases, pk=phase_id)
+            phase.delete()
+            return redirect(request.path)
+   
+    context = {'phases':phases}
+    return render(request, 'cordinator/view_phases.html', context)
+
+
+
+# edit phase
+@coordinator_required
+def edit_phase(request, phase_id):
+    phase = get_object_or_404(Phases, pk=phase_id)
+    
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        description = request.POST.get('description')
+        order = request.POST.get('order')
+        deadline_date = request.POST.get('deadline_date')
+
+        phase.name = name
+        phase.description = description
+        phase.order = order
+        phase.deadline_date = deadline_date
+        phase.save()
+
+        return redirect('view_phases')
+
+    context = {'phase': phase}
+    return render(request, 'cordinator/edit_phase.html', context)

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light flex-md-column sidebar  column-1">
     <!--<a class="navbar-brand" href="#">Student Dashboard</a>-->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
@@ -27,7 +27,10 @@
             <a class="nav-link" href="{% url 'create_phase' %}">Create Phases</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'view_milestones' %}">Projects Phases</a>
+          <a class="nav-link" href="{% url 'view_phases' %}">View Phases</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'view_milestones' %}">Project Progress</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'make_announcement' %}">Announcements</a>

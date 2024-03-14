@@ -28,7 +28,7 @@
                         <tbody>
                             {% for student in students %}
                                 <tr>
-                                    <th scope="row">{{student.index}}</th>
+                                    <th scope="row">{{forloop.counter}}</th>
                                     <td>{{student.regno|upper }}</td>
                                     <td>{{student.name|title}}</td>
                                     <td>{{student.email}}</td>

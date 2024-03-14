@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+{% include "column1_cord.html" %}
+
+<div class="main-content-container container-fluid px-4 my-auto h-100">
+    <div class="row no-gutters h-100">
+         <div class="col-lg-5 col-md-5 auth-form mx-auto my-auto">
+            <div class="card mt-4 border-info rounded">
+                <div class="card-header">
+                    <h4 class="text-center mb-4"><Strong>UpdatePhase</Strong></h4>
+                </div>
+                <div class="card-body">
+                    <!-- edit_phase.html -->
+
+                    <form action="{% url "edit_phase" phase.id%}" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <input type="text" id="name" name="name" value="{{ phase.name }}" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="description">Description:</label>
+                            <textarea id="description" name="description" rows="5" required>{{ phase.description }}</textarea>                    
+                        </div>
+
+                        <div class="form-group">
+                            <label for="order">Order:</label>
+                            <input type="number" id="order" name="order" value="{{ phase.order }}" min="1" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="deadline_date">Deadline:</label>
+                            <input type="date" id="deadline_date" name="deadline_date" value="{{ phase.deadline_date }}">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </form>
+
+                </div>
+            </div>
+         </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="{% static 'css/upload_title.css' %}">
+
+{% endblock %}

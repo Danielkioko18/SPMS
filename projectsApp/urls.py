@@ -40,9 +40,12 @@ urlpatterns = [
     path('coordinator/upload/resource/', views.upload_resource, name='upload_resource'),
     path('cordinator/make announcement/', views.make_announcement, name='make_announcement'),
     path('projects/view/details/<int:project_id>/', views.view_project_details, name='view_project_details'),
-    path('cordinator/phases/create/', views.create_phase, name='create_phase'),
+    path('coordinator/phases/create/', views.create_phase, name='create_phase'),
+    path('coordinator/phases/', views.view_phases, name='view_phases'),
+    path('coordinator/phases/<int:phase_id>/edit/', views.edit_phase, name='edit_phase'),
 
     path('logout/', views.logout_view, name='logout'),
 ]
+
 # uploads url#
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
