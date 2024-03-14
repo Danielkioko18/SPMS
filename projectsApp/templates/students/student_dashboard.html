@@ -9,70 +9,106 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            {% if success_message %}
-                <div class="alert alert-info" role="alert">
-                    {{ success_message }}
-                </div>
-            {% endif %}
             <div class="card mb-5 bg-primary">
                 <div class="card-header text-center">
-                    <b><h4>Project Title</h4></b>
+                    <b><h4 class="text-white fw-bold">Project Title</h4></b>
                 </div>
-                <div class="card-body">
-                    {% if my_project %}
-                        {% for project in my_project %}
-                                <b><h3>{{ project.title }}</h3></b>
-                        {% endfor %}
-                    {% else %}
-                        <p>You Have not uploaded any project yet</p>
-                    {% endif %}
+                <div class="card-body text-light fw-bold">
+                    <div class="row">
+                        <div class="col-md text-center">
+                            {% if my_project %}
+                                {% for project in my_project %}
+                                        <b><h3 class="font-monospace">{{ project.title }}</h3></b>
+                                {% endfor %}
+                            {% else %}
+                                <p>You Have not uploaded any project yet</p>
+                            {% endif %}
+                        </div>
+                    </div>                    
                 </div>
-            </div>
-            <div class="card mb-5 bg-danger">
-                <div class="card-header text-center">
-                    <strong><h4>Project objectives</h4></strong>
-                </div>
-                <div class="card-body">
-                    <ul>
-                        {% if my_project %}
-                        {% for project in my_project %}
-                                <b><li>{{ project.objectives|linebreaks }}</li></b>
-                        {% endfor %}
-                        {% else %}
-                            <p>You Have not uploaded any project yet</p>
-                        {% endif %}
-                    </ul>
+                <div class="card-footer text-center text-light">
+                    <a class="nav-link font-monospace text-light" href="{% url 'upload_title' %}">Update Title <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
-            <div class="card mb-5 bg-success">
+            <div class="card mb-5 bg-success text-light">
                 <div class="card-header text-center">
-                    <strong>Project status<h4></h4></strong>
+                    <b><h4 class="fw-bold font-monospace">Objectives</h4></b>
                 </div>
                 <div class="card-body">
-                    {% if my_project %}
-                        {% for project in my_project %}
-                                <b><li>{{ project.status|title }}</li></b>
-                        {% endfor %}
-                        {% else %}
-                            <p>You Have not uploaded any project yet</p>
-                    {% endif %}
+                    <div class="row">
+                        <div class="col-md">
+                            <ul class="list-group">
+                                {% if my_project %}
+                                {% for project in my_project %}
+                                        <b><li>{{ project.objectives|linebreaks }}</li></b>
+                                {% endfor %}
+                                {% else %}
+                                    <p>You Have not uploaded any project yet</p>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="card mb-5 bg-dark text-light font-monospace">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md text-center text-warning">
+                            <strong><h2>Status</h2></strong>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md text-center font-monospace">
+                            {% if my_project %}
+                                {% for project in my_project %}
+                                        <b class="text-center text-light"><h4>{{ project.status|title }}</h4></b>
+                                {% endfor %}
+                                {% else %}
+                                    <p class="text-danger">You Have not uploaded any project yet</p>
+                            {% endif %}
+                        </div>
+                    </div>            
                 </div>
             </div>
             <div class="card mb-5 bg-info">
-                <div class="card-header text-center">
-                        <strong><h4>Notifications</h4></strong>
-                </div>
                 <div class="card-body">
-                        <h2>Total:<b class="text-success"> {{total_notifications}}</b></h2>
-                        <h2>New:<b class="text-danger"> {{total_unread}}</b></h2>
+                    <div class="row">
+                        <div class="col-sm">
+                            <h2 class="text-light">Total:<b class="text-light"> {{total_notifications}}</b></h2>
+                        </div>
+                        <div class="col-sm">
+                            <h2 class="text-light">New:<b class="text-danger"> {{total_unread}}</b></h2>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md">
+                            <strong><h4 class="text-light text-center font-monospace">Notifications</h4></strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-center ">
+                    <a class="nav-link text-light" href="{% url 'notifications' %}">View All</a>
                 </div>
             </div>
             <div class="card mb-5 bg-warning">
-                <div class="card-header text-center">
-                    <strong>Announcements<h4></h4></strong>
-                </div>
                 <div class="card-body">
-                       <h2>Total: {{ total_announcements }}</h2>
+                    <div class="row">
+                        <div class="col-md text-light font-monospace fw-bold text-center">
+                            <h2>{{ total_announcements }}</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md text-light text-center font-monospace">
+                            <strong><h4>Announcements</h4></strong>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="card-footer text-center text-light">
+                    <a class="nav-link font-monospace text-light" href="{% url 'announcements' %}">View All <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
             <div class="card mb-5 bg-secondary">
@@ -80,7 +116,7 @@
                         <strong><h4>Calender</h4></strong>
                 </div>
                 <div class="card-body">
-                        <h2>Calender goes here</h2>
+                        <h4>Calender goes here</h4>
                 </div>
             </div>
         </div>
