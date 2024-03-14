@@ -44,11 +44,7 @@
                                             </form>
                                         </div>
                                         <div class="col-4">
-                                            <form action="{% url 'view_phases' %}" method="POST">
-                                                {% csrf_token %}
-                                                <input type="hidden" name="phase_id" value="{{ phase.id }}">
-                                                <a href="{% url 'edit_phase' phase.id %}" class="btn btn-info"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                                            </form>
+                                            <a href="{% url 'edit_phase' phase.id %}" class="btn btn-info"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                         </div>
                                     </div>
                                 </td>

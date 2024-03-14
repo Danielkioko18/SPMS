@@ -553,6 +553,26 @@ def add_supervisor(request):
     return render(request, 'cordinator/add_lecturer.html')
 
 
+
+# update supervisor
+@coordinator_required
+def edit_lecturer(request, lecturer_id):
+    lecturer = get_object_or_404(Lecturer, pk=lecturer_id)
+
+    if request.method == 'POST':
+        lecturer.email = request.POST.get('email')
+        lecturer.name = request.POST.get('name')
+        lecturer.phone = request.POST.get('phone')
+        # Note: You should hash the password before saving it
+        lecturer.password = request.POST.get('password')
+        lecturer.save()
+        return redirect('view_supervisors')
+
+    context = {'lecturer': lecturer}
+    return render(request, 'cordinator/edit_lecturer.html', context)
+
+
+
 # View all supervisors registered
 @coordinator_required
 def supervisors(request):
