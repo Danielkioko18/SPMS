@@ -111,39 +111,78 @@
             display: block;
         }
         }
+        #unread-count {
+            position: fixed;
+            right: 12px;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 50%;
+            padding: 2px 5px;
+          }
+        #notifications{
+            width:40px;
+            height:40px;
+            background:#fff;
+            border-radius:50%;
+            box-sizing:border-box;
+            text-align:center;
+            color: #007bff;
+            box-shadow:0 2px 5px rgba(0,0,0,.2);
+        }
 
         
     </style>
 </head>
 <body>
     <!-- Header -->
-    
     <header>
-        <div class="left">
-           <!-- <img src="{% static 'images/hms_logo/logo.ico'%}" alt="Logo" class="logo">-->
-            <h1>SPMS</h1>
-        </div>
-        <div class="right">
-            <span class="username mb-3" style="padding:10px; font">
-                Hello, 
-                <strong>
-                    {% if request.user.is_authenticated %}
-                        {% if request.user.is_staff %}  
-                            {{ request.user.username }},  
-                        {% else %}
-                            {{ request.user.name }}, 
-                        {% endif %}
-                    {% else %}
-                        Guest,
-                    {% endif %}
-                </strong>
-                Welcome.
-            </span>
-            <a href="{% url 'logout' %}" class="btn btn-warning" style="padding:5px; font">Logout</a>
-            <i class="fas fa-cog mb-3" style="font-size:23px; padding:5px;"></i>
-            
-            <i class="fas fa-bell mb-3" style="font-size:23px; padding:5px;"></i>
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-md-3">
+                    <div class="left">
+                        <!-- <img src="{% static 'images/hms_logo/logo.ico'%}" alt="Logo" class="logo">-->
+                        <h1>SPMS</h1>
+                    </div>
+                </div>
+                <div class="col-md-9 d-flex justify-content-end">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <span class="username mb-3" style="padding:10px;">
+                                Hello, 
+                                <strong>
+                                    {% if request.user.is_authenticated %}
+                                        {% if request.user.is_staff %}  
+                                            {{ request.user.username }},  
+                                        {% else %}
+                                            {{ request.user.name }}, 
+                                        {% endif %}
+                                    {% else %}
+                                        Guest,
+                                    {% endif %}
+                                </strong>
+                                Welcome.
+                            </span>
+                        </div>
+                        <div class="col-auto">
+                            <a href="{% url 'logout' %}" class="btn btn-warning" style="padding:5px;">Logout</a>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-cog mb-3 mt-3" style="font-size:23px; padding:5px;"></i>
+                        </div>
+                        <div class="col-auto position-relative">
+                            <i class="fas fa-bell mb-3 mt-3" id="notifications" style="font-size:23px; padding:5px;"></i>
+                        
+                            <span class="position-absolute mt-3 start-100 translate-middle badge rounded-pill bg-danger" id="unread-count">
+                                {{ total_unread }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
     {% block content %}
     {% endblock %}
+</body>
+</html>
