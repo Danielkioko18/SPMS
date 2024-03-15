@@ -91,6 +91,10 @@ def student_dashboard(request):
     lec_announcements = Announcements.objects.filter(sender=lecturer).count()
     cord_announcements = CoordinatorAnnouncements.objects.filter().count()
 
+    # =============================== Notifications Count =========================================================
+    unread_notifications = Notifications.objects.filter(recipient=student, read=False).count()
+    unread_feedbacks = CoordinatorFeedbacks.objects.filter(project__student=student, read=False).count()
+    total_unread = unread_notifications + unread_feedbacks
 
     # =============================== Totals ====================================================================
     total_notifications = lec_notifications + cord_notifications    
@@ -110,6 +114,7 @@ def student_dashboard(request):
         'total_notifications':total_notifications,
         'total_announcements':total_announcements,
         'project_accepted':project_accepted,
+        'total_unread':total_unread
     }
     return render(request, 'students/student_dashboard.html', context)
 
@@ -197,19 +202,24 @@ def upload_file(request):
 
       if document_file:
         try:
-          # Retrieve the selected phase object
-          phase = Phases.objects.get(pk=selected_phase_id)
+            # Retrieve the selected phase object
+            phase = Phases.objects.get(pk=selected_phase_id)
 
-          # Create a new Documents object and save it
-          document = Documents(
-            student=request.user,
-            proposal=proposal,
-            phase = phase,
-            file=document_file,
-            comment=explanation
-          )
-          document.save()
-          return redirect('my_phases')  # Redirect to document list view after successful upload
+            '''# Check if any document from the previous phase is approved
+            previous_phase = phase.get_previous_phase()
+            if previous_phase and not Documents.objects.filter(phase=previous_phase, student=student, status='approved').exists():
+                return HttpResponseBadRequest("You must complete the previous phase first.")'''
+
+            # Create a new Documents object and save it
+            document = Documents(
+                student=request.user,
+                proposal=proposal,
+                phase = phase,
+                file=document_file,
+                comment=explanation
+            )
+            document.save()
+            return redirect('my_phases')  # Redirect to document list view after successful upload
         except Exception as e:
           print(f"Error uploading document: {e}")
           # Handle the error (e.g., display an error message to the user)
@@ -389,7 +399,6 @@ def lec_resource(request):
                 return redirect(request.path)
             except Exception as e:
                 error_message = f'Error Uploading Document: {e}'
-                print(f"Error uploading document: {e}")
                 return render(request, 'supervisors/upload_resource.html', {'error_message':error_message})
         else:
             # Error message
@@ -546,13 +555,20 @@ def cordinator_dashboard(request):
     student_count = Student.objects.all().count()
     project_count = Projects.objects.all().count()
     approved_count = Projects.objects.filter(status="Approved").count()
-    pending_count = Projects.objects.filter(status="pending").count()  
+    pending_count = Projects.objects.filter(status="pending").count()
+    complete_count = Proposal.objects.filter(completed=True).count()
+    active_count = Proposal.objects.filter(completed=False).count() 
+    phase_count = Phases.objects.all().count()
+    
     context = {
         'supervisor_count': supervisor_count,
         'student_count':student_count,
         'project_count':project_count,
         'approved_count':approved_count,
         'pending_count':pending_count,
+        'complete_count':complete_count,
+        'phase_count':phase_count,
+        'active_count':active_count,
     }
     return render(request, 'cordinator/cord_dashboard.html', context)
 

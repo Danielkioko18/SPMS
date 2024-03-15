@@ -5,86 +5,153 @@
 {% include "column1_cord.html" %}
 <div class="content">
     <div class="container-fluid">
-        <div class="row">
-            <h1 class="text-center" style="width: 100%; border-bottom:lightblue;">Announcements</h1><br>
-                <div class="card mb-5 bg-primary">
-                    <div class="card-header text-center">
-                        <b><h4>Supervisors</h4></b>
+        <di class="row">
+            <div class="card mb-5 bg-primary">
+                <div class="card-body text-light">
+                    <div class="row">
+                        <div class="col-md">
+                            <h1 class="text-center text"><b>{{supervisor_count}}</b></h1>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <h2 class="text-center">Total</h2>
-                        <h4 class="text-center">{{supervisor_count}}</h4>
-                        <a href="{% url "add_supervisor" %}" class="btn btn-primary">Add Supervisor</a>
-                        <a href="{% url "view_supervisors" %}" class="btn btn-success">View All</a>
+                    <br>
+                    <div class="row">
+                        <div class="col-md text-center">
+                            <h4><b>Supervisors</b></h4>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="card-footer text-center ">
+                    <a href="{% url "add_supervisor" %}" class="btn btn-primary">Add Supervisor</a>
+                    <a href="{% url "view_supervisors" %}" class="btn btn-success">View All</a>
+                </div>
+            </div>
+            <div class="card mb-5 bg-primary">
+                <div class="card-body text-light">
+                    <div class="row">
+                        <div class="col-md">
+                            <h1 class="text-center"><b>{{student_count}}</b></h1>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md text-center">
+                            <h4><b>Registered Students</b></h4>
+                        </div>
                     </div>
                 </div>
-                <div class="card mb-5 bg-primary">
-                    <div class="card-header text-center">
-                        <b><h4>Registered Students</h4></b>
+                <div class="card-footer text-center ">
+                   <a href="{% url "registered_students" %}" class="btn btn-primary text-center">View All</a>
+                </div>
+            </div>
+            <div class="card mb-5 bg-success">
+                <div class="card-body">
+                    <div class="row text-light">
+                        <div class="col-md">
+                            <h1 class="text-center"><b>{{project_count}}</b></h1>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <h2 class="text-center">Total</h2>
-                        <h4 class="text-center">{{student_count}}</h4>
-                        <a href="{% url "registered_students" %}" class="btn btn-primary text-center">View All</a>
+                    <br>
+                    <div class="row text-center text-light">
+                        <div class="col-md">
+                           <h4><strong>Titles</strong></h4> 
+                        </div>
                     </div>
                 </div>
-                <div class="card mb-5 bg-success">
-                    <div class="card-header text-center">
-                        <h4></h4><strong>Project Titles</strong></h4>
+                <div class="card-footer text-center ">
+                    <a href="{% url "view_projects" %}" class="btn btn-primary">View All</a>
+                </div>
+            </div>
+            <div class="card mb-5 bg-info">
+                <div class="card-body">
+                    <div class="row text-light">
+                        <div class="col-md">
+                            <h1 class="text-center"><b>{{approved_count}}</b></h1>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <h4 class="text-center">Total: <b>{{project_count}}</b></h4>
-                        <a href="{% url "view_projects" %}" class="btn btn-primary">View All</a>
+                    <br>
+                    <div class="row text-center text-light">
+                        <div class="col-md">
+                           <h4><strong>Approved Titles</strong></h4> 
+                        </div>
                     </div>
                 </div>
-                <div class="card mb-5 bg-info">
-                    <div class="card-header text-center">
-                        <h4></h4><strong>Approved Titles</strong></h4>
+                <div class="card-footer text-center ">
+                    <a href="{% url "approved_titles" %}" class="btn btn-primary">View All</a>
+                </div>
+            </div>
+            <div class="card mb-5 bg-info">
+                <div class="card-body">
+                    <div class="row text-light">
+                        <div class="col-md">
+                            <h1 class="text-center"><b>{{pending_count}}</b></h1>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <h4 class="text-center">{{approved_count}}</h4><br>
-                        <a href="{% url "approved_titles" %}" class="btn btn-primary">View All</a>
+                    <br>
+                    <div class="row text-center text-light">
+                        <div class="col-md">
+                           <h4><strong>Pending Titles</strong></h4> 
+                        </div>
                     </div>
                 </div>
-                <div class="card mb-5 bg-info">
-                    <div class="card-header text-center">
-                        <h4></h4><strong>Pending Titles</strong></h4>
+                <div class="card-footer text-center ">
+                    <a href="{% url "pending_titles" %}" class="btn btn-primary">View All</a>
+                </div>
+            </div>
+            <div class="card mb-5 bg-warning">
+                <div class="card-body text-center">
+                    <div class="row text-light">
+                        <div class="col-md">
+                            <h1 class="text-center"><b>{{phase_count}}</b></h1>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <h2 class="text-center">Total</h2>
-                        <h4 class="text-center">{{pending_count}}</h4><br>
-                        <a href="{% url "pending_titles" %}" class="btn btn-primary">View All</a>
+                    <br>
+                    <div class="row text-center text-light">
+                        <div class="col-md">
+                           <h4><strong>Milestones</strong></h4> 
+                        </div>
                     </div>
                 </div>
-                <div class="card mb-5 bg-warning">
-                    <div class="card-header text-center">
-                        <strong><h4>Milestones</h4></strong>
+                <div class="card-footer text-center ">
+                    <a href="{% url "view_phases" %}" class="btn btn-primary">View All</a>
+                </div>
+            </div>
+            <div class="card mb-5 bg-secondary">
+                <div class="card-body text-center">
+                    <div class="row text-light">
+                        <div class="col-md">
+                            <h1 class="text-center"><b>{{active_count}}</b></h1>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <h2>Milestone 1</h2>
-                        <h2>Milestone 2</h2>
-                        <h2>Milestone 3</h2>
-                        <a href="http://" class="btn btn-primary">View All</a>
+                    <br>
+                    <div class="row text-center text-light">
+                        <div class="col-md">
+                           <h4><strong>Active Projects</strong></h4> 
+                        </div>
                     </div>
                 </div>
-                <div class="card mb-5 bg-secondary">
-                    <div class="card-header text-center">
-                            <strong><h4>Active Projects</h4></strong>
+                <div class="card-footer text-center ">
+                    <a href="{% url "view_milestones" %}" class="btn btn-primary">View Projects</a>
+                </div>
+            </div>
+            <div class="card mb-5 bg-dark">
+                <div class="card-body text-center">
+                    <div class="row text-light">
+                        <div class="col-md">
+                            <h1 class="text-center"><b>{{complete_count}}</b></h1>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <h2>50</h2>
-                        <a href="" class="btn btn-primary">View All</a>
+                    <br>
+                    <div class="row text-center text-light">
+                        <div class="col-md">
+                           <h4><strong>Completed Projects</strong></h4> 
+                        </div>
                     </div>
                 </div>
-                <div class="card mb-5 bg-secondary">
-                    <div class="card-header text-center">
-                        <strong><h4>Completed Projects</h4></strong>
-                    </div>
-                    <div class="card-body">
-                        <h2>50</h2>
-                        <a href="" class="btn btn-primary">View All</a>
-                    </div>
+                <div class="card-footer text-center ">
+                    <a href="{% url "view_milestones" %}" class="btn btn-primary">View Projects</a>
                 </div>
+            </div>
         </div>
               
     </div>
