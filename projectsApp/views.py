@@ -166,7 +166,7 @@ def revise_title(request):
 
 # view phases
 @student_required
-def view_phases(request):
+def my_uploads(request):
     student = request.user
     phases = Phases.objects.all().order_by('order')
 

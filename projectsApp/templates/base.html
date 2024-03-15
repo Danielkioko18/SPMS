@@ -41,31 +41,21 @@
             height: 60px;
 
         }
-        /*.fixed-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: #333;
-            color: #fff;
-            padding: 10px 0;
-            text-align: center;
-        }*/
-
         header .left {
             display: flex;
             align-items: center;
         }
 
         header .logo {
-            width: 30px;
-            height: 30px;
+            width: 50px;
+            height: 50px;
             margin-right: 10px;
+            border-radius: 50%;
         }
 
         header .profile-pic {
-            width: 30px;
-            height: 30px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             margin-right: 10px;
         }
@@ -141,7 +131,7 @@
             <div class="row align-items-center">
                 <div class="col-md-3">
                     <div class="left">
-                        <!-- <img src="{% static 'images/hms_logo/logo.ico'%}" alt="Logo" class="logo">-->
+                        <img src="{% static 'images/logo.jpg' %}" alt="Logo" class="logo">
                         <h1>SPMS</h1>
                     </div>
                 </div>
@@ -163,12 +153,7 @@
                                 </strong>
                                 Welcome.
                             </span>
-                        </div>
-                        <div class="col-auto">
-                            <a href="{% url 'logout' %}" class="btn btn-warning" style="padding:5px;">Logout</a>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-cog mb-3 mt-3" style="font-size:23px; padding:5px;"></i>
+                            <img src="{% static 'images/profile.png'%}" alt="Profile Picture" class="profile-pic">
                         </div>
                         <div class="col-auto position-relative">
                             <i class="fas fa-bell mb-3 mt-3" id="notifications" style="font-size:23px; padding:5px;"></i>
@@ -177,6 +162,10 @@
                                 {{ total_unread }}
                             </span>
                         </div>
+                        <div class="col-auto">
+                            <a href="{% url 'logout' %}" class="btn btn-warning" style="padding:5px;">Logout</a>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
