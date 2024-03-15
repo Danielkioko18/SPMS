@@ -95,6 +95,13 @@ def student_dashboard(request):
     # =============================== Totals ====================================================================
     total_notifications = lec_notifications + cord_notifications    
     total_announcements = lec_announcements + cord_announcements
+
+    # check if project is accepted
+    project_accepted = True
+    if my_project.exists():
+        project = my_project.first()
+        if Proposal.objects.filter(project=project).exists():
+            project_accepted = False
     
 
     context = {
@@ -102,6 +109,7 @@ def student_dashboard(request):
         'my_project':my_project,
         'total_notifications':total_notifications,
         'total_announcements':total_announcements,
+        'project_accepted':project_accepted,
     }
     return render(request, 'students/student_dashboard.html', context)
 
@@ -127,9 +135,36 @@ def upload_title(request):
 
     else:
         return render(request, 'students/upload_title.html')
-    
 
 
+
+# my title
+
+@student_required
+def revise_title(request):
+    project = Projects.objects.filter(student=request.user).first()
+    if not project:
+        error_message = 'You have not uploaded any project yet'
+        context = {'error_message': error_message}
+        return render(request, 'students/upload_title.html', context)
+
+    if request.method == 'POST':
+        title = request.POST['title']
+        description = request.POST['description']
+        objectives = request.POST['objectives']
+
+        project.title = title
+        project.description = description
+        project.objectives = objectives
+        project.save()
+        return redirect('student_dashboard')
+
+    else:
+        context = {'project': project}
+        return render(request, 'students/revise_title.html', context)
+
+
+# view phases
 @student_required
 def view_phases(request):
     student = request.user

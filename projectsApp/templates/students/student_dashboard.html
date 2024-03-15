@@ -26,9 +26,11 @@
                         </div>
                     </div>                    
                 </div>
-                <div class="card-footer text-center text-light">
-                    <a class="nav-link font-monospace text-light" href="{% url 'upload_title' %}">Update Title <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
+                {% if project_accepted %}
+                    <div class="card-footer text-center text-light">
+                        <a class="nav-link font-monospace text-light" href="{% url 'revise_title' %}">Revise Title <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                {% endif %}
             </div>
             <div class="card mb-5 bg-success text-light">
                 <div class="card-header text-center">
@@ -37,20 +39,19 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md">
-                            <ul class="list-group">
-                                {% if my_project %}
-                                {% for project in my_project %}
-                                        <b><li>{{ project.objectives|linebreaks }}</li></b>
-                                {% endfor %}
-                                {% else %}
-                                    <p>You Have not uploaded any project yet</p>
-                                {% endif %}
-                            </ul>
+                            {% if my_project %}
+                            {% for project in my_project %}
+                                    <b>{{ project.objectives|linebreaks }}</b>
+                            {% endfor %}
+                            {% else %}
+                                <p>You Have not uploaded any project yet</p>
+                            {% endif %}
                         </div>
                     </div>
                     
                 </div>
             </div>
+            
             <div class="card mb-5 bg-dark text-light font-monospace">
                 <div class="card-body">
                     <div class="row">
@@ -112,10 +113,10 @@
                 </div>
             </div>
             <div class="card mb-5 bg-secondary">
-                <div class="card-header text-center">
+                <div class="card-header text-center text-light">
                         <strong><h4>Calender</h4></strong>
                 </div>
-                <div class="card-body">
+                <div class="card-body text-light">
                         <h4>Calender goes here</h4>
                 </div>
             </div>
