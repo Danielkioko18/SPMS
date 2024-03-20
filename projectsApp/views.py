@@ -157,7 +157,6 @@ def upload_title(request):
 
 
 # my title
-
 @student_required
 def revise_title(request):
     project = Projects.objects.filter(student=request.user).first()
@@ -567,6 +566,17 @@ def cordinator_login(request):
              return render(request, 'acounts/cord_login.html', {'error_message': "Invalid Email or Password."})
     else:
         return render(request, 'acounts/cord_login.html')
+
+
+
+# Coordinator Profile
+def coordinator_profile(request):
+    user = request.user
+    context = {
+        'user':user
+    }
+    return render(request, 'cordinator/profile.html', context)
+
 
 
 
