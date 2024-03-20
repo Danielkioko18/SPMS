@@ -303,8 +303,8 @@ def resources(request):
 
 
 # =================================================================================================================
-# Supervisors views
 
+# Supervisors views
 def supervisor_login(request):
     if request.method == 'POST':
         email = request.POST['email']
@@ -321,7 +321,19 @@ def supervisor_login(request):
         return render(request, 'acounts/super_login.html')
 
 
+# supervisor profile
+def supervisor_profile(request):
+    current_user = request.user
 
+    context = {
+        'current_user':current_user
+    }
+
+    return render(request, 'supervisors/profile.html', context)
+
+
+
+# supervisor dashboard
 @supervisor_required
 def supervisor_dashboard(request):
     current_user = request.user
@@ -334,6 +346,7 @@ def supervisor_dashboard(request):
     return render(request, 'supervisors/super_dashboard.html', context)
 
 
+# supervisor mystudents
 @supervisor_required
 def mystudents(request):
     lecturer = request.user
@@ -408,10 +421,6 @@ def lec_resource(request):
 
     return render(request, 'supervisors/upload_resource.html')
 
-
-@supervisor_required
-def results(request):
-    return render(request, 'supervisors/results.html')
 
 
 @supervisor_required

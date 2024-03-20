@@ -24,10 +24,12 @@ urlpatterns = [
     path('supervisor/project/accept_title/<int:project_id>/', views.accept_title, name='accept_title'),
     path('supervisor/make_announcement/', views.announcemnt, name='announcement'),
     path('supervisor/resources/upload/', views.lec_resource, name='resource_upload'),
-    path('supervisor/students/results/', views.results, name='student_results'),
     path('supervisor/milestones/', views.milestones, name='milestones'),
     path('supervisor/student/uploads/<str:phase_id>/<int:student_id>/', views.view_student_uploads, name='view_student_upload'),
     path('supervisor/student/uploads/approve_document/', views.approve_document, name='approve_document'),
+    path('supervisor/my_profile/', views.supervisor_profile, name='supervisor_profile'),
+
+
 
     path('coordinator/', views.cordinator_login, name='cordinator_login'),
     path('coordinator/dashboard/', views.cordinator_dashboard, name='cordinator_dashboard'),
