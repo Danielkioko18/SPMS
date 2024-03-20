@@ -1,0 +1,21 @@
+{% extends "base_home.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="main-content-container container-fluid">
+        <div class="row no-gutters h-100">
+            <div class="col-lg-5 col-md-5 mx-auto my-auto">
+                <br><br><br>
+                <div class="card mt-5 border-info">
+                    <div class="card-header text-center text-center tex-success">
+                        <h4><b>Login as</b></h4>
+                    </div>
+                    <br>
+                    <a href="{% url 'login' %}" class="btn btn-success">Student</a><br>
+                    <a href="{% url 'supervisor_login' %}" class="btn btn-info">Supervisor</a><br>
+                    <a href="{% url 'cordinator_login' %}" class="btn btn-danger">Coordinator</a><br>                    
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

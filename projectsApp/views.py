@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login,logout
+from django.contrib.auth import authenticate, login as auth_login,logout
 from .AccessControl import coordinator_required, student_required,supervisor_required
 from .models import Student, CoordinatorFeedbacks, CoordinatorAnnouncements, Lecturer, Projects,Notifications,Announcements, Phases, Proposal, Documents, Resources
 from django.core.exceptions import ValidationError
@@ -9,9 +9,14 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
 # ==================================================================================================================
-# Students Views here
 
+# Home
 def Home(request):
+    return render(request, 'index.html')
+
+
+# Students Views here
+def login(request):
     if request.method == 'POST':
         email = request.POST['email']
         password = request.POST['password']
@@ -22,7 +27,7 @@ def Home(request):
             user = authenticate(email=email, password=password)
             
             if user is not None:
-                login(request, user)
+                auth_login(request, user)
                 # Update last login time
                 student.last_login = timezone.now()
                 student.save()
@@ -324,7 +329,7 @@ def supervisor_login(request):
 
         user = authenticate(email=email, password=password)
         if user is not None:
-            login(request, user)
+            auth_login(request, user)
             return redirect('supervisor_dashboard')
         else:
             error_message = "Invalid Email or Password"            
@@ -558,7 +563,7 @@ def cordinator_login(request):
         coordinator = authenticate(email=email, password=password)
         if coordinator is not None:
             if coordinator.is_staff:
-                login(request, coordinator)
+                auth_login(request, coordinator)
                 return redirect('cordinator_dashboard')                
             else:
                  return render(request, 'acounts/cord_login.html', {'error_message': "You are not authorized to access this page."})
