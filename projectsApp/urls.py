@@ -15,7 +15,9 @@ urlpatterns = [
     path('student/announcements/', views.announcements, name='announcements'),
     path('student/notifications/', views.notifications, name='notifications'),
     path('student/uploads/resources/', views.resources, name='resources'),
+    path('student/my_profile/', views.student_profile, name='student_profile'),
     
+
 
     path('supervisor/', views.supervisor_login, name='supervisor_login'),
     path('supervisor/dashboard/', views.supervisor_dashboard, name='supervisor_dashboard'),

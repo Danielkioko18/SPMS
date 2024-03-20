@@ -118,6 +118,19 @@ def student_dashboard(request):
     }
     return render(request, 'students/student_dashboard.html', context)
 
+
+
+# Student profile
+def student_profile(request):
+    user = request.user
+    context = {
+        'user':user
+    }
+    return render(request, 'students/profile.html', context)
+
+
+
+# upload Profile
 @student_required
 def upload_title(request):
     user = request.user
