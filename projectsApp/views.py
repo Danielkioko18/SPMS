@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login,logout
+from django.contrib.auth.hashers import check_password
 from .AccessControl import coordinator_required, student_required,supervisor_required
 from .models import Student, CoordinatorFeedbacks, CoordinatorAnnouncements, Lecturer, Projects,Notifications,Announcements, Phases, Proposal, Documents, Resources
 from django.core.exceptions import ValidationError
@@ -134,8 +135,62 @@ def student_profile(request):
     return render(request, 'students/profile.html', context)
 
 
+# Change password
+@student_required
+def change_password(request):
+    if request.method == 'POST':
+        user = request.user
+        old_password = request.POST.get('old_password')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_pass')
 
-# upload Profile
+        # Check if the old password matches
+        if not check_password(old_password, user.password):
+            error_message = "Old password is incorrect"
+            return render(request, 'students/profile.html', {'error_message': error_message})
+
+        # Check if the new password and confirm password match
+        if new_password != confirm_password:
+            error_message = "New passwords do not match"
+            return render(request, 'students/profile.html', {'error_message': error_message})
+
+        # Hash the new password
+        user.password = make_password(new_password)
+        user.save()
+
+        success_message = "Password changed successfully"
+        return render(request, 'students/profile.html', {'success_message': success_message})
+
+    return redirect('student_profile')
+
+
+
+# Change details
+@student_required
+def update_details(request):
+    if request.method == 'POST':
+        user = request.user
+
+        user.regno = request.POST.get('regno')
+        user.email = request.POST.get('email')
+        user.phone_number = request.POST.get('phone')
+        user.intake_year = request.POST.get('intake_yr')
+        user.name = request.POST.get('names')
+
+        # Save the updated user details
+        user.save()
+
+        success_message = "Details updated successfully"
+        context = {
+            'success_message':success_message
+        }
+        return render(request, 'students/profile.html', context)
+
+    return redirect('student_profile')
+
+
+
+# upload project title
 @student_required
 def upload_title(request):
     user = request.user

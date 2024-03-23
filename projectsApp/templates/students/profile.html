@@ -69,19 +69,19 @@
                                 {{ success_message }}
                             </div>
                             {% endif %}
-                            <form action="{% url "signup" %}" method="post">
+                            <form action="{% url "update_details" %}" method="post">
                                 {% csrf_token %}
                                 <div class="form-row">
                                     <div class="col">
                                         <div class="form-group">
-                                        <label for="registrationNumber"><b>Reg. No</b></label>
-                                        <input type="text" class="form-control" id="registrationNumber" placeholder="Enter Registration Number" name="regno" value="{{user.regno}}">
+                                        <label for="regno"><b>Reg. No</b></label>
+                                        <input type="text" class="form-control" id="regno" placeholder="Registration Number" name="regno" value="{{user.regno}}" required>
                                         </div>    
                                     </div>
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="email"><b>Email</b></label>
-                                            <input type="email" class="form-control" id="email" placeholder="Enter Email" name="email" value="{{user.email}}">
+                                            <input type="email" class="form-control" id="email" placeholder="Email" name="email" value="{{user.email}}" required>
                                         </div>
                                     </div>
                                 </div>
@@ -89,19 +89,19 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="phone"><b>Phone Number</b></label>
-                                            <input type="tel" class="form-control" id="phone" placeholder="Enter Phone Number" name="phone" value="{{user.phone_number}}">
+                                            <input type="tel" class="form-control" id="phone" placeholder="Enter Phone Number" name="phone" value="{{user.phone_number}}" required>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="Intake"><b>Intake Year</b></label>
-                                            <input type="number" class="form-control" id="intake" placeholder="Intake year" name="intake_yr" value="{{user.intake_year}}">
+                                            <input type="number" class="form-control" id="intake" placeholder="Intake year" name="intake_yr" value="{{user.intake_year}}" required>
                                         </div>
                                     </div>
                                     <div class="col-sm">
                                         <div class="form-group">
                                             <label for="fullName"><b>Full Name</b></label>
-                                            <input type="text" class="form-control" id="fullName" placeholder="Enter Full Name" name="names" value="{{user.name}}">
+                                            <input type="text" class="form-control" id="fullName" placeholder="Enter Full Name" name="names" value="{{user.name}}" required>
                                         </div>
                                     </div>                                    
                                 </div>
@@ -131,26 +131,26 @@
                                 {{ success_message }}
                             </div>
                             {% endif %}
-                            <form action="{% url "signup" %}" method="post">
+                            <form action="{% url "change_password" %}" method="post">
                                 {% csrf_token %}
                                 <div class="form-row">
                                     <div class="col">
                                         <div class="form-group">
-                                            <label for="password"><b>Old Password</b></label>
-                                            <input type="password" class="form-control" id="password" placeholder="Enter Old Password" name="old_password">
+                                            <label for="old_password"><b>Old Password</b></label>
+                                            <input type="password" class="form-control" id="old_password" placeholder="Enter Old Password" name="old_password" required>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group">
-                                            <label for="password"><b>New</b></label>
-                                            <input type="password" class="form-control" id="password" placeholder="Enter New Password" name="new_password">
+                                            <label for="new_password"><b>New</b></label>
+                                            <input type="password" class="form-control" id="new_password" placeholder="Enter New Password" name="new_password" required>
                                         </div>
                                         
                                     </div>
                                     <div class="col">
                                         <div class="form-group">
-                                            <label for="password"><b>Cormfirm</b></label>
-                                            <input type="password" class="form-control" id="password" placeholder="Repeat Password" name="confirm_pass">
+                                            <label for="confirm_pass"><b>Cormfirm</b></label>
+                                            <input type="password" class="form-control" id="confirm_pass" placeholder="Repeat Password" name="confirm_pass" required>
                                         </div>
                                     </div>  
                                 </div>
