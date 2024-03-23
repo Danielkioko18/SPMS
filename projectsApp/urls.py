@@ -54,7 +54,9 @@ urlpatterns = [
     path('coordinator/phases/create/', views.create_phase, name='create_phase'),
     path('coordinator/phases/', views.view_phases, name='view_phases'),
     path('coordinator/phases/<int:phase_id>/edit/', views.edit_phase, name='edit_phase'),
-    path('coordinator/my_profile', views.coordinator_profile, name='coordinator_profile'),
+    path('coordinator/my_profile/', views.coordinator_profile, name='coordinator_profile'),
+    path('coordinator/my_profile/edit/password', views.coordinator_change_password, name='coordinator_change_password'),
+    path('coordinator/my_profile/edit/details/', views.coordinator_update_details, name='coordinator_update_details'),
 
     path('logout/', views.logout_view, name='logout'),
 ]

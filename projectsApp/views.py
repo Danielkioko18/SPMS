@@ -443,6 +443,8 @@ def lec_change_password(request):
     return redirect('supervisor_profile')
 
 
+
+
 # Change details
 @supervisor_required
 def lec_update_details(request):
@@ -464,6 +466,8 @@ def lec_update_details(request):
         return render(request, 'supervisors/profile.html', context)
 
     return redirect('supervisor_profile')
+
+
 
 
 
@@ -699,6 +703,52 @@ def coordinator_profile(request):
     }
     return render(request, 'cordinator/profile.html', context)
 
+
+# change password
+@coordinator_required
+def coordinator_change_password(request):
+    if request.method == 'POST':
+        user = request.user
+        old_password = request.POST.get('old_password')
+        new_password = request.POST.get('new_password')
+        confirm_pass = request.POST.get('confirm_pass')
+
+        # Check if old password matches
+        if not user.check_password(old_password):
+            error_message = "Old password is incorrect"
+            return render(request, 'cordinator/profile.html', {'error_message': error_message})
+
+        # Check if new password matches the confirmation
+        if new_password != confirm_pass:
+            error_message = "New password and confirmation do not match"
+            return render(request, 'cordinator/profile.html', {'error_message': error_message})
+
+        # Update password
+        user.password = make_password(new_password)
+        user.save()
+
+        success_message = "Password changed successfully"
+        return render(request, 'cordinator/profile.html', {'success_message': success_message})
+
+    return render(request, 'cordinator/profile.html')
+
+
+
+# update details
+@coordinator_required
+def coordinator_update_details(request):
+    if request.method == 'POST':
+        user = request.user
+        user.username = request.POST.get('username')
+        user.email = request.POST.get('email')
+
+        # Save the updated user details
+        user.save()
+
+        success_message = "Details updated successfully"
+        return render(request, 'cordinator/profile.html', {'success_message': success_message})
+
+    return render(request, 'cordinator/profile.html')
 
 
 
