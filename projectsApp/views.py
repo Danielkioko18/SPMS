@@ -405,6 +405,68 @@ def supervisor_profile(request):
 
 
 
+# Change password
+@supervisor_required
+def lec_change_password(request):
+    if request.method == 'POST':
+        user = request.user
+        old_password = request.POST.get('old_password')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_pass')
+
+        # Check if the old password matches
+        if not check_password(old_password, user.password):
+            error_message = "Old password is incorrect"
+            context = {
+                'error_message':error_message
+            }
+            return render(request, 'supervisors/profile.html', context)
+
+        # Check if the new password and confirm password match
+        if new_password != confirm_password:
+            error_message = "New passwords do not match"
+            context = {
+                'error_message':error_message
+            }
+            return render(request, 'supervisors/profile.html', context)
+
+        # Hash the new password
+        user.password = make_password(new_password)
+        user.save()
+
+        success_message = "Password changed successfully"
+        context = {
+            'success_message': success_message
+        }
+        return render(request, 'supervisors/profile.html', context)
+
+    return redirect('supervisor_profile')
+
+
+# Change details
+@supervisor_required
+def lec_update_details(request):
+    if request.method == 'POST':
+        user = request.user
+
+        # update details
+        user.email = request.POST.get('email')
+        user.phone_number = request.POST.get('phone')
+        user.name = request.POST.get('names')
+
+        # Save the updated user details
+        user.save()
+
+        success_message = "Details updated successfully"
+        context = {
+            'success_message':success_message
+        }
+        return render(request, 'supervisors/profile.html', context)
+
+    return redirect('supervisor_profile')
+
+
+
 # supervisor dashboard
 @supervisor_required
 def supervisor_dashboard(request):

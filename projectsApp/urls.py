@@ -33,6 +33,8 @@ urlpatterns = [
     path('supervisor/student/uploads/<str:phase_id>/<int:student_id>/', views.view_student_uploads, name='view_student_upload'),
     path('supervisor/student/uploads/approve_document/', views.approve_document, name='approve_document'),
     path('supervisor/my_profile/', views.supervisor_profile, name='supervisor_profile'),
+    path('supervisor/my_profile/edit/password/', views.lec_change_password, name='change_password_lec'),
+    path('supervisor/my_profile/edit/details/', views.lec_update_details, name='update_details_lec'),
 
 
 
