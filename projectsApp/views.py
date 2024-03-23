@@ -475,11 +475,16 @@ def lec_update_details(request):
 @supervisor_required
 def supervisor_dashboard(request):
     current_user = request.user
+
     project_count = Projects.objects.filter(lecturer = current_user).count()
     announcement_count = Announcements.objects.filter(sender=current_user).count()
+
+    phases = Phases.objects.all()
+
     context = {
         'project_count':project_count,
-        'announcement_count':announcement_count
+        'announcement_count':announcement_count,
+        'phases':phases
     }
     return render(request, 'supervisors/super_dashboard.html', context)
 

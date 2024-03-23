@@ -1,7 +1,6 @@
 {% extends 'base_lec.html' %}
 {% load static %}
 
-
 {% block content %}
 
 <!-- Content Area -->
@@ -9,54 +8,96 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-                <div class="card mb-5 bg-primary">
-                    <div class="card-header text-center">
-                        <b><h4>Allocated Projects</h4></b>
+            <div class="card mb-5 bg-primary">
+                <div class="card-body text-light">
+                    <div class="row">
+                        <div class="col-md">
+                            <h1 class="text-center"><b>{{project_count}}</b></h1>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <h2 class="text-center">Total</h2>
-                        <h4 class="text-center">{{project_count}}</h4>
-                        <a href="{% url "mystudents" %}" class="btn btn-primary text-center">View</a>
+                    <br>
+                    <div class="row">
+                        <div class="col-md">
+                            <h4 class="text-center"><b>Allocated Projects</b></h4>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{% url "mystudents" %}" class="btn btn-primary text-center">View Allocated Projects</a>
+                </div>
+            </div>
+            <div class="card mb-5 bg-success">
+                <div class="card-body text-light">
+                    <div class="row">
+                        <div class="col-md">
+                            <h1 class="text-center"><b>{{announcement_count}}</b></h1>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md">
+                            <h4 class="text-center"><b>Announcements Made</b></h4>
+                        </div>
                     </div>
                 </div>
-                <div class="card mb-5 bg-success">
-                    <div class="card-header text-center">
-                        <h4></h4><strong>Announcements</strong></h4>
-                    </div>
-                    <div class="card-body">
-                        <h2 class="text-center">Announcements Made</h2>
-                        <h4 class="text-center">{{announcement_count}}</h4>
-                        <a href="{% url "announcement" %}" class="btn btn-primary">Make New Announcement</a>
-                    </div>
+                <div class="card-footer text-center">
+                    <a href="{% url "announcement" %}" class="btn btn-primary">Make New Announcement</a>
                 </div>
-                <div class="card mb-5 bg-info">
-                    <div class="card-header text-center">
-                            <h4></h4><strong>Uploads</strong></h4>
-                    </div>
-                    <div class="card-body">
-                            <h2 class="text-center">Total Student Uploads</h2>
-                            <h4 class="text-center">{{announcement_count}}</h4><br>
-                            <a href="http://" class="btn btn-primary">View Uploaded documents</a>
-                    </div>
+            </div>
+            <div class="card mb-5 bg-warning">
+                <div class="card-header text-center">
+                    <h4 class="text-center"><b>Phases</b></h4>
                 </div>
-                <div class="card mb-5 bg-warning">
-                    <div class="card-header text-center">
-                            <strong><h4>Milestones</h4></strong>
-                    </div>
-                    <div class="card-body">
-                            <h2>Milestone 1</h2>
-                            <h2>Milestone 1</h2>
-                            <h2>Milestone 1</h2>
-                    </div>
+                <div class="card-body text-light">
+                    <div class="row">
+                        <div class="col-md">
+                            {% for phase in phases %}
+                                <h4 class="text-left"><b>Phase {{forloop.counter}}: </b>{{ phase.name|title }}</h4>
+                            {% endfor %}
+                        </div>
+                    </div>                        
                 </div>
-                <div class="card mb-5 bg-secondary">
-                    <div class="card-header text-center">
-                            <strong><h4>Calender</h4></strong>
-                    </div>
-                    <div class="card-body">
-                            <h2>Calender goes here</h2>
-                    </div>
+                <div class="card-footer text-center">
+                    <a href="{% url "mystudents" %}" class="btn btn-primary text-center">View Allocated Projects</a>
                 </div>
+            </div>
+            <div class="card mb-5 bg-dark">
+                <div class="card-header text-center text-light">
+                    <h4 class="text-center"><b>Schedules</b></h4>
+                </div>
+                <div class="card-body text-light">
+                    {% for phase in phases %}
+                    <div class="row">                            
+                        <div class="col">
+                            <h5 class="text-left"><b>{{phase.name|title}}</b></h5> 
+                        </div>
+                        <div class="col">
+                            <p class="text-left"><i>Deadline: </i><b class="text-danger">{{phase.deadline_date}}</b></p> 
+                        </div>
+                    </div>         
+                    {% endfor %}               
+                </div>
+            </div>
+            <div class="card mb-5 bg-info">
+                <div class="card-body text-light">
+                    <div class="row">
+                        <div class="col-md">
+                            <h1 class="text-center"><b>{{announcement_count}}</b></h1>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md">
+                            <h4 class="text-center"><b>Uploads Made</b></h4>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="card-footer text-center">
+                    <a href="" class="btn btn-primary">View Uploaded documents</a>
+                </div>
+            </div>
         </div>
               
     </div>
