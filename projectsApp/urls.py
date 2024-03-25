@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.Home, name='home'),
-    path('student/login/', views.login, name='login'),
+    path('student/Login/', views.login, name='login'),
     path('student/signup/', views.SignUp, name='signup'),
     path('student/dashboard/', views.student_dashboard, name='student_dashboard'),
     path('student/upload_title/', views.upload_title, name='upload_title'),
@@ -22,7 +22,7 @@ urlpatterns = [
     
 
 
-    path('supervisor/', views.supervisor_login, name='supervisor_login'),
+    path('supervisor/Login/', views.supervisor_login, name='supervisor_login'),
     path('supervisor/dashboard/', views.supervisor_dashboard, name='supervisor_dashboard'),
     path('supervisor/mystundents/', views.mystudents, name='mystudents'),
     path('supervisor/project/details/<int:project_id>/', views.project_details, name='student_project'),
@@ -38,7 +38,7 @@ urlpatterns = [
 
 
 
-    path('coordinator/', views.cordinator_login, name='cordinator_login'),
+    path('coordinator/Login/', views.cordinator_login, name='cordinator_login'),
     path('coordinator/dashboard/', views.cordinator_dashboard, name='cordinator_dashboard'),
     path('coordinator/supervisors/add/', views.add_supervisor, name='add_supervisor'),
     path('coordinator/supervisors/', views.supervisors, name='view_supervisors'),
