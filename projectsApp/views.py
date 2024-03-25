@@ -877,11 +877,10 @@ def reg_students(request):
 @coordinator_required
 def view_projects(request):
     projects = Projects.objects.all().order_by('-created_at')
-    for i,project in enumerate(projects):
-        project.index = i+1
-        student = project.student
-        project.reg_number = student.regno
-    context = {'projects':projects}
+    
+    context = {
+        'projects':projects
+        }
     return render(request, 'cordinator/projects.html',context)
 
 

@@ -29,8 +29,8 @@
                             {% if projects.exists %}
                                 {% for project in projects %}
                                     <tr>
-                                        <th scope="row">{{project.index}}</th>
-                                        <td>{{project.reg_number|upper}}</td>
+                                        <th scope="row">{{forloop.counter}}</th>
+                                        <td>{{project.student.regno|upper}}</td>
                                         <td>{{project.title|upper}}</td>
                                         <td>{{project.created_at}}</td>
                                         <td class="text-danger "><b>{{project.status|title}}</b></td>
