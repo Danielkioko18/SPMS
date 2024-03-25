@@ -59,7 +59,7 @@ class Projects(models.Model):
         ('pending', 'Pending'), 
         ('approved', 'Approved'), 
         ('rejected', 'Rejected')
-    ], default='pending')
+    ], default='Pending')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

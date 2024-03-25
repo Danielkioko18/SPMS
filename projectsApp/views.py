@@ -205,7 +205,9 @@ def upload_title(request):
         project_exists = Projects.objects.filter(student=user)
         if project_exists:
             error_message='You Already Uploaded A project Please Consinder updating it'
-            context = {'error_message':error_message}
+            context = {
+                'error_message':error_message
+                }
             return render(request, 'students/upload_title.html', context)
         else:
             project = Projects(title=title, description=description,objectives=objectives)
@@ -236,6 +238,7 @@ def revise_title(request):
         project.title = title
         project.description = description
         project.objectives = objectives
+        project.status = "Pending"
         project.save()
         return redirect('student_dashboard')
 
@@ -886,7 +889,7 @@ def view_projects(request):
 # pending titles
 @coordinator_required
 def pending_titles(request):
-    projects = Projects.objects.filter(status="pending").order_by('created_at')
+    projects = Projects.objects.filter(status="Pending").order_by('created_at')
     
     context = {
         'projects':projects
