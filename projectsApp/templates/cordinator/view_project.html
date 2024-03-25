@@ -42,7 +42,7 @@
                         <p>{{project.objectives|linebreaks}}</p>
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#approveModal">Approve</button>
-                        <a href="" class="btn btn-warning">Reject</a>
+                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#rejectModal">Reject</button>
                     </div>
 
                     <!-- Approval form -->
@@ -57,7 +57,7 @@
                               </button>
                             </div>
                             <div class="modal-body">
-                              <form action="{% url "view_project_details" project.id %}" method="post" id="approve_form">
+                              <form action="{% url "approve_title" project.id %}" method="post" id="approve_form">
                                 {% csrf_token %}
                                 <div class="form-group">
                                     <input type="hidden" id="project_id" value="{{ project.id }}">
@@ -87,6 +87,42 @@
                         </div>
                     </div>
                     <!-- End Approval form -->
+
+                    <!-- Rejection form-->
+                    <div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel" aria-hidden="true">
+                      <!-- Your modal content here -->
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title text-center" id="rejectModalLabel">Reject Project Title</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <form action="{% url "reject_title" project.id %}" method="post" id="reject_form">
+                              {% csrf_token %}
+                              <div class="form-group">
+                                  <input type="hidden" id="project_id" value="{{ project.id }}">
+                              </div>
+                              <div class="form-group">
+                                <label class="text-danger" for="reason">Reason for Rejection</label>
+                                <textarea class="form-control" id="reason" name="reason" rows="3" required></textarea>
+                              </div>
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-info" id="submit_approval">Submit</button>
+                          
+                            </form>
+                          </div>
+                          <div class="modal-footer">
+                            </div>
+                          
+                        </div>
+                      </div>
+                  </div>
+
+                    <!-- End of Rejection form-->
+
                 </div>
             </div>            
         </div> 
@@ -95,7 +131,6 @@
 
 <!-- Include Bootstrap JavaScript library -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="js/approvemodal.js"></script>
 <link rel="stylesheet" href="{% static 'css/viewproject.css' %}">
 
 {% endblock %}

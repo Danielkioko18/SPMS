@@ -85,9 +85,12 @@ def SignUp(request):
 def student_dashboard(request):
     student = request.user
     my_project = Projects.objects.filter(student=student)
+    project = my_project.first()  # Get the first project if it exists
 
-    project = Projects.objects.filter(student=student).first()
-    lecturer = project.lecturer
+    if project:
+        lecturer = project.lecturer
+    else:
+        lecturer = None  # Set lecturer to None if there are no projects
 
     # =============================== Coordinator and Lecturer Feedbacks Count ===================================
     lec_notifications = Notifications.objects.filter(recipient=student).count()
@@ -309,7 +312,10 @@ def announcements(request):
 
     # Fetch the proposal of the current student
     project = Projects.objects.filter(student=current_student).first()
-    lecturer = project.lecturer
+    if project:
+        lecturer = project.lecturer
+    else:
+        lecturer = None
 
     # Fetch announcements from the lecturer associated with the proposal
     if project:
@@ -986,28 +992,6 @@ def upload_resource(request):
 def view_project_details(request, project_id):
     project =  get_object_or_404(Projects, pk=project_id)
     lecturer = Lecturer.objects.all()
-    approved_project = Projects.objects.get(pk=project_id)
-
-    # Updating project details
-    if request.method =="POST":
-        allocated_lec = request.POST['allocated_lecturer']
-        comment = request.POST['comment']
-
-        if allocated_lec:
-            project.status = 'Approved'
-            lecturer_obj = Lecturer.objects.get(pk=allocated_lec)
-            project.lecturer = lecturer_obj
-            
-            project.save()
-
-            feedback = CoordinatorFeedbacks.objects.create(sender=request.user, project=approved_project, comment=comment)
-            
-            feedback.save()
-
-            messages.success(request, 'Project details updated successfully!')
-            return HttpResponseRedirect(reverse('view_project_details', args=[project.id]))
-        else:
-           messages.error(request, 'Missing comment or allocated lecturer data.')
 
     context = {
         'project':project,
@@ -1017,7 +1001,58 @@ def view_project_details(request, project_id):
     return render(request, 'cordinator/view_project.html', context)
 
 
+# Approve title
+@coordinator_required
+def approve_title(request, project_id):
+    project = get_object_or_404(Projects, pk=project_id)
+    if request.method == "POST":
+        allocated_lec = request.POST.get('allocated_lecturer')
+        comment = request.POST.get('comment')
+
+        if allocated_lec:
+            project.status = 'approved'
+            lecturer_obj = Lecturer.objects.get(pk=allocated_lec)
+            project.lecturer = lecturer_obj
+            project.save()
+
+            feedback = CoordinatorFeedbacks.objects.create(sender=request.user, project=project, comment=comment)
+            feedback.save()
+
+            messages.success(request, 'Project approved successfully!')
+            return HttpResponseRedirect(reverse('view_project_details', args=[project.id]))
+        else:
+            messages.error(request, 'Please select a lecturer for allocation.')
+
+    return render(request, 'cordinator/view_project.html', {'project': project})
+
+
+
+# reject title
+@coordinator_required
+def reject_title(request, project_id):
+    project = get_object_or_404(Projects, pk=project_id)
+    if request.method == "POST":
+        reason = request.POST.get('reason')
+
+        if reason:
+            # Update project status to 'Rejected' and save the reason
+            project.status = 'Rejected'
+            project.save()
+
+            feedback = CoordinatorFeedbacks.objects.create(sender=request.user, project=project, comment=reason)
+            feedback.save()
+
+            messages.success(request, 'Project rejected successfully!')
+            return HttpResponseRedirect(reverse('view_project_details', args=[project.id]))
+        else:
+            messages.error(request, 'Please provide a reason for rejection.')
+
+    return render(request, 'cordinator/view_project.html', {'project': project})
+
+
+
 # Create a phase
+@coordinator_required
 def create_phase(request):
     if request.method == 'POST':
         name = request.POST.get('name')
