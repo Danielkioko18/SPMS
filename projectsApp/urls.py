@@ -47,6 +47,7 @@ urlpatterns = [
     path('coordinator/view_projects/', views.view_projects, name='view_projects'),
     path('projects/pending/', views.pending_titles, name='pending_titles'),
     path('projects/approved/', views.approved_titles, name='approved_titles'),
+    path('projects/rejected/', views.rejected_titles, name='rejected_titles'),
     path('projects/miletones/', views.view_milestones_cord, name='view_milestones'),
     path('coordinator/upload/resource/', views.upload_resource, name='upload_resource'),
     path('cordinator/make announcement/', views.make_announcement, name='make_announcement'),

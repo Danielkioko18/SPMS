@@ -27,8 +27,9 @@
         </a>
         <ul class="dropdown-menu" aria-labelledby="projectsDropdown">
           <li><a class="dropdown-item" href="{% url 'view_projects' %}">Project Titles</a></li>
-          <li><a class="dropdown-item" href="{% url 'pending_titles' %}">Pending Approvals</a></li>
           <li><a class="dropdown-item" href="{% url 'approved_titles' %}">Approved Titles</a></li>
+          <li><a class="dropdown-item" href="{% url 'pending_titles' %}">Pending Approvals</a></li>          
+          <li><a class="dropdown-item" href="{% url 'rejected_titles' %}">Rejected Titles</a></li>
         </ul>
       </li>
       <!-- Phases Dropdown -->

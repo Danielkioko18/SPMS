@@ -887,11 +887,10 @@ def view_projects(request):
 @coordinator_required
 def pending_titles(request):
     projects = Projects.objects.filter(status="pending").order_by('created_at')
-    for i,project in enumerate(projects):
-        project.index = i+1
-        student = project.student
-        project.reg_number = student.regno
-    context = {'projects':projects}
+    
+    context = {
+        'projects':projects
+        }
     return render(request, 'cordinator/pending_titles.html', context)
 
 
@@ -900,15 +899,22 @@ def pending_titles(request):
 @coordinator_required
 def approved_titles(request):
     projects = Projects.objects.filter(status="Approved").order_by('-created_at')
-    for i,project in enumerate(projects):
-        project.index = i+1
-        student = project.student
-        project.reg_number = student.regno
+    
     context = {
         'projects':projects,
         }
     return render(request, 'cordinator/approved_titles.html', context)
 
+
+# Approved titles
+@coordinator_required
+def rejected_titles(request):
+    projects = Projects.objects.filter(status="Rejected").order_by('-created_at')
+
+    context = {
+        'projects':projects,
+        }
+    return render(request, 'cordinator/rejected_titles.html', context)
 
 
 # View phases/milestones with students
@@ -986,6 +992,7 @@ def upload_resource(request):
             return render(request, 'cordinator/resource.html', {'error_message':error_message})
 
     return render(request, 'cordinator/resource.html')
+
 
 # View Project details including descripton and objectives
 @coordinator_required

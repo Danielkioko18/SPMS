@@ -11,7 +11,7 @@
         <div class="row">
             <div class="card border-info">
                 <div class="card-header text-center">
-                    <h5>Uploaded Projects</h5>
+                    <h5>Pending Titles</h5>
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered table-hover  table-striped border-info">
@@ -28,8 +28,8 @@
                             {% if projects.exists %}
                                 {% for project in projects %}
                                     <tr>
-                                        <th scope="row">{{project.index}}</th>
-                                        <td>{{project.reg_number|upper}}</td>
+                                        <th scope="row">{{forloop.counter}}</th>
+                                        <td>{{project.student.regno|upper}}</td>
                                         <td>{{project.title|upper}}</td>
                                         <td>{{project.created_at}}</td>
                                         <td><a href="{% url "view_project_details" project.id %}"> View Details </a></td>            
