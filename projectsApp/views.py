@@ -540,47 +540,41 @@ def announcemnt(request):
         return render(request, 'supervisors/announcement.html')
 
 
+# Supervisor upload resource
 @supervisor_required
 def lec_resource(request):
+    error_message = None
+
     if request.method == 'POST':
         # Extract data from the POST request
         subject = request.POST.get('subject')
         message = request.POST.get('message')
         resource_file = request.FILES.get('resource_file')
 
-        # cupturing messages for user
-        context = {}
-        
-
-        # Print uploaded file for debugging
-        print(f"Uploaded file: {resource_file}")
-
-        # Create a new resource instance and save it
         if resource_file:
-            try:
-                resource = Resources(
-                    subject=subject,
-                    file=resource_file,
-                    message=message,
-                    uploaded_at=timezone.now()
-                )
-                resource.save()
-                
-                # Redirect to resource list page or any other appropriate URL
-                return redirect(request.path)
-            except Exception as e:
-                error_message = f'Error Uploading Document: {e}'
-                return render(request, 'supervisors/upload_resource.html', {'error_message':error_message})
+            if resource_file.name.endswith('.pdf'):
+                try:
+                    resource = Resources(
+                        subject=subject,
+                        file=resource_file,
+                        message=message,
+                        uploaded_at=timezone.now()
+                    )
+                    resource.save()
+                    # Redirect to resource list page or any other appropriate URL
+                    return redirect(request.path)
+                except Exception as e:
+                    error_message = f'Error Uploading Document: {e}'
+            else:
+                error_message = 'Error: Only PDF files are allowed. Please choose a PDF file'
         else:
-            # Error message
             error_message = 'Error: No file received. Please choose a file'
-            print("Error: No file received. Please choose a file")
-            return render(request, 'supervisors/upload_resource.html', {'error_message':error_message})
 
-    return render(request, 'supervisors/upload_resource.html')
-
+    context = {'error_message': error_message}
+    return render(request, 'supervisors/upload_resource.html', context)
 
 
+# supervisor phases
 @supervisor_required
 def milestones(request):
     phases = Phases.objects.all().order_by('order')  # Get all phases in order
