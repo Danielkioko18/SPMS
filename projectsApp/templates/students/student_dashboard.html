@@ -112,12 +112,21 @@
                     <a class="nav-link font-monospace text-light" href="{% url 'announcements' %}">View All <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
-            <div class="card mb-5 bg-secondary">
+            <div class="card mb-5 bg-dark">
                 <div class="card-header text-center text-light">
-                        <strong><h4>Calender</h4></strong>
+                    <h4 class="text-center"><b>Calender/Schedules</b></h4>
                 </div>
                 <div class="card-body text-light">
-                        <h4>Calender goes here</h4>
+                    {% for phase in phases %}
+                        <div class="row">                            
+                            <div class="col">
+                                <h5 class="text-left text-light"><b>{{phase.name|title}}</b></h5> 
+                            </div>
+                            <div class="col">
+                                <p class="text-left"><i>Deadline: </i><b class="text-danger">{{phase.deadline_date}}</b></p> 
+                            </div>
+                        </div>         
+                    {% endfor %}               
                 </div>
             </div>
         </div>

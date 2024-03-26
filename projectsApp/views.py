@@ -9,6 +9,7 @@ from django.utils import timezone
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
+from .mail_service import send_email
 # ==================================================================================================================
 
 # Home
@@ -109,6 +110,9 @@ def student_dashboard(request):
     total_notifications = lec_notifications + cord_notifications    
     total_announcements = lec_announcements + cord_announcements
 
+    # =============================== Phases ====================================================================
+    phases = Phases.objects.all()
+
     # check if project is accepted
     project_accepted = True
     if my_project.exists():
@@ -123,7 +127,8 @@ def student_dashboard(request):
         'total_notifications':total_notifications,
         'total_announcements':total_announcements,
         'project_accepted':project_accepted,
-        'total_unread':total_unread
+        'total_unread':total_unread,
+        'phases':phases
     }
     return render(request, 'students/student_dashboard.html', context)
 
@@ -799,13 +804,7 @@ def add_supervisor(request):
         email = request.POST['email']
         name = request.POST['names']
         phone_number = request.POST['phone']
-        password = request.POST['password']
-        confirm_pass = request.POST['confirm_pass']
-
-        # Check if passwords match
-        if password != confirm_pass:
-            error_message = "Passwords do not match"
-            return render(request, 'acounts/signup.html', {'error_message': error_message})
+        password = 'spmssupervisor'
 
         # Hash password
         hashed_password = make_password(password)
@@ -816,11 +815,34 @@ def add_supervisor(request):
         # Save student object to database
         lecturer.save()
 
+
+        # Send registration email to the lecturer
+        recipient_email = email  # Lecturer's email address
+        subject = 'Welcome to SPMS'
+        message = f"""
+                    <html>
+                        <body>
+                            <p>Hello, <strong>{name}</strong>, you have been registered as a supervisor on the SPMS system.</p>
+                            <p>Your password is <strong><span style="color:red;">{password}</span></strong>. Please login to the system and change your password to your most convenient one.</p>
+                            <p>Thank you.</p>
+                        </body>
+                    </html>
+                """
+        
+        # Send the email
+        send_email(recipient_email, subject, message)
+
+
         success_message = "Registration successful. Please login to continue."
         return render(request, 'cordinator/add_lecturer.html', {'success_message': success_message})
 
     return render(request, 'cordinator/add_lecturer.html')
 
+
+'''# Check if passwords match
+        if password != confirm_pass:
+            error_message = "Passwords do not match"
+            return render(request, 'acounts/signup.html', {'error_message': error_message})'''
 
 
 # update supervisor
