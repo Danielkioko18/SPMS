@@ -970,7 +970,8 @@ def make_announcement(request):
         return render(request, 'cordinator/make_announcement.html')
 
 
-# Make announcemnts view
+
+# Make announcements view
 @coordinator_required
 def upload_resource(request):
     if request.method == 'POST':
@@ -979,35 +980,35 @@ def upload_resource(request):
         message = request.POST.get('message')
         resource_file = request.FILES.get('resource_file')
 
-        # cupturing messages for user
-        context = {}
-        
-
-        # Print uploaded file for debugging
-        print(f"Uploaded file: {resource_file}")
-
-        # Create a new resource instance and save it
+        # Check if the uploaded file is a PDF
         if resource_file:
-            try:
-                resource = Resources(
-                    subject=subject,
-                    file=resource_file,
-                    message=message,
-                    uploaded_at=timezone.now()
-                )
-                resource.save()
-                
-                # Redirect to resource list page or any other appropriate URL
-                return redirect(request.path)
-            except Exception as e:
-                error_message = f'Error Uploading Document: {e}'
-                print(f"Error uploading document: {e}")
-                return render(request, 'cordinator/resource.html', {'error_message':error_message})
+            if resource_file.name.endswith('.pdf'):
+                # Create a new resource instance and save it
+                try:
+                    resource = Resources(
+                        subject=subject,
+                        file=resource_file,
+                        message=message,
+                        uploaded_at=timezone.now()
+                    )
+                    resource.save()
+                    
+                    # Redirect to resource list page or any other appropriate URL
+                    return redirect(request.path)
+                except Exception as e:
+                    error_message = f'Error Uploading Document: {e}'
+                    print(f"Error uploading document: {e}")
+                    return render(request, 'cordinator/resource.html', {'error_message': error_message})
+            else:
+                # Error message for invalid file type
+                error_message = 'Error: Only PDF files are allowed. Please choose a PDF file to upload'
+                print("Error: Only PDF files are allowed. Please choose a PDF file to upload")
+                return render(request, 'cordinator/resource.html', {'error_message': error_message})
         else:
-            # Error message
+            # Error message for no file received
             error_message = 'Error: No file received. Please choose a file'
             print("Error: No file received. Please choose a file to upload")
-            return render(request, 'cordinator/resource.html', {'error_message':error_message})
+            return render(request, 'cordinator/resource.html', {'error_message': error_message})
 
     return render(request, 'cordinator/resource.html')
 
@@ -1057,7 +1058,7 @@ def approve_title(request, project_id):
                                 <p>Thank you.</p>
                             </body>
                         </html>
-                    """
+                        """
             
             # Send the email
             send_email(recipient_email, subject, message)
@@ -1101,7 +1102,7 @@ def reject_title(request, project_id):
                                 <p>Thank you.</p>
                             </body>
                         </html>
-                    """
+                        """
             
             # Send the email
             send_email(recipient_email, subject, message)
