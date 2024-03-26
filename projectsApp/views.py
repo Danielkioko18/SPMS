@@ -266,53 +266,54 @@ def my_uploads(request):
     return render(request, 'students/view_phases.html', context)
 
 
- # Restrict uploads to PDF files
-'''if not file.name.lower().endswith('.pdf'):
-                raise ValidationError("Only PDF files are allowed.")'''
 
+
+from django.http import HttpResponseBadRequest
+import os
 
 # Upload project details to the portal
 def upload_file(request):
     student = request.user
     proposal = get_object_or_404(Proposal, student=student)
+    error = None
 
-    #
     if request.method == 'POST':
-      # Access uploaded file and explanation from request.POST and request.FILES
-      document_file = request.FILES.get('document_file')
-      explanation = request.POST.get('explanation')
-      selected_phase_id = request.POST.get('phase') 
+        # Access uploaded file and explanation from request.POST and request.FILES
+        document_file = request.FILES.get('document_file')
+        explanation = request.POST.get('explanation')
+        selected_phase_id = request.POST.get('phase')
 
-      if document_file:
-        try:
-            # Retrieve the selected phase object
-            phase = Phases.objects.get(pk=selected_phase_id)
+        if document_file:
+            if document_file.name.endswith('.pdf'):
+                try:
+                    # Retrieve the selected phase object
+                    phase = Phases.objects.get(pk=selected_phase_id)
 
-            '''# Check if any document from the previous phase is approved
-            previous_phase = phase.get_previous_phase()
-            if previous_phase and not Documents.objects.filter(phase=previous_phase, student=student, status='approved').exists():
-                return HttpResponseBadRequest("You must complete the previous phase first.")'''
+                    # Create a new Documents object and save it
+                    document = Documents(
+                        student=request.user,
+                        proposal=proposal,
+                        phase=phase,
+                        file=document_file,
+                        comment=explanation
+                    )
+                    document.save()
+                    return redirect('my_phases')  # Redirect to document list view after successful upload
+                except Exception as e:
+                    error = f"Error uploading document: {e}"
+                    print(f"Error uploading document: {e}")
+            else:
+                error = "Error: Only PDF files are allowed. Please choose a PDF file to upload"
+                return HttpResponseBadRequest("Error: Only PDF files are allowed. Please choose a PDF file to upload")
+        else:
+            error = "Error: No document file uploaded"
+            print("No document file uploaded")  # Handle the case where no file was uploaded
 
-            # Create a new Documents object and save it
-            document = Documents(
-                student=request.user,
-                proposal=proposal,
-                phase = phase,
-                file=document_file,
-                comment=explanation
-            )
-            document.save()
-            return redirect('my_phases')  # Redirect to document list view after successful upload
-        except Exception as e:
-          print(f"Error uploading document: {e}")
-          # Handle the error (e.g., display an error message to the user)
-      else:
-          print("No document file uploaded")   # Handle the case where no file was uploaded
-
-    context = {'proposal': proposal, 'student':student}
+    context = {'proposal': proposal, 'student': student, 'error': error}
     return render(request, 'students/view_phases.html', context)  # Redirect to document list view
 
 
+# anouncements
 @student_required
 def announcements(request):
     # Get the current student
