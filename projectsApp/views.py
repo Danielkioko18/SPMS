@@ -839,12 +839,6 @@ def add_supervisor(request):
     return render(request, 'cordinator/add_lecturer.html')
 
 
-'''# Check if passwords match
-        if password != confirm_pass:
-            error_message = "Passwords do not match"
-            return render(request, 'acounts/signup.html', {'error_message': error_message})'''
-
-
 # update supervisor
 @coordinator_required
 def edit_lecturer(request, lecturer_id):
@@ -1048,6 +1042,25 @@ def approve_title(request, project_id):
 
             feedback = CoordinatorFeedbacks.objects.create(sender=request.user, project=project, comment=comment)
             feedback.save()
+
+            # Send approval email to the student
+            name = project.student.name
+            supervisor = lecturer_obj.name
+            recipient_email = project.student.email
+            subject = 'Project Title Approval'
+            message = f"""
+                        <html>
+                            <body>
+                                <p>Hello, <strong>{name}</strong>, Cogratulations, your project title has been approved.</p>
+                                <p>Your Supervisor is <strong>{supervisor}</strong>. Please wait for the supervisor feedback on whether to revise your title details or proceed to phase 1 of the projects.</p>
+                                <p>Thank you.</p>
+                            </body>
+                        </html>
+                    """
+            
+            # Send the email
+            send_email(recipient_email, subject, message)
+
 
             messages.success(request, 'Project approved successfully!')
             return HttpResponseRedirect(reverse('view_project_details', args=[project.id]))
