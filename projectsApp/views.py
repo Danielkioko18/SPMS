@@ -1035,7 +1035,7 @@ def approve_title(request, project_id):
         comment = request.POST.get('comment')
 
         if allocated_lec:
-            project.status = 'approved'
+            project.status = 'Approved'
             lecturer_obj = Lecturer.objects.get(pk=allocated_lec)
             project.lecturer = lecturer_obj
             project.save()
@@ -1053,6 +1053,7 @@ def approve_title(request, project_id):
                             <body>
                                 <p>Hello, <strong>{name}</strong>, Cogratulations, your project title has been approved.</p>
                                 <p>Your Supervisor is <strong>{supervisor}</strong>. Please wait for the supervisor feedback on whether to revise your title details or proceed to phase 1 of the projects.</p>
+                                <p>You will be notified about this on the systems notifications when you login.</p>
                                 <p>Thank you.</p>
                             </body>
                         </html>
@@ -1085,6 +1086,25 @@ def reject_title(request, project_id):
 
             feedback = CoordinatorFeedbacks.objects.create(sender=request.user, project=project, comment=reason)
             feedback.save()
+
+
+            # Send email email to the student
+            name = project.student.name
+            recipient_email = project.student.email
+            subject = 'Project Title Approval'
+            message = f"""
+                        <html>
+                            <body>
+                                <p>Dear, <strong>{name}</strong>,your project title has been declined by the projects coordinator.</p>
+                                <p><strong>Reason: </strong><b style="color:red;">{reason}</b></p>
+                                <p>Please consider revising your title for approval</p>
+                                <p>Thank you.</p>
+                            </body>
+                        </html>
+                    """
+            
+            # Send the email
+            send_email(recipient_email, subject, message)
 
             messages.success(request, 'Project rejected successfully!')
             return HttpResponseRedirect(reverse('view_project_details', args=[project.id]))
