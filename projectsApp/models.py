@@ -84,6 +84,7 @@ class Proposal(models.Model):
     project = models.ForeignKey(Projects, on_delete=models.CASCADE, null=True, related_name='proposals')  # Filter by project status
     completed = models.BooleanField(default=False)
 
+    #move student to next phase
     def move_to_next_phase(self):
         current_phase = self.current_phase
         next_phase = Phases.objects.filter(order__gt=current_phase.order).order_by('order').first()
@@ -91,9 +92,8 @@ class Proposal(models.Model):
             self.current_phase = next_phase
             self.save()
 
-    """
-        Check if all phases are completed.
-    """
+
+    # Check if all phases are completed.
     def check_completion(self):        
         remaining_phases = Phases.objects.filter(order__gt=self.current_phase.order)
         if not remaining_phases.exists():

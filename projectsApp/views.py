@@ -4,6 +4,7 @@ from django.contrib.auth.hashers import check_password
 from .AccessControl import coordinator_required, student_required,supervisor_required
 from .models import Student, CoordinatorFeedbacks, CoordinatorAnnouncements, Lecturer, Projects,Notifications,Announcements, Phases, Proposal, Documents, Resources
 from django.core.exceptions import ValidationError
+from django.http import HttpResponseBadRequest
 from django.contrib.auth.hashers import make_password
 from django.utils import timezone
 from django.http import HttpResponseRedirect
@@ -267,11 +268,8 @@ def my_uploads(request):
 
 
 
-
-from django.http import HttpResponseBadRequest
-import os
-
 # Upload project details to the portal
+@student_required
 def upload_file(request):
     student = request.user
     proposal = get_object_or_404(Proposal, student=student)
@@ -298,16 +296,14 @@ def upload_file(request):
                         comment=explanation
                     )
                     document.save()
-                    return redirect('my_phases')  # Redirect to document list view after successful upload
+                    return redirect('my_phases')
                 except Exception as e:
                     error = f"Error uploading document: {e}"
-                    print(f"Error uploading document: {e}")
             else:
                 error = "Error: Only PDF files are allowed. Please choose a PDF file to upload"
                 return HttpResponseBadRequest("Error: Only PDF files are allowed. Please choose a PDF file to upload")
         else:
             error = "Error: No document file uploaded"
-            print("No document file uploaded")  # Handle the case where no file was uploaded
 
     context = {'proposal': proposal, 'student': student, 'error': error}
     return render(request, 'students/view_phases.html', context)  # Redirect to document list view
@@ -481,9 +477,6 @@ def lec_update_details(request):
         return render(request, 'supervisors/profile.html', context)
 
     return redirect('supervisor_profile')
-
-
-
 
 
 # supervisor dashboard
@@ -843,8 +836,6 @@ def edit_lecturer(request, lecturer_id):
         lecturer.email = request.POST.get('email')
         lecturer.name = request.POST.get('name')
         lecturer.phone = request.POST.get('phone')
-        # Note: You should hash the password before saving it
-        lecturer.password = request.POST.get('password')
         lecturer.save()
         return redirect('view_supervisors')
 
