@@ -920,6 +920,15 @@ def rejected_titles(request):
         }
     return render(request, 'cordinator/rejected_titles.html', context)
 
+# Completed projects
+def completed_projects(request):
+    projects = Proposal.objects.filter(completed=True).order_by('id')
+
+    context = {
+        'projects':projects,
+        }
+    return render(request, 'cordinator/complete_projects.html', context)
+
 
 # View phases/milestones with students
 @coordinator_required

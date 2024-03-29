@@ -26,10 +26,11 @@
           <i class="fas fa-tasks"></i> Projects
         </a>
         <ul class="dropdown-menu" aria-labelledby="projectsDropdown">
-          <li><a class="dropdown-item" href="{% url 'view_projects' %}">Project Titles</a></li>
+          <li><a class="dropdown-item" href="{% url 'view_projects' %}">Uploaded Titles</a></li>
           <li><a class="dropdown-item" href="{% url 'approved_titles' %}">Approved Titles</a></li>
-          <li><a class="dropdown-item" href="{% url 'pending_titles' %}">Pending Approvals</a></li>          
+          <li><a class="dropdown-item" href="{% url 'pending_titles' %}">Pending Approval</a></li>          
           <li><a class="dropdown-item" href="{% url 'rejected_titles' %}">Rejected Titles</a></li>
+          <li><a class="dropdown-item" href="{% url 'completed_projects' %}">Completed Projects</a></li>
         </ul>
       </li>
       <!-- Phases Dropdown -->

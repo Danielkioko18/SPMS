@@ -9,23 +9,20 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            
-                 <!-- Print button -->
-                 <button class="btn btn-primary btn-sm" onclick="window.print()">Print</button>
             <div class="card border-info">
                 <div class="card-header text-center">
-                    <h5>Approved Titles</h5>
+                    <h5>Completed Projects</h5>
                 </div>
+                
                 <div class="card-body">
                     <table class="table table-bordered table-hover  table-striped border-info">
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Reg No</th>
+                                <th scope="col">Name</th>  
                                 <th scope="col">Title</th>
                                 <th scope="col">Supervisor</th>
-                                <th scope="col">Date Uproved</th>                                
-                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -34,10 +31,9 @@
                                     <tr>
                                         <th scope="row">{{forloop.counter}}</th>
                                         <td>{{project.student.regno|upper}}</td>
+                                        <td>{{project.student.name|upper}}</td>
                                         <td>{{project.title|upper}}</td>
-                                        <td>{{project.lecturer.name|title}}</td>
-                                        <td class="text-success">{{project.updated_at}}</td>
-                                        <td><a href="{% url "view_project_details" project.id %}"> View Details </a></td>           
+                                        <td>{{project.lecturer.name|title}}</td>  
                                     </tr>
                                 {% endfor %}
                             {% else %}
