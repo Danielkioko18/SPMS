@@ -9,15 +9,16 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            
-                 <!-- Print button -->
-                 <button class="btn btn-primary btn-sm" onclick="window.print()">Print</button>
+            <!-- Print button -->
+            <div class="text-center mt-3 ml-3">
+                <button id="print-button" onclick="printTable()" class="btn btn-info">Print Table</button>
+            </div>
             <div class="card border-info">
-                <div class="card-header text-center">
-                    <h5>Approved Titles</h5>
+                <div class="card-header text-center border-info">
+                    <h5><b>Approved Titles</b></h5>
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered table-hover  table-striped border-info">
+                    <table id="print-table"  class="table table-bordered table-hover  table-striped border-info">
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col">#</th>
@@ -49,10 +50,58 @@
                     </table>
                 </div>
             </div>                
-        </div>
-              
+        </div>              
     </div>
 </div>
+
+<script>
+function printTable() {
+    // Hide the header
+    var header = document.querySelector('header');
+    header.style.display = 'none';
+    
+    // Hide button 
+    var button = document.querySelector('#print-button');
+    button.style.display = 'none';
+
+    // Hide the action column
+    var actionColumn = document.querySelectorAll('#print-table th:last-child, #print-table td:last-child');
+    actionColumn.forEach(function(element) {
+        element.style.display = 'none';
+    });
+
+    // Add title to the top center of the page
+    var currentDate = new Date().toLocaleDateString();
+    var title = "OXFORD UNIVERSITY <br> Bsc. COMPUTER SCIENCE <br> COSC 484: Computer System Project";
+    var titleDiv = document.createElement('div');
+    titleDiv.style.position = 'absolute';
+    titleDiv.style.top = '10px';
+    titleDiv.style.left = '50%';
+    titleDiv.style.transform = 'translateX(-50%)';
+    titleDiv.style.textAlign = 'center';
+    titleDiv.style.fontWeight = 'bold';
+    titleDiv.innerHTML = title;
+    document.body.appendChild(titleDiv);
+
+    // Print the table
+    window.print();
+
+    // Remove the title and date divs
+    document.body.removeChild(titleDiv);
+
+    // Show the header again
+    header.style.display = '';
+
+    // show button again
+    var button = document.querySelector('#print-button');
+    button.style.display = '';
+
+    // Show the action column again
+    actionColumn.forEach(function(element) {
+        element.style.display = '';
+    });
+}
+</script>
   
 <link rel="stylesheet" href="{% static 'css/mystudents.css' %}">
 {% endblock %}
