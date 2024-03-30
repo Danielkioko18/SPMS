@@ -903,19 +903,6 @@ def pending_titles(request):
 @coordinator_required
 def approved_titles(request):
     projects = Projects.objects.filter(status="Approved").order_by('student')
-
-    # Generate reports
-    columns = {
-        "Student Name": "student__name",
-        "Registration Number": "student__regno",
-        "Title": "title",
-        "Supervisor": "lecturer__name"
-    }
-    
-    report_title = "Approved Titles Report"
-
-    if 'print' in request.GET:
-        return generate_pdf_report(projects, columns, report_title)
     
     context = {
         'projects':projects,
