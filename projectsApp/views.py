@@ -1127,7 +1127,7 @@ def create_phase(request):
             context = {
                 'error_message':error_message
             }
-            return render(request, 'cordinator/create_phase.html', context)
+            return render(request, 'cordinator/add_phase.html', context)
 
         # Create and save the phase
         phase = Phases.objects.create(
@@ -1141,7 +1141,7 @@ def create_phase(request):
         # Redirect to success page or list of phases
         return redirect('create_phase')
     else:
-        return render(request, 'cordinator/create_phase.html')  # Render the form for GET requests
+        return render(request, 'cordinator/add_phase.html')  # Render the form for GET requests
 
 
 
