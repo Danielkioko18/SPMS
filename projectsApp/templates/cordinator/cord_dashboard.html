@@ -1,7 +1,9 @@
+<title>Dashboard</title>
 {% extends "base_cord.html" %}
 {% load static %}
 
 {% block content %}
+
 {% include "column1_cord.html" %}
 <div class="content">
     <div class="container-fluid">
@@ -54,7 +56,7 @@
                     <br>
                     <div class="row text-center text-light">
                         <div class="col-md">
-                           <h4><strong>Titles</strong></h4> 
+                           <h4><strong>Uploaded Titles</strong></h4> 
                         </div>
                     </div>
                 </div>
@@ -108,12 +110,12 @@
                     <br>
                     <div class="row text-center text-light">
                         <div class="col-md">
-                           <h4><strong>Milestones</strong></h4> 
+                           <h4><strong>Project Phases</strong></h4> 
                         </div>
                     </div>
                 </div>
                 <div class="card-footer text-center ">
-                    <a href="{% url "view_phases" %}" class="btn btn-primary">View All</a>
+                    <a href="{% url "view_phases" %}" class="btn btn-primary">View Details</a>
                 </div>
             </div>
             <div class="card mb-5 bg-secondary">
@@ -149,7 +151,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-center ">
-                    <a href="{% url "view_milestones" %}" class="btn btn-primary">View Projects</a>
+                    <a href="{% url "completed_projects" %}" class="btn btn-primary">View Projects</a>
                 </div>
             </div>
         </div>
