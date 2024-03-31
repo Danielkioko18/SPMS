@@ -1,3 +1,4 @@
+<title>Sign In</title>
 {% extends "acounts/base.html" %}
 {% load static %}
 
@@ -31,7 +32,7 @@
                                 <input type="password" class="form-control" id="password" name="password" required>
                             </div>
                             <button type="submit" class="btn btn-primary">Login</button>
-                            <a href="{% url 'signup' %}" class="text-center">I Don't have an account? Register</a>
+                            Don't have account? <a href="{% url 'signup' %}" class="text-center">Create Account</a>
                         </form>
                     </div>
                 </div>
@@ -39,4 +40,9 @@
             </div>
         </div>
     </div>
+    <style>
+        label{
+            font-weight: bold;
+        }
+    </style>
 {% endblock %}

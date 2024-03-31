@@ -8,8 +8,8 @@
     <div class="row no-gutters h-100">
          <div class="col-lg-5 col-md-5 auth-form mx-auto my-auto">
             <div class="card mt-4 border-info rounded">
-                <div class="card-header">
-                    <h4 class="auth-form__title text-center mb-4"><Strong>Create an Account</Strong></h4>
+                <div class="card-header border-info">
+                    <h4 class="text-center"><Strong>Add Supervisor</Strong></h4>
                 </div>
                 <div class="card-body">
                     {% if error_message %}
@@ -39,7 +39,7 @@
                           <label for="phone">Phone Number</label>
                           <input type="tel" class="form-control" id="phone" placeholder="Enter Phone Number" name="phone" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Register</button>
+                        <button type="submit" class="btn btn-info">Submit</button>
                       </form>
                 </div>
             </div>
@@ -47,5 +47,10 @@
     </div>
 </div>
 
+<style>
+  label{
+    font-weight: bold;
+  }
+</style>
 
 {% endblock %}

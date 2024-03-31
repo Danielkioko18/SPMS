@@ -1,3 +1,4 @@
+<title>Student | Signup</title>
 {% extends "acounts/base.html" %}
 {% load static %}
 
@@ -6,7 +7,7 @@
 <div class="main-content-container container-fluid px-4 my-auto h-100">
     <div class="row no-gutters h-100">
          <div class="col-lg-5 col-md-5 auth-form mx-auto my-auto">
-            <div class="card mt-4 border-info rounded">
+            <div class="card mt-5 border-info rounded">
                 <div class="card-header">
                     <h4 class="auth-form__title text-center mb-4"><Strong>Create an Account</Strong></h4>
                 </div>
@@ -24,26 +25,41 @@
 
                     <form action="{% url "signup" %}" method="post">
                         {% csrf_token %}
-                        <div class="form-group">
-                          <label for="registrationNumber">Registration Number</label>
-                          <input type="text" class="form-control" id="registrationNumber" placeholder="Enter Registration Number" name="regno">
+                        <div class="form-row">
+                          <div class="col">
+                            <div class="form-group">
+                              <label for="registrationNumber">Registration Number</label>
+                              <input type="text" class="form-control" id="registrationNumber" placeholder="Enter Registration Number" name="regno">
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="form-group">
+                              <label for="Intake">Intake Year</label>
+                              <input type="number" class="form-control" id="intake" placeholder="Intake year" name="intake_yr">
+                            </div>
+                          </div>
+                          
                         </div>
-                        <div class="form-group">
-                          <label for="email">Email</label>
-                          <input type="email" class="form-control" id="email" placeholder="Enter Email" name="email">
+                        <div class="form-row">
+                          <div class="col">
+                            <div class="form-group">
+                              <label for="email">Email</label>
+                              <input type="email" class="form-control" id="email" placeholder="Enter Email" name="email">
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="form-group">
+                              <label for="phone">Phone Number</label>
+                              <input type="tel" class="form-control" id="phone" placeholder="Enter Phone Number" name="phone">
+                            </div>
+                          </div>
                         </div>
-                        <div class="form-group">
-                          <label for="phone">Phone Number</label>
-                          <input type="tel" class="form-control" id="phone" placeholder="Enter Phone Number" name="phone">
-                        </div>
+                        
                         <div class="form-group">
                           <label for="fullName">Full Name</label>
                           <input type="text" class="form-control" id="fullName" placeholder="Enter Full Name" name="names">
                         </div>
-                        <div class="form-group">
-                          <label for="Intake">Intake Year</label>
-                          <input type="number" class="form-control" id="intake" placeholder="Intake year" name="intake_yr">
-                        </div>
+                        
                         <div class="form-group">
                           <label for="password">Password</label>
                           <input type="password" class="form-control" id="password" placeholder="Enter Password" name="password">
@@ -53,7 +69,7 @@
                             <input type="password" class="form-control" id="password" placeholder="Repeat Password" name="confirm_pass">
                         </div>
                         <button type="submit" class="btn btn-primary">Register</button>
-                        <a href="{% url 'home' %}">Already have an account? Login</a>
+                        Already have an account? <a href="{% url 'login' %}">Login</a>
                       </form>
                 </div>
             </div>
@@ -61,5 +77,10 @@
     </div>
 </div>
 
+<style>
+  label{
+    font-weight: bold;
+  }
+</style>
 
 {% endblock %}
