@@ -53,14 +53,40 @@ def logout_view(request):
 
 # Student registration
 def SignUp(request):
+    # Check if registration is open
+    registration_settings = RegistrationSettings.objects.first()
+    year = registration_settings.allowed_year
+    context = {'year':year}
+
     if request.method == 'POST':
+        
         regno = request.POST['regno']
         email = request.POST['email']
         name = request.POST['names']
         phone_number = request.POST['phone']
-        intake_year = request.POST['intake_yr']
+        intake_year = int(request.POST['intake_yr'])
         password = request.POST['password']
         confirm_pass = request.POST['confirm_pass']
+        
+        # Check if registration is active
+        if registration_settings.open == False:
+            error_message = 'Sorry Registrations are currently closed. Try again Later.'
+            return render(request, 'acounts/signup.html', {'error_message': error_message})
+
+        if intake_year > registration_settings.allowed_year:
+            # Display not eligible message
+            error_message = f"You are not eligible to register for the selected intake year. Allowed intake year: {registration_settings.allowed_year} or earlier."
+            return render(request, 'acounts/signup.html', {'error_message': error_message})
+        
+        # Check if registration number is unique
+        if Student.objects.filter(regno=regno).exists():
+            error_message = "This registration number is already registered."
+            return render(request, 'acounts/signup.html', {'error_message': error_message})
+
+        # Check if email is unique
+        if Student.objects.filter(email=email).exists():
+            error_message = "Email is already registered."
+            return render(request, 'acounts/signup.html', {'error_message': error_message})
 
         # Check if passwords match
         if password != confirm_pass:
@@ -79,7 +105,9 @@ def SignUp(request):
         success_message = "Registration successful. Please login to continue."
         return render(request, 'acounts/signup.html', {'success_message': success_message})
 
-    return render(request, 'acounts/signup.html')
+    return render(request, 'acounts/signup.html', context)
+
+
 
 
 @student_required
@@ -732,7 +760,7 @@ def update_registration_settings(request):
     if request.method == 'POST':
         registration_open = request.POST.get('registration_open')
         allowed_intake_year = request.POST.get('allowed_intake_year')
-        
+
         settings.open = bool(registration_open)
         settings.allowed_year = int(allowed_intake_year)
         # Save the settings object

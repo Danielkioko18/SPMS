@@ -8,8 +8,8 @@
     <div class="row no-gutters h-100">
          <div class="col-lg-5 col-md-5 auth-form mx-auto my-auto">
             <div class="card mt-5 border-info rounded">
-                <div class="card-header">
-                    <h4 class="auth-form__title text-center mb-4"><Strong>Create an Account</Strong></h4>
+                <div class="card-header border-info">
+                    <h4 class="text-center"><Strong>Create an Account</Strong></h4>
                 </div>
                 <div class="card-body">
                     {% if error_message %}
@@ -29,13 +29,13 @@
                           <div class="col">
                             <div class="form-group">
                               <label for="registrationNumber">Registration Number</label>
-                              <input type="text" class="form-control" id="registrationNumber" placeholder="Enter Registration Number" name="regno">
+                              <input type="text" class="form-control" id="registrationNumber" placeholder="Enter Registration Number" name="regno" required>
                             </div>
                           </div>
                           <div class="col">
                             <div class="form-group">
                               <label for="Intake">Intake Year</label>
-                              <input type="number" class="form-control" id="intake" placeholder="Intake year" name="intake_yr">
+                              <input type="number" class="form-control" id="intake" placeholder="Intake year" name="intake_yr" value="{{year}}" required>
                             </div>
                           </div>
                           
@@ -44,29 +44,29 @@
                           <div class="col">
                             <div class="form-group">
                               <label for="email">Email</label>
-                              <input type="email" class="form-control" id="email" placeholder="Enter Email" name="email">
+                              <input type="email" class="form-control" id="email" placeholder="Enter Email" name="email" required>
                             </div>
                           </div>
                           <div class="col">
                             <div class="form-group">
                               <label for="phone">Phone Number</label>
-                              <input type="tel" class="form-control" id="phone" placeholder="Enter Phone Number" name="phone">
+                              <input type="tel" class="form-control" id="phone" placeholder="Enter Phone Number" name="phone" required>
                             </div>
                           </div>
                         </div>
                         
                         <div class="form-group">
                           <label for="fullName">Full Name</label>
-                          <input type="text" class="form-control" id="fullName" placeholder="Enter Full Name" name="names">
+                          <input type="text" class="form-control" id="fullName" placeholder="Enter Full Name" name="names" required>
                         </div>
                         
                         <div class="form-group">
                           <label for="password">Password</label>
-                          <input type="password" class="form-control" id="password" placeholder="Enter Password" name="password">
+                          <input type="password" class="form-control" id="password" placeholder="Enter Password" name="password" required>
                         </div>
                         <div class="form-group">
                             <label for="password">Confirm Password</label>
-                            <input type="password" class="form-control" id="password" placeholder="Repeat Password" name="confirm_pass">
+                            <input type="password" class="form-control" id="password" placeholder="Repeat Password" name="confirm_pass" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Register</button>
                         Already have an account? <a href="{% url 'login' %}">Login</a>
