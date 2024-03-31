@@ -48,6 +48,13 @@ class Lecturer(models.Model):
     class Meta:
         db_table = "Lecturers"
 
+
+# Students regustration settings
+class RegistrationSettings(models.Model):
+    open = models.BooleanField(default=False)
+    allowed_year = models.IntegerField()
+
+
 # projects model
 class Projects(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)

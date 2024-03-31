@@ -2,8 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login,logout
 from django.contrib.auth.hashers import check_password
 from .AccessControl import coordinator_required, student_required,supervisor_required
-from .models import Student, CoordinatorFeedbacks, CoordinatorAnnouncements, Lecturer, Projects,Notifications,Announcements, Phases, Proposal, Documents, Resources
-from django.core.exceptions import ValidationError
+from .models import Student, CoordinatorFeedbacks, CoordinatorAnnouncements, Lecturer, Projects,Notifications,Announcements, Phases, Proposal, Documents, Resources, RegistrationSettings
 from django.http import HttpResponseBadRequest
 from django.contrib.auth.hashers import make_password
 from django.utils import timezone
@@ -703,12 +702,45 @@ def cordinator_login(request):
 
 
 # Coordinator Profile
+@coordinator_required
 def coordinator_profile(request):
     user = request.user
     context = {
         'user':user
     }
     return render(request, 'cordinator/profile.html', context)
+
+
+# Student registration settings
+def registration_settings(request):
+    settings = RegistrationSettings.objects.first()
+    context = {
+        'settings':settings
+        }
+    return render(request, 'cordinator/registration_settings.html', context)
+
+
+# Update the registration settings
+def update_registration_settings(request):
+    # Retrieve existing settings object if it exists, otherwise create a new one
+    settings = RegistrationSettings.objects.first()
+    if settings is None:
+        settings = RegistrationSettings()
+        # Set default year to the current year
+        settings.allowed_year = timezone.now().year
+
+    if request.method == 'POST':
+        registration_open = request.POST.get('registration_open')
+        allowed_intake_year = request.POST.get('allowed_intake_year')
+        
+        settings.open = bool(registration_open)
+        settings.allowed_year = int(allowed_intake_year)
+        # Save the settings object
+        settings.save()
+
+    # Redirect or render a response
+    return redirect('registration_settings')
+
 
 
 # change password
@@ -937,7 +969,6 @@ def view_milestones_cord(request):
 
     context = {'phases': phases}
     return render(request, 'cordinator/milestones_cord.html', context)
-
 
 
 # Make announcemnts view

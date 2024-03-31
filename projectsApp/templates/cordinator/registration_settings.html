@@ -1,0 +1,52 @@
+<title>Registration Settings</title>
+{% extends 'base_cord.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<!-- Content Area -->
+{% include 'column1_cord.html' %}
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="card mb-5 border-info">
+                <div class="card-header text-center border-info">
+                    <h3 class="text-center"><Strong>Update Settings</Strong></h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{% url 'update_registration_settings' %}">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="registration_open">Registration Open:</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <input type="checkbox" class="form-check-input" id="registration_open" name="registration_open" {% if settings.open %} checked {% endif %}>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="allowed_intake_year">Allowed Intake Year:</label>
+                            <input type="number" class="form-control" id="allowed_intake_year" name="allowed_intake_year" value="{{ settings.allowed_year }}">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </form>
+                </div>
+                 </div>
+            </div>                
+        </div>              
+    </div>
+</div>
+  
+<link rel="stylesheet" href="{% static 'css/upload_title.css' %}">
+<style>
+    input[type="checkbox"] { 
+            width: 1.3em; 
+            height: 1.3em; 
+        }
+</style>
+{% endblock %}
