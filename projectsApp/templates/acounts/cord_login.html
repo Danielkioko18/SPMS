@@ -32,6 +32,9 @@
                                 <input type="password" class="form-control" id="password" name="password" required>
                             </div>
                             <button type="submit" class="btn btn-primary">Login</button>
+                            {% if error_message %}
+                                <a href="{% url 'password_reset' %}" class="btn btn-link">Forgot Password?</a>
+                            {% endif %}
                         </form>
                     </div>
                 </div>

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login,logout
 from django.contrib.auth.hashers import check_password
+from django.contrib.auth.views import PasswordResetView
 from .AccessControl import coordinator_required, student_required,supervisor_required
 from .models import Student, CoordinatorFeedbacks, CoordinatorAnnouncements, Lecturer, Projects,Notifications,Announcements, Phases, Proposal, Documents, Resources, RegistrationSettings
 from django.http import HttpResponseBadRequest
@@ -9,13 +10,68 @@ from django.utils import timezone
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
+from django.urls import reverse_lazy
 from .mail_service import send_email
+import random
+import string
 # ==================================================================================================================
 
 # Home
 def Home(request):
     return render(request, 'index.html')
 
+
+def password_reset(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        student = Student.objects.filter(email=email).first()
+
+        if student:
+            # Generate random 6-digit verification code
+            verification_code = ''.join(random.choices(string.digits, k=6))
+
+            # Send verification code to student's email
+            subject = "Password Reset Verification Code"
+            message = f"Your verification code is: {verification_code}"
+            send_email(student.email, subject, message)
+
+            # Store verification code in session
+            request.session['verification_code'] = verification_code
+            request.session['email'] = email
+
+            return redirect('verify_code')
+
+    return render(request, 'acounts/password_reset.html', {'step': 'send_verification_code'})
+
+def verify_verification_code(request):
+    if request.method == 'POST':
+        verification_code = request.POST.get('verification_code')
+        stored_verification_code = request.session.get('verification_code')
+
+        if verification_code == stored_verification_code:
+            # Verification code is correct
+            return redirect('reset_password')
+
+    return render(request, 'acounts/password_reset.html', {'step': 'enter_verification_code'})
+
+def reset_password(request):
+    if request.method == 'POST':
+        new_password = request.POST.get('new_password1')
+        email = request.session.get('email')
+        student = Student.objects.filter(email=email).first()
+
+        if student:
+            # Update the student's password
+            student.password = new_password
+            student.save()
+
+            # Clear session data
+            del request.session['verification_code']
+            del request.session['email']
+
+            return redirect('login')
+
+    return render(request, 'acounts/change_password.html')
 
 # Students Views here
 def login(request):

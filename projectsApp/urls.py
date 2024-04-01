@@ -2,6 +2,7 @@ from django.urls import path, include
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
@@ -65,6 +66,11 @@ urlpatterns = [
     path('coordinator/my_profile/edit/details/', views.coordinator_update_details, name='coordinator_update_details'),
 
     path('logout/', views.logout_view, name='logout'),
+    # Other URL patterns
+    path('password_reset/', views.password_reset, name='password_reset'),
+    path('password_reset/verify/', views.verify_verification_code, name='verify_code'),
+    path('password_reset/change_password/', views.reset_password, name='reset_password'),
+
 ]
 
 # uploads url#
