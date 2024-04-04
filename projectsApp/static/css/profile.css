@@ -6,8 +6,8 @@
   }
   .card{
     width: 100%;
-      margin-left: 0%;
-      align-content: center;
+    margin-left: 0%;
+    align-content: center;
   }
 
   /* Media query for responsive sidebar */
@@ -16,13 +16,12 @@
           width: 100%;
           position: static;
           padding-top: 60px;
-
       }
       /* Style for content area */
       .content {
-      margin-left: 0; /* same width as sidebar */
-      padding: 20px;
-      margin-top: 60px;
+        margin-left: 0; /* same width as sidebar */
+        padding: 20px;
+        margin-top: 60px;
       }
       .card{
         width: 100%;

@@ -144,9 +144,9 @@
                                 <strong>
                                     {% if request.user.is_authenticated %}
                                         {% if request.user.is_staff %}  
-                                            {{ request.user.username }},  
+                                            {{ request.user.username|title }},  
                                         {% else %}
-                                            {{ request.user.name }}, 
+                                            {{ request.user.name|title }}, 
                                         {% endif %}
                                     {% else %}
                                         Guest,

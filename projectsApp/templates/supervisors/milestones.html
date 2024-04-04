@@ -37,7 +37,7 @@
                         <th scope="col">Reg No</th>
                         <th scope="col">Student Name</th>
                         <th scope="col">Project Title</th>
-                        <th scope="col">Upload Status</th>
+                        <!--<th scope="col">Upload Status</th>-->
                         <th scope="col">View Uploads</th>
                       </tr>
                     </thead>
@@ -49,7 +49,7 @@
                           <td>{{ proposal.student.regno|upper }}</td>
                           <td>{{ proposal.student.name }}</td>
                           <td>{{ proposal.project.title }}</td>
-                          <td>{{ documents.latest.status }}</td>
+                          <!--<td>{{ documents.latest.status }}</td>-->
                           <td>
                             <a href="{% url 'view_student_upload' proposal.current_phase.id proposal.student.user_id %}">View Uploads</a>
                           </td>
