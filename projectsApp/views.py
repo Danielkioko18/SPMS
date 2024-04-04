@@ -821,6 +821,7 @@ def coordinator_profile(request):
 
 
 # Student registration settings
+@coordinator_required
 def registration_settings(request):
     settings = RegistrationSettings.objects.first()
     context = {
@@ -830,6 +831,7 @@ def registration_settings(request):
 
 
 # Update the registration settings
+@coordinator_required
 def update_registration_settings(request):
     # Retrieve existing settings object if it exists, otherwise create a new one
     settings = RegistrationSettings.objects.first()
@@ -849,6 +851,41 @@ def update_registration_settings(request):
 
     # Redirect or render a response
     return redirect('registration_settings')
+
+
+# dispatch all students
+from django.db import IntegrityError  # Import IntegrityError for database integrity constraint violations
+
+# Dispatch students
+def dispatch_students(request):
+    if request.method == 'GET':
+        try:
+            # Retrieve all students
+            students = Student.objects.all()
+            # Iterate over each student and perform dispatch
+            for student in students:
+                # Remove all associated records                
+                student.projects_set.all().delete()
+                student.proposals.all().delete()
+                student.documents.all().delete()
+                student.notifications.all().delete()
+
+            Student.objects.all().delete()
+            CoordinatorFeedbacks.objects.all().delete()
+            Resources.objects.all().delete()
+            Announcements.objects.all().delete()
+            CoordinatorAnnouncements.objects.all().delete()
+
+            # Redirect back to the registration settings page after dispatching
+            messages.success(request, 'All students have been dispatched successfully.')
+            return redirect('registration_settings')
+        except IntegrityError as e:
+            # Handle IntegrityError (database integrity constraint violations)
+            messages.error(request, f'An error occurred during deletion: {e}')
+            return redirect('registration_settings')
+    else:
+        # Handle other HTTP methods appropriately
+        return redirect('registration_settings')
 
 
 

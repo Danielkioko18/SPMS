@@ -47,6 +47,7 @@ urlpatterns = [
     path('coordinator/students/registered/', views.reg_students, name='registered_students'),
     path('coordinator/registration/settings/', views.registration_settings, name='registration_settings'),
     path('coordinator/registration/settings/update/', views.update_registration_settings, name='update_registration_settings'),
+    path('coordinator/project/settings/dispatch/', views.dispatch_students, name='dispatch_students'),
     path('coordinator/titles/uploaded_titles/', views.view_projects, name='view_projects'),
     path('projects/titles/pending/', views.pending_titles, name='pending_titles'),
     path('projects/titles/approved/', views.approved_titles, name='approved_titles'),
