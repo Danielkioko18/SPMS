@@ -60,6 +60,12 @@ def reset_password(request):
         email = request.session.get('email')
         student = Student.objects.filter(email=email).first()
 
+        # Check if password is at least 8 characters long
+        if len(new_password) < 8:
+            error_message = "Your password should be at least 8 characters long"
+            return render(request, 'acounts/change_password.html', {'error_message': error_message})
+
+        
         if student:
             # Update the student's password
             student.password = new_password
@@ -81,7 +87,7 @@ def login(request):
         
         try:
             student = Student.objects.get(email=email)
-            # Authenticate user against our custom User Model (Student)
+            # Authenticate Student
             user = authenticate(email=email, password=password)
             
             if user is not None:
@@ -90,7 +96,7 @@ def login(request):
                 student.last_login = timezone.now()
                 student.save()
                 
-                return redirect('student_dashboard')  # Replace 'dashboard' with the desired destination after login
+                return redirect('student_dashboard')
             
             else:
                 error_message = "Invalid username or password"
@@ -109,11 +115,12 @@ def logout_view(request):
 
 # Student registration
 def SignUp(request):
-    # Check if registration is open
+    # get year set for registration
     registration_settings = RegistrationSettings.objects.first()
     year = registration_settings.allowed_year
     context = {'year':year}
 
+    #form submission
     if request.method == 'POST':
         
         regno = request.POST['regno']
@@ -141,12 +148,17 @@ def SignUp(request):
 
         # Check if email is unique
         if Student.objects.filter(email=email).exists():
-            error_message = "Email is already registered."
+            error_message = "This Email is already registered."
             return render(request, 'acounts/signup.html', {'error_message': error_message})
 
         # Check if passwords match
         if password != confirm_pass:
             error_message = "Passwords do not match"
+            return render(request, 'acounts/signup.html', {'error_message': error_message})
+
+        # Check if password is at least 8 characters long
+        if len(password) < 8:
+            error_message = "Your password should be at least 8 characters long"
             return render(request, 'acounts/signup.html', {'error_message': error_message})
 
         # Hash password
@@ -239,6 +251,11 @@ def change_password(request):
         # Check if the old password matches
         if not check_password(old_password, user.password):
             error_message = "Old password is incorrect"
+            return render(request, 'students/profile.html', {'error_message': error_message})
+
+        # Check if password is at least 8 characters long
+        if len(new_password) < 8:
+            error_message = "Your password should be at least 8 characters long"
             return render(request, 'students/profile.html', {'error_message': error_message})
 
         # Check if the new password and confirm password match
@@ -519,6 +536,14 @@ def lec_change_password(request):
         # Check if the new password and confirm password match
         if new_password != confirm_password:
             error_message = "New passwords do not match"
+            context = {
+                'error_message':error_message
+            }
+            return render(request, 'supervisors/profile.html', context)
+
+        # Check if password is at least 8 characters long
+        if len(new_password) < 8:
+            error_message = "Your password should be at least 8 characters long"
             context = {
                 'error_message':error_message
             }
@@ -839,19 +864,37 @@ def coordinator_change_password(request):
         # Check if old password matches
         if not user.check_password(old_password):
             error_message = "Old password is incorrect"
-            return render(request, 'cordinator/profile.html', {'error_message': error_message})
+            context = {
+                'error_message': error_message
+            }
+            return render(request, 'cordinator/profile.html', context)
 
         # Check if new password matches the confirmation
         if new_password != confirm_pass:
             error_message = "New password and confirmation do not match"
-            return render(request, 'cordinator/profile.html', {'error_message': error_message})
+            context ={
+                'error_message':error_message
+            }
+            return render(request, 'cordinator/profile.html', context)
+
+        # Check if password is at least 8 characters long
+        if len(new_password) < 8:
+            error_message = "Your password should be at least 8 characters long"
+            context ={
+                'error_message':error_message
+            }            
+            return render(request, 'acounts/signup.html', context)
+
 
         # Update password
         user.password = make_password(new_password)
         user.save()
 
         success_message = "Password changed successfully"
-        return render(request, 'cordinator/profile.html', {'success_message': success_message})
+        context ={
+                'success_message': success_message
+            } 
+        return render(request, 'cordinator/profile.html', context)
 
     return render(request, 'cordinator/profile.html')
 
