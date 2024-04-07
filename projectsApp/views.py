@@ -962,7 +962,7 @@ def cordinator_dashboard(request):
     student_count = Student.objects.all().count()
     project_count = Projects.objects.all().count()
     approved_count = Projects.objects.filter(status="Approved").count()
-    pending_count = Projects.objects.filter(status="pending").count()
+    pending_count = Projects.objects.filter(status="Pending").count()
     complete_count = Proposal.objects.filter(completed=True).count()
     active_count = Proposal.objects.filter(completed=False).count() 
     phase_count = Phases.objects.all().count()
