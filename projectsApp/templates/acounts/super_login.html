@@ -27,6 +27,9 @@
                                 <input type="password" class="form-control" id="password" name="password" required>
                             </div>
                             <button type="submit" class="btn btn-primary">Login</button>
+                            {% if error_message %}
+                                <a class="btn btn-link"  onclick="return confirm('Please Contact the coordinator for password reset')">Forgot Password?</a>
+                            {% endif %}
                         </form>
                     </div>
                 </div>
