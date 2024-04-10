@@ -44,6 +44,7 @@ urlpatterns = [
     path('coordinator/supervisors/add/', views.add_supervisor, name='add_supervisor'),
     path('coordinator/supervisors/', views.supervisors, name='view_supervisors'),
     path('coordinator/supervisors/<int:lecturer_id>/edit/', views.edit_lecturer, name='edit_lecturer'),
+    path('coordinator/supervisors/reset password/', views.sup_reset_password, name='supervisor_reset'),
     path('coordinator/students/registered/', views.reg_students, name='registered_students'),
     path('coordinator/registration/settings/', views.registration_settings, name='registration_settings'),
     path('coordinator/registration/settings/update/', views.update_registration_settings, name='update_registration_settings'),

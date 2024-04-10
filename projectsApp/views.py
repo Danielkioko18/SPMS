@@ -1049,6 +1049,7 @@ def supervisors(request):
     for supervisor in supervisors:
         project_count = Projects.objects.filter(lecturer=supervisor).count()
         supervisor.project_count = project_count
+    
     if request.method == 'POST':
         lecturer_id = request.POST.get('lecturer_id')
         if lecturer_id:
@@ -1059,6 +1060,29 @@ def supervisors(request):
    
     context = {'supervisors':supervisors}
     return render(request, 'cordinator/supervisors.html', context)
+
+
+# Reset supervisor passwords to defaault
+@coordinator_required
+def sup_reset_password(request):
+    if request.method == 'POST':
+        lecturer_id = request.POST.get('lecturer_id')
+        # Retrieve the lecturer object based on the ID
+        lecturer = Lecturer.objects.get(pk=lecturer_id)
+
+        password = 'spmssupervisor'
+        new_password = make_password(password)
+
+        # Reset the password to the default one
+        lecturer.password = new_password
+        lecturer.save()
+
+        # Redirect back to the page where you display the list of lecturers
+        return redirect('view_supervisors')
+
+    # If the request method is not POST, handle accordingly
+    return redirect('view_supervisors')
+
 
 
 

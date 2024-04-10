@@ -30,6 +30,7 @@
                                 <th scope="col">Email</th>
                                 <th scope="col">Phone</th>                                
                                 <th scope="col">Projects</th>
+                                <th scope="col">Reset</th>
                                 <th scope="col">Actions</th>
                             </tr>
                         </thead>
@@ -41,6 +42,12 @@
                                 <td>{{supervisor.email}}</td>
                                 <td>{{supervisor.phone}}</td>
                                 <td>{{supervisor.project_count}}</td>
+                                <td>
+                                    <form action="{% url 'supervisor_reset' %}" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="lecturer_id" value="{{ supervisor.user_id }}">
+                                        <button type="submit"  class="btn btn-success" onclick="return confirm('Reset Password for {{supervisor.name}}?')">Reset Password</button>
+                                    </form>
                                 <td>
                                     <div class="row">
                                         <div class="col-4">
