@@ -22,8 +22,10 @@
         <div class="tab-content" id="milestoneTabsContent">
           {% for phase_proposal in phase_proposals %}
             <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" id="phase-{{ phase_proposal.phase.id }}">
-              <br><h5><b>Description</b></h5>
-              <p>{{ phase_proposal.phase.description }}</p>
+              <br><h5><b></b></h5>
+              <div class="col-md-12 d-flex justify-content-end">
+                <h6><b>Deadline: <p class="text-danger">{{ phase_proposal.phase.deadline_date }}</p></b></h6> 
+              </div>
 
               <div class="card">
                 <div class="card-header text-center">

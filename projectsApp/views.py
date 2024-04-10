@@ -267,8 +267,7 @@ def change_password(request):
         user.password = make_password(new_password)
         user.save()
 
-        success_message = "Password changed successfully"
-        return render(request, 'students/profile.html', {'success_message': success_message})
+        return redirect('student_profile')
 
     return redirect('student_profile')
 
@@ -289,11 +288,7 @@ def update_details(request):
         # Save the updated user details
         user.save()
 
-        success_message = "Details updated successfully"
-        context = {
-            'success_message':success_message
-        }
-        return render(request, 'students/profile.html', context)
+        return redirect('student_profile')
 
     return redirect('student_profile')
 
@@ -485,9 +480,8 @@ def resources(request):
     return render(request, 'students/resources.html', context)
 
 
-# =================================================================================================================
+# ======================================================== Supervisors views =========================================================
 
-# Supervisors views
 def supervisor_login(request):
     if request.method == 'POST':
         email = request.POST['email']
@@ -553,11 +547,7 @@ def lec_change_password(request):
         user.password = make_password(new_password)
         user.save()
 
-        success_message = "Password changed successfully"
-        context = {
-            'success_message': success_message
-        }
-        return render(request, 'supervisors/profile.html', context)
+        return redirect('supervisor_profile')
 
     return redirect('supervisor_profile')
 
@@ -578,11 +568,7 @@ def lec_update_details(request):
         # Save the updated user details
         user.save()
 
-        success_message = "Details updated successfully"
-        context = {
-            'success_message':success_message
-        }
-        return render(request, 'supervisors/profile.html', context)
+        return redirect('supervisor_profile')
 
     return redirect('supervisor_profile')
 
@@ -721,6 +707,7 @@ def view_student_uploads(request, phase_id, student_id):
 
     context = {'phase': phase, 'student': student, 'documents': documents}
     return render(request, 'supervisors/view_student_uploads.html', context)
+
 
 # approve upload
 def approve_document(request):
