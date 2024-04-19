@@ -12,6 +12,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.urls import reverse_lazy
 from .mail_service import send_email
+from django.db import IntegrityError
 import random
 import string
 # ==================================================================================================================
@@ -79,7 +80,7 @@ def reset_password(request):
 
     return render(request, 'acounts/change_password.html')
 
-# Students Views here
+# Student signup/Registration
 def login(request):
     if request.method == 'POST':
         email = request.POST['email']
@@ -751,6 +752,7 @@ def project_details(request, project_id):
     return render(request, 'supervisors/project_details.html', context)
 
 # Accept title
+@supervisor_required
 def accept_title(request, project_id):
     project = get_object_or_404(Projects, pk=project_id)
 
@@ -840,8 +842,6 @@ def update_registration_settings(request):
     return redirect('registration_settings')
 
 
-# dispatch all students
-from django.db import IntegrityError  # Import IntegrityError for database integrity constraint violations
 
 # Dispatch students
 def dispatch_students(request):
