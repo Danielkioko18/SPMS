@@ -53,6 +53,15 @@
             margin-right: 10px;
             border-radius: 50%;
         }
+        header a{
+            text-decoration: none;
+            color: white;
+        }
+
+        header a:hover{
+            color: white;
+            text-decoration-line: none;
+        }
 
         /* Collapsible content (optional) */
         @media (max-width: 768px) {
@@ -95,7 +104,7 @@
                 <div class="col-md-3">
                     <div class="left">
                         <img src="{% static 'images/logo.jpg' %}" alt="Logo" class="logo">
-                        <h1>SPMS</h1>
+                        <a href="{% url "home" %}"><h1>SPMS</h1></a>
                     </div>
                 </div>
                 <div class="col-md-9 d-flex justify-content-end">

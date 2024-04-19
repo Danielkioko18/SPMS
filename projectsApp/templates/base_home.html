@@ -61,37 +61,19 @@
             border-radius: 50%;
             margin-right: 10px;
         }
-
-        /* Sidebar positioning and width */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 240px; /* Adjust as needed */
-            height: 100vh;
-            background-color: #f8f9fa; /* Light gray background */
-            border-right: 1px solid black;
-            padding: 10px;
-            overflow-x: hidden; /* Prevent horizontal scrollbar */
-        
+        header h1{
+            color: white;
+        }
+        header a{
+            text-decoration: none;
+            color: white;
         }
 
-        /* Sidebar links */
-        .sidebar .nav-link {
-            font-weight: 500;
-            color: #333;
+        header a:hover{
+            color: white;
+            text-decoration-line: none;
         }
 
-        .sidebar .nav-link.active {
-            color: #007bff; /* Active link color */
-        }
-
-        /* Sidebar toggle button */
-        .sidebar .navbar-toggler {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-        }
 
         /* Collapsible content (optional) */
         @media (max-width: 768px) {
@@ -134,7 +116,7 @@
                 <div class="col-md-3">
                     <div class="left">
                         <img src="{% static 'images/logo.jpg' %}" alt="Logo" class="logo">
-                        <h1>SPMS</h1>
+                        <h1><a href="{% url "home" %}">SPMS</a></h1>
                     </div>
                 </div>
                 <div class="col-md-9 d-flex justify-content-end">
