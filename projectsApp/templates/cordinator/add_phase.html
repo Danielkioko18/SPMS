@@ -42,7 +42,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="deadline_date"><b>Deadline Date</b></label>
-                                <input type="date" class="form-control" id="deadline_date" placeholder="Enter name of the phase" name="deadline_date" required>
+                                <input type="date" class="form-control" id="deadline_date" name="deadline_date" min="" required>
                             </div>
                             <div class="form-group">
                                 <button type="submit"class="btn btn-success">Submit</button>
@@ -55,6 +55,10 @@
               
     </div>
 </div>
-  
+<script>
+    // Set minimum value for deadline date field to today's date
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementById("deadline_date").setAttribute("min", today);
+</script>
 <link rel="stylesheet" href="{% static 'css/upload_title.css' %}">
 {% endblock %}

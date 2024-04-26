@@ -997,8 +997,8 @@ def add_supervisor(request):
                             <p>Your password is <strong><span style="color:red;">{password}</span></strong>. Please login to the system and change your password to your most convenient one.</p>
                             <p>Thank you.</p>
                         </body>
-                    </html>
-                """
+                    </html>"""
+                
         
         # Send the email
         send_email(recipient_email, subject, message)

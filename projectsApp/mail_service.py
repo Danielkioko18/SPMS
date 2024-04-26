@@ -7,8 +7,8 @@ from email.mime.multipart import MIMEMultipart
 def send_email(recipient_email, subject, message):
 
     # Email credentials (replace with your own)
-    sender_email = "danielkioko1844@gmail.com"
-    password = "wxqx bnfg oqfu nmcq"
+    sender_email = "kioko.projects@gmail.com"
+    password = "qrha bcyw novh jkjb"
 
     # Email content
     msg = MIMEMultipart()
