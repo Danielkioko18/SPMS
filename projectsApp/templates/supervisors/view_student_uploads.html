@@ -15,7 +15,7 @@
                         <h5><b>Uploaded At:</b> {{ document.uploaded_at }}</h5>
                         <h5><b>Comment:</b> {{ document.comment|title }}</h5>
                         <h5><b>Status: </b>{{ document.status|title }}</h5>
-                        <a href="{{ document.file.url }}" class="btn btn-primary" target="_blank">View File</a>
+                        <button type="button" class="btn btn-primary" onclick="openPDF('{{ document.id }}')">View File</button>
                         {% if document.status != 'approved' %}
                             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#approveModal{{ document.id }}">
                                 Approve
@@ -97,5 +97,29 @@
 
 
 <link rel="stylesheet" href="{% static 'css/student_dashboard.css' %}">
+<!-- iFrame and close button -->
+<div class="iframe-container">
+    <iframe id="pdf_frame" src="" frameborder="0"></iframe>
+    <button id="closeBtn" onclick="closePDF()">Close</button>
+</div>
+
+<script>
+    function openPDF(fileId) {
+        var pdfFrame = document.getElementById('pdf_frame');
+        var closeBtn = document.getElementById('closeBtn');
+
+        pdfFrame.src = "{% url 'view_pdf' 'file_id' %}".replace('id', fileId); // Set the iframe source to display the PDF
+        pdfFrame.style.display = "block"; // Show the iframe
+        closeBtn.style.display = "inline-block"; // Show the close button
+    }
+
+    function closePDF() {
+        var pdfFrame = document.getElementById('pdf_frame');
+        var closeBtn = document.getElementById('closeBtn');
+
+        pdfFrame.style.display = "none"; // Hide the iframe
+        closeBtn.style.display = "none"; // Hide the close button
+    }
+</script>
 
 {% endblock %}

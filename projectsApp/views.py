@@ -6,7 +6,9 @@ from .AccessControl import coordinator_required, student_required,supervisor_req
 from .models import Student, CoordinatorFeedbacks, CoordinatorAnnouncements, Lecturer, Projects,Notifications,Announcements, Phases, Proposal, Documents, Resources, RegistrationSettings
 from django.http import HttpResponseBadRequest
 from django.contrib.auth.hashers import make_password
+from django.conf import settings
 from django.utils import timezone
+from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
@@ -15,6 +17,7 @@ from .mail_service import send_email
 from django.db import IntegrityError
 import random
 import string
+import os
 # ==================================================================================================================
 
 # Home
@@ -708,6 +711,18 @@ def view_student_uploads(request, phase_id, student_id):
 
     context = {'phase': phase, 'student': student, 'documents': documents}
     return render(request, 'supervisors/view_student_uploads.html', context)
+
+
+# View pdf files by supervisor
+def view_pdf(request, file_id):
+    document = get_object_or_404(Documents, id=file_id)
+    file_path = os.path.join(settings.MEDIA_ROOT, document.file.name)  # Adjust based on how file paths are stored
+    
+    with open(file_path, 'rb') as pdf_file:
+        response = HttpResponse(pdf_file.read(), content_type='application/pdf')
+        response['Content-Disposition'] = 'inline; filename="{}"'.format(document.file.name)
+        return response
+    
 
 
 # approve upload
