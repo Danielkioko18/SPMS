@@ -36,8 +36,8 @@ urlpatterns = [
     path('supervisor/my_profile/', views.supervisor_profile, name='supervisor_profile'),
     path('supervisor/my_profile/edit/password/', views.lec_change_password, name='change_password_lec'),
     path('supervisor/my_profile/edit/details/', views.lec_update_details, name='update_details_lec'),
-    path('supervisor/student/uploads/<str:phase_id>/<int:student_id>/view_pdf/<int:document_id>/', views.view_pdf, name='view_pdf'),
-
+   
+   
 
     path('coordinator/Login/', views.cordinator_login, name='cordinator_login'),
     path('coordinator/dashboard/', views.cordinator_dashboard, name='cordinator_dashboard'),

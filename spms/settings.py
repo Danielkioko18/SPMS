@@ -29,8 +29,9 @@ DEBUG = True
 
 
 ALLOWED_HOSTS = [
-    #'8a5b-154-159-252-143.ngrok-free.app',
-    #'192.168.100.13'
+    '036e-2c0f-fe38-2100-415e-651c-e880-2628-3915.ngrok-free.app',
+    '127.0.0.1','localhost',
+    #'http://127.0.0.1:8000'
 ]
 
 # Application definition
@@ -155,5 +156,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOW_CREDENTIALS = False
 CORS_ALLOW_HEADERS = ["*"]
 # CSRF_TRUSTED_ORIGINS
-CORS_ORIGIN_WHITELIST=['http://127.0.0.1:3000','http://127.0.0.1:3000','http://127.0.0.1','http://164.92.88.33','http://164.92.88.33','https://8a5b-154-159-252-143.ngrok-free.app']
-CSRF_TRUSTED_ORIGINS=['http://127.0.0.1:3000','http://127.0.0.1:3000','http://127.0.0.1','http://164.92.88.33','http://164.92.88.33', 'https://8a5b-154-159-252-143.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS=['http://127.0.0.1:3000','http://127.0.0.1:3000','http://127.0.0.1','http://164.92.88.33','http://164.92.88.33','https://036e-2c0f-fe38-2100-415e-651c-e880-2628-3915.ngrok-free.app']
+CORS_ORIGIN_WHITELIST=['http://127.0.0.1:3000','http://127.0.0.1:3000','http://127.0.0.1','http://164.92.88.33','http://164.92.88.33','https://036e-2c0f-fe38-2100-415e-651c-e880-2628-3915.ngrok-free.app']

@@ -15,7 +15,7 @@
                         <h5><b>Uploaded At:</b> {{ document.uploaded_at }}</h5>
                         <h5><b>Comment:</b> {{ document.comment|title }}</h5>
                         <h5><b>Status: </b>{{ document.status|title }}</h5>
-                        <button type="button" class="btn btn-primary" onclick="openPDF('{{ document.id }}')">View File</button>
+                        <button type="button" class="btn btn-primary" onclick="openPDF('{{ document.file.url }}')">View File</button>
                         {% if document.status != 'approved' %}
                             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#approveModal{{ document.id }}">
                                 Approve
@@ -44,11 +44,10 @@
                                 <form action="." method="post">
                                     {% csrf_token %}
                                     <div class="form-group">
-                                        <input class="form-control" type="" value="{{document.id}}">
+                                        <input class="form-control" type="" value="{{document.id}}" style="display:none;">
                                     </div>
                                     <div class="form-group">
-                                        <label for="reason"><strong>Reason:</strong></label>
-                                        <textarea  id="reason" name="reason" rows="4" required></textarea>
+                                        <textarea  id="reason" placeholder="Reason for revision......." name="reason" rows="4" required></textarea>
                                     </div>
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -92,33 +91,28 @@
    </div>
 </div>
 
+<link rel="stylesheet" href="{% static 'css/student_dashboard.css' %}">
+<!-- iFrame and close button -->
+<div class="iframe-container">
+    <iframe id="pdf_frame" type="application/pdf" src="" style="display:none; width:100%; height:600px;" frameborder="0"></iframe>
+</div>
 <!-- Include Bootstrap JavaScript library -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 
-<link rel="stylesheet" href="{% static 'css/student_dashboard.css' %}">
-<!-- iFrame and close button -->
-<div class="iframe-container">
-    <iframe id="pdf_frame" src="" frameborder="0"></iframe>
-    <button id="closeBtn" onclick="closePDF()">Close</button>
-</div>
 
 <script>
-    function openPDF(fileId) {
+    function openPDF(pdfUrl) {
         var pdfFrame = document.getElementById('pdf_frame');
-        var closeBtn = document.getElementById('closeBtn');
-
-        pdfFrame.src = "{% url 'view_pdf' 'file_id' %}".replace('id', fileId); // Set the iframe source to display the PDF
+        
+        // Set the iframe source to display the PDF
+        pdfFrame.src = pdfUrl; 
         pdfFrame.style.display = "block"; // Show the iframe
-        closeBtn.style.display = "inline-block"; // Show the close button
     }
 
     function closePDF() {
         var pdfFrame = document.getElementById('pdf_frame');
-        var closeBtn = document.getElementById('closeBtn');
-
         pdfFrame.style.display = "none"; // Hide the iframe
-        closeBtn.style.display = "none"; // Hide the close button
     }
 </script>
 

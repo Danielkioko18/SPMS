@@ -713,7 +713,7 @@ def view_student_uploads(request, phase_id, student_id):
     return render(request, 'supervisors/view_student_uploads.html', context)
 
 
-# View pdf files by supervisor
+'''# View pdf files by supervisor
 def view_pdf(request, file_id):
     document = get_object_or_404(Documents, id=file_id)
     file_path = os.path.join(settings.MEDIA_ROOT, document.file.name)  # Adjust based on how file paths are stored
@@ -721,7 +721,7 @@ def view_pdf(request, file_id):
     with open(file_path, 'rb') as pdf_file:
         response = HttpResponse(pdf_file.read(), content_type='application/pdf')
         response['Content-Disposition'] = 'inline; filename="{}"'.format(document.file.name)
-        return response
+        return response'''
     
 
 
