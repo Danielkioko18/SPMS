@@ -24,14 +24,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-ca4m$0d-nr19(#b-$hqu_%0u9r(zz@$neah9c4*x1!-e++sr=*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 
 
 ALLOWED_HOSTS = [
-    '036e-2c0f-fe38-2100-415e-651c-e880-2628-3915.ngrok-free.app',
+    'https://students-projects-system.onrender.com',
     '127.0.0.1','localhost',
-    #'http://127.0.0.1:8000'
 ]
 
 # Application definition
@@ -71,6 +70,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'spms.urls'
 
+MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
