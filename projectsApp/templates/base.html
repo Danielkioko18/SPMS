@@ -1,178 +1,205 @@
 {% load static %}
 
-<!doctype html>
+<!DOCTYPE html>
 <html class="no-js h-100" lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <title>{% block title %}{% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
-    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-     <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{% static 'favicon/favicon.ico' %}"
+    />
+    <link
+      href="https://use.fontawesome.com/releases/v5.0.6/css/all.css"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
 
     <!-- Bootstrap JS (jQuery dependency included) -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
     <!-- Optional theme -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-   
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css"
+      integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+      crossorigin="anonymous"
+    />
+
     <!--<script async defer src="https://buttons.github.io/buttons.js"></script>-->
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+      body {
+        font-family: "Roboto", sans-serif;
+        margin: 0;
+        padding: 0;
+      }
 
-        header {
-            background-color: #007BFF;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            text-align: center;
-            padding: 10px 20px;
-            z-index: 20;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 60px;
+      header {
+        background-color: #007bff;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: center;
+        padding: 10px 20px;
+        z-index: 20;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+      }
+      header .left {
+        display: flex;
+        align-items: center;
+      }
 
-        }
-        header .left {
-            display: flex;
-            align-items: center;
-        }
+      header .logo {
+        width: 50px;
+        height: 50px;
+        margin-right: 10px;
+        border-radius: 50%;
+      }
 
-        header .logo {
-            width: 50px;
-            height: 50px;
-            margin-right: 10px;
-            border-radius: 50%;
-        }
+      header .profile-pic {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
 
-        header .profile-pic {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
+      /* Sidebar positioning and width */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 240px; /* Adjust as needed */
+        height: 100vh;
+        background-color: #f8f9fa; /* Light gray background */
+        border-right: 1px solid black;
+        padding: 10px;
+        overflow-x: hidden; /* Prevent horizontal scrollbar */
+      }
 
-        /* Sidebar positioning and width */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 240px; /* Adjust as needed */
-            height: 100vh;
-            background-color: #f8f9fa; /* Light gray background */
-            border-right: 1px solid black;
-            padding: 10px;
-            overflow-x: hidden; /* Prevent horizontal scrollbar */
-        
-        }
+      /* Sidebar links */
+      .sidebar .nav-link {
+        font-weight: 500;
+        color: #333;
+      }
 
-        /* Sidebar links */
-        .sidebar .nav-link {
-            font-weight: 500;
-            color: #333;
-        }
+      .sidebar .nav-link.active {
+        color: #007bff; /* Active link color */
+      }
 
-        .sidebar .nav-link.active {
-            color: #007bff; /* Active link color */
-        }
+      /* Sidebar toggle button */
+      .sidebar .navbar-toggler {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+      }
 
-        /* Sidebar toggle button */
-        .sidebar .navbar-toggler {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-        }
-
-        /* Collapsible content (optional) */
-        @media (max-width: 768px) {
+      /* Collapsible content (optional) */
+      @media (max-width: 768px) {
         .sidebar .collapse {
-            display: none;
+          display: none;
         }
 
         .sidebar .navbar-toggler {
-            display: block;
+          display: block;
         }
-        }
-        #unread-count {
-            position: fixed;
-            right: 12px;
-            color: white;
-            font-size: 12px;
-            font-weight: bold;
-            border-radius: 50%;
-            padding: 2px 5px;
-          }
-        #notifications{
-            width:40px;
-            height:40px;
-            background:#fff;
-            border-radius:50%;
-            box-sizing:border-box;
-            text-align:center;
-            color: #007bff;
-            box-shadow:0 2px 5px rgba(0,0,0,.2);
-        }
-
-        
+      }
+      #unread-count {
+        position: fixed;
+        right: 12px;
+        color: white;
+        font-size: 12px;
+        font-weight: bold;
+        border-radius: 50%;
+        padding: 2px 5px;
+      }
+      #notifications {
+        width: 40px;
+        height: 40px;
+        background: #fff;
+        border-radius: 50%;
+        box-sizing: border-box;
+        text-align: center;
+        color: #007bff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <!-- Header -->
     <header>
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-md-3">
-                    <div class="left">
-                        <img src="{% static 'images/logo.jpg' %}" alt="Logo" class="logo">
-                        <h1>SPMS</h1>
-                    </div>
-                </div>
-                <div class="col-md-9 d-flex justify-content-end">
-                    <div class="row align-items-center">
-                        <div class="col-auto">
-                            <span class="username mb-3" style="padding:10px;">
-                                Hello, 
-                                <strong>
-                                    {% if request.user.is_authenticated %}
-                                        {% if request.user.is_staff %}  
-                                            {{ request.user.username|title }},  
-                                        {% else %}
-                                            {{ request.user.name|title }}, 
-                                        {% endif %}
-                                    {% else %}
-                                        Guest,
-                                    {% endif %}
-                                </strong>
-                                Welcome.
-                            </span>
-                            <img src="{% static 'images/profile.png'%}" alt="Profile Picture" class="profile-pic">
-                        </div>
-                        <div class="col-auto position-relative">
-                            <i class="fas fa-bell mb-3 mt-3" id="notifications" style="font-size:23px; padding:5px;"></i>
-                        
-                            <span class="position-absolute mt-3 start-100 translate-middle badge rounded-pill bg-danger" id="unread-count">
-                                {{ total_unread }}
-                            </span>
-                        </div>
-                        <div class="col-auto">
-                            <a href="{% url 'logout' %}" class="btn btn-warning" style="padding:5px;">Logout</a>
-                        </div>
-                        
-                    </div>
-                </div>
+      <div class="container-fluid">
+        <div class="row align-items-center">
+          <div class="col-md-3">
+            <div class="left">
+              <img
+                src="{% static 'images/logo.jpg' %}"
+                alt="Logo"
+                class="logo"
+              />
+              <h1>SPMS</h1>
             </div>
+          </div>
+          <div class="col-md-9 d-flex justify-content-end">
+            <div class="row align-items-center">
+              <div class="col-auto">
+                <span class="username mb-3" style="padding: 10px">
+                  Hello,
+                  <strong>
+                    {% if request.user.is_authenticated %} {% if
+                    request.user.is_staff %} {{ request.user.username|title }},
+                    {% else %} {{ request.user.name|title }}, {% endif %} {%
+                    else %} Guest, {% endif %}
+                  </strong>
+                  Welcome.
+                </span>
+                <img
+                  src="{% static 'images/profile.png'%}"
+                  alt="Profile Picture"
+                  class="profile-pic"
+                />
+              </div>
+              <div class="col-auto position-relative">
+                <i
+                  class="fas fa-bell mb-3 mt-3"
+                  id="notifications"
+                  style="font-size: 23px; padding: 5px"
+                ></i>
+
+                <span
+                  class="position-absolute mt-3 start-100 translate-middle badge rounded-pill bg-danger"
+                  id="unread-count"
+                >
+                  {{ total_unread }}
+                </span>
+              </div>
+              <div class="col-auto">
+                <a
+                  href="{% url 'logout' %}"
+                  class="btn btn-warning"
+                  style="padding: 5px"
+                  >Logout</a
+                >
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </header>
-    {% block content %}
-    {% endblock %}
-</body>
+    {% block content %} {% endblock %}
+  </body>
 </html>

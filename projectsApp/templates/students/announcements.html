@@ -1,60 +1,59 @@
 <!-- Student Dashboard Template -->
 <title>Announcements</title>
-{% extends 'base.html' %}
-{% load static %}
-
-{% block content %}
+{% extends 'base.html' %} {% load static %} {% block content %}
 
 <!-- Content Area -->
 {% include 'column1.html' %}
 <div class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <h1 class="text-center" style="width: 100%; border-bottom:lightblue;">Announcements</h1><br>
-            <!-- Display lecturer announcements -->
-            {% for announcement in lecturer_announcements %}
-                <div class="card mb-3 border-info">
-                    <div class="card-header border-info text-center">
-                        <b>From:</b> {{ announcement.sender.name }}
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title"><b>Subject:</b></h5>
-                        <p class="text-success">{{ announcement.subject }}</p>
-                        <h5 class="card-title"><b>Message:</b></h5>
-                        <p class="card-text text-info">{{ announcement.message }}</p>
-                        {% if not announcement.read %}
-                            <p class="text-muted">Unread</p>
-                        {% endif %}
-                    </div>
-                    <div class="card-footer text-muted border-info">
-                        {{ announcement.created_at }}
-                    </div>
-                </div>
-            {% endfor %}
-            <!-- Display coordinator announcements -->
-            {% for announcement in coordinator_announcements %}
-                <div class="card mb-3 border-info">
-                    <div class="card-header border-info text-center">
-                        <b>From:</b> Projects Coordinator
-                        
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title"><b>Subject:</b></h5>
-                        <p class="text-success">{{ announcement.subject }}</p>
-                        <h5 class="card-title"><b>Message:</b></h5>
-                        <p class="card-text text-info">{{ announcement.message }}</p>
-                        {% if not announcement.read %}
-                            <p class="text-muted">Unread</p>
-                        {% endif %}
-                    </div>
-                    <div class="card-footer text-muted border-info">
-                        {{ announcement.created_at }}
-                    </div>
-                </div>
-            {% endfor %}
+  <div class="container-fluid">
+    <div class="row">
+      <h1 class="text-center" style="width: 100%; border-bottom: lightblue">
+        Announcements
+      </h1>
+      <br />
+      <!-- Display lecturer announcements -->
+      {% for announcement in lecturer_announcements %}
+      <div class="card mb-3 border-info">
+        <div class="card-header border-info text-center">
+          <b>From:</b> {{ announcement.sender.name }}
         </div>
+        <div class="card-body">
+          <h5 class="card-title"><b>Subject:</b></h5>
+          <p class="text-success">{{ announcement.subject }}</p>
+          <h5 class="card-title"><b>Message:</b></h5>
+          <p class="card-text text-info">{{ announcement.message }}</p>
+          {% if not announcement.read %}
+          <p class="text-muted">Unread</p>
+          {% endif %}
+        </div>
+        <div class="card-footer text-muted border-info">
+          {{ announcement.created_at }}
+        </div>
+      </div>
+      {% endfor %}
+      <!-- Display coordinator announcements -->
+      {% for announcement in coordinator_announcements %}
+      <div class="card mb-3 border-info">
+        <div class="card-header border-info text-center">
+          <b>From:</b> Projects Coordinator
+        </div>
+        <div class="card-body">
+          <h5 class="card-title"><b>Subject:</b></h5>
+          <p class="text-success">{{ announcement.subject }}</p>
+          <h5 class="card-title"><b>Message:</b></h5>
+          <p class="card-text text-info">{{ announcement.message }}</p>
+          {% if not announcement.read %}
+          <p class="text-muted">Unread</p>
+          {% endif %}
+        </div>
+        <div class="card-footer text-muted border-info">
+          {{ announcement.created_at }}
+        </div>
+      </div>
+      {% endfor %}
     </div>
+  </div>
 </div>
 
-<link rel="stylesheet" href="{% static 'css/notifications.css' %}">
+<link rel="stylesheet" href="{% static 'css/notifications.css' %}" />
 {% endblock %}

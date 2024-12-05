@@ -1,0 +1,11 @@
+{
+    "version": 2,
+    "builds": [
+      { "src": "manage.py", "use": "@vercel/python", "config": { "distDir": "staticfiles" } }
+    ],
+    "routes": [
+      { "src": "/static/(.*)", "dest": "/static/$1" },
+      { "src": "/(.*)", "dest": "manage.py" }
+    ]
+  }
+  

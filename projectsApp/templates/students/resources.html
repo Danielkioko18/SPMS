@@ -1,35 +1,35 @@
 <!-- Student Dashboard Template -->
 <title>Profile</title>
-{% extends 'base.html' %}
-{% load static %}
-
-{% block content %}
+{% extends 'base.html' %} {% load static %} {% block content %}
 
 <!-- Content Area -->
 {% include 'column1.html' %}
 <div class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <h1 class="text-center" style="width: 100%; border-bottom:lightblue;">Resources</h1><br>
-            <!-- Display resources -->
-            {% for resource in resources %}
-                <div class="card mb-3 border-info">
-                    <div class="card-header border-info">
-                        <b>Subject:</b> {{ resource.subject }}
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title"><b>Message:</b></h5>
-                        <p class="card-text text-info">{{ resource.message }}</p>
-                        <a href="{{ resource.file.url }}" class="btn btn-info">View File</a>                       
-                    </div>
-                    <div class="card-footer text-muted border-info text-danger">
-                        {{ resource.uploaded_at }}
-                    </div>
-                </div>
-            {% endfor %}
+  <div class="container-fluid">
+    <div class="row">
+      <h1 class="text-center" style="width: 100%; border-bottom: lightblue">
+        Resources
+      </h1>
+      <br />
+      <!-- Display resources -->
+      {% for resource in resources %}
+      <div class="card mb-3 border-info">
+        <div class="card-header border-info">
+          <b>Subject:</b> {{ resource.subject }}
         </div>
+        <div class="card-body">
+          <h5 class="card-title"><b>Message:</b></h5>
+          <p class="card-text text-info">{{ resource.message }}</p>
+          <a href="{{ resource.file.url }}" class="btn btn-info">View File</a>
+        </div>
+        <div class="card-footer text-muted border-info text-danger">
+          {{ resource.uploaded_at }}
+        </div>
+      </div>
+      {% endfor %}
     </div>
+  </div>
 </div>
 
-<link rel="stylesheet" href="{% static 'css/notifications.css' %}">
+<link rel="stylesheet" href="{% static 'css/notifications.css' %}" />
 {% endblock %}

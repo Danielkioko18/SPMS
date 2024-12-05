@@ -9,7 +9,7 @@
          <div class="col-lg-5 col-md-5 auth-form mx-auto my-auto">
             <div class="card mt-4 border-info rounded">
                 <div class="card-header border-info">
-                    <h4 class="text-center"><Strong>Add Supervisor</Strong></h4>
+                    <h4 class="text-center"><strong>Add Supervisor</strong></h4>
                 </div>
                 <div class="card-body">
                     {% if error_message %}
@@ -23,7 +23,7 @@
                       </div>
                     {% endif %}
 
-                    <form action="{% url "add_supervisor" %}" method="post">
+                    <form id="addSupervisorForm" action="{% url "add_supervisor" %}" method="post">
                         {% csrf_token %}
                         <div class="form-group">
                           <label for="email">Email</label>
@@ -39,7 +39,7 @@
                           <label for="phone">Phone Number</label>
                           <input type="tel" class="form-control" id="phone" placeholder="Enter Phone Number" name="phone" required>
                         </div>
-                        <button type="submit" class="btn btn-info">Submit</button>
+                        <button type="submit" class="btn btn-info" id="submitButton">Submit</button>
                       </form>
                 </div>
             </div>
@@ -47,10 +47,50 @@
     </div>
 </div>
 
+<!-- Include the EmailJS SDK -->
+<script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init({
+        publicKey: "C_ChvHnenqn69sdzC",
+      });
+   })();
+
+    // Attach an event listener to the form
+    document.getElementById('addSupervisorForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+        
+        const email = document.getElementById('email').value;
+        const name = document.getElementById('fullName').value;
+        const phone = document.getElementById('phone').value;
+
+        // Call EmailJS to send the email
+        emailjs.send("service_nhgsxrh", "template_6ovnaez", {
+            to_email: email,
+            to_name: name,
+            phone: phone,
+            password: "spmssupervisor", // Hardcoded password
+            subject: "Welcome to SPMS",
+            message: `
+                Hello, ${name}, you have been registered as a supervisor on the SPMS system.
+                Your password is 'spmssupervisor'. Please login to the system and change your password to your most convenient one.
+            `
+        })
+        .then(function(response) {
+            alert('Supervisor added and email sent successfully!');
+            document.getElementById('addSupervisorForm').submit(); // Submit form to backend after email is sent
+        }, function(error) {
+            alert('Failed to send email. Please try again.');
+            console.log('FAILED...', error);
+        });
+    });
+</script>
+
 <style>
-  label{
+  label {
     font-weight: bold;
   }
 </style>
-
 {% endblock %}

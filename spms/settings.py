@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-ca4m$0d-nr19(#b-$hqu_%0u9r(zz@$neah9c4*x1!-e++sr=*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
 
@@ -104,8 +104,12 @@ WSGI_APPLICATION = 'spms.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "spms",
+        "USER": "postgres",
+        "PASSWORD": "1234",
+        "HOST": "localhost",
+        "PORT": "5432", 
     }
 }
 
@@ -151,10 +155,3 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-# ngrok settings
-CORS_ALLOW_CREDENTIALS = False
-CORS_ALLOW_HEADERS = ["*"]
-# CSRF_TRUSTED_ORIGINS
-CSRF_TRUSTED_ORIGINS=['http://127.0.0.1:3000','http://127.0.0.1:3000','http://127.0.0.1','http://164.92.88.33','http://164.92.88.33','https://036e-2c0f-fe38-2100-415e-651c-e880-2628-3915.ngrok-free.app']
-CORS_ORIGIN_WHITELIST=['http://127.0.0.1:3000','http://127.0.0.1:3000','http://127.0.0.1','http://164.92.88.33','http://164.92.88.33','https://036e-2c0f-fe38-2100-415e-651c-e880-2628-3915.ngrok-free.app']

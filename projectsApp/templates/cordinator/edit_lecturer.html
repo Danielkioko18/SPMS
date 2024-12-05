@@ -1,51 +1,62 @@
 <title>update lecturer</title>
-{% extends "base_cord.html" %}
-{% load static %}
-
-{% block content %}
+{% extends "base_cord.html" %} 
+{% load static %} {% block content %} 
 {% include "column1_cord.html" %}
 <div class="main-content-container container-fluid px-4 my-auto h-100">
-    <div class="row no-gutters h-100">
-         <div class="col-lg-5 col-md-5 auth-form mx-auto my-auto">
-            <div class="card mt-4 border-info rounded">
-                <div class="card-header">
-                    <h4 class="auth-form__title text-center mb-4"><Strong>Create an Account</Strong></h4>
-                </div>
-                <div class="card-body">
-                    {% if error_message %}
-                      <div class="alert alert-danger" role="alert">
-                          {{ error_message }}
-                      </div>
-                    {% endif %}
-                    {% if success_message %}
-                      <div class="alert alert-info" role="alert">
-                          {{ success_message }}
-                      </div>
-                    {% endif %}
+  <div class="row no-gutters h-100">
+    <div class="col-lg-5 col-md-5 auth-form mx-auto my-auto">
+      <div class="card mt-4 border-info rounded">
+        <div class="card-header">
+          <h4 class="auth-form__title text-center mb-4">
+            <strong>Create an Account</strong>
+          </h4>
+        </div>
+        <div class="card-body">
+          {% if error_message %}
+          <div class="alert alert-danger" role="alert">{{ error_message }}</div>
+          {% endif %} {% if success_message %}
+          <div class="alert alert-info" role="alert">{{ success_message }}</div>
+          {% endif %}
 
-                    <!-- edit_lecturer-->
+          <!-- edit_lecturer-->
 
-                    <form action="" method="post">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input type="email" id="email" name="email" value="{{ lecturer.email }}" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Name:</label>
-                            <input type="text" id="name" name="name" value="{{ lecturer.name }}" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone:</label>
-                            <input type="text" id="phone" name="phone" value="{{ lecturer.phone }}">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Update</button>
-                    </form>
-                </div>
+          <form action="" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value="{{ lecturer.email }}"
+                required
+              />
             </div>
-         </div>
+            <div class="form-group">
+              <label for="name">Name:</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value="{{ lecturer.name }}"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone:</label>
+              <input
+                type="text"
+                id="phone"
+                name="phone"
+                value="{{ lecturer.phone }}"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+          </form>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
-
 
 {% endblock %}

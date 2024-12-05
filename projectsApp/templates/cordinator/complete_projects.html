@@ -1,107 +1,110 @@
 <title>complete titles</title>
-{% extends 'base_cord.html' %}
-{% load static %}
-
-
-{% block content %}
+{% extends 'base_cord.html' %} {% load static %} {% block content %}
 
 <!-- Content Area -->
 {% include 'column1_cord.html' %}
 <div class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Print button -->
-            <div class="text-center mt-3 ml-3">
-                <button id="print-button" onclick="printTable()" class="btn btn-info">Print Table</button>
-            </div>
-            <div class="card border-info">
-                <div class="card-header text-center border-info">
-                    <h5><b>Completed Projects</b></h5>
-                </div>
-                <div class="card-body">
-                    <table id="print-table" class="table table-bordered table-hover  table-striped border-info">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Reg No</th>
-                                <th scope="col">Name</th>  
-                                <th scope="col">Title</th>
-                                <th scope="col">Supervisor</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% if projects.exists %}
-                                {% for project in projects %}
-                                    <tr>
-                                        <th scope="row">{{forloop.counter}}</th>
-                                        <td>{{project.student.regno|upper}}</td>
-                                        <td>{{project.student.name|upper}}</td>
-                                        <td>{{project.title|upper}}</td>
-                                        <td>{{project.lecturer.name|title}}</td>  
-                                    </tr>
-                                {% endfor %}
-                            {% else %}
-                                <tr>
-                                    <td colspan="6" class="text-center text-danger">No complete projects found.</td>
-                                </tr>
-                            {% endif %}  
-                        </tbody>
-                    </table>
-                </div>
-            </div>                
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Print button -->
+      <div class="text-center mt-3 ml-3">
+        <button id="print-button" onclick="printTable()" class="btn btn-info">
+          Print Table
+        </button>
+      </div>
+      <div class="card border-info">
+        <div class="card-header text-center border-info">
+          <h5><b>Completed Projects</b></h5>
         </div>
-              
+        <div class="card-body">
+          <table
+            id="print-table"
+            class="table table-bordered table-hover table-striped border-info"
+          >
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Reg No</th>
+                <th scope="col">Name</th>
+                <th scope="col">Title</th>
+                <th scope="col">Supervisor</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if projects.exists %} {% for project in projects %}
+              <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{project.student.regno|upper}}</td>
+                <td>{{project.student.name|upper}}</td>
+                <td>{{project.title|upper}}</td>
+                <td>{{project.lecturer.name|title}}</td>
+              </tr>
+              {% endfor %} {% else %}
+              <tr>
+                <td colspan="6" class="text-center text-danger">
+                  No complete projects found.
+                </td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <script>
-    function printTable() {
-        // Hide the header
-        var header = document.querySelector('header');
-        header.style.display = 'none';
-        
-        // Hide button 
-        var button = document.querySelector('#print-button');
-        button.style.display = 'none';
-    
-        // Hide the action column
-        var actionColumn = document.querySelectorAll('#print-table th:last-child, #print-table td:last-child');
-        actionColumn.forEach(function(element) {
-            element.style.display = 'none';
-        });
-    
-        // Add title to the top center of the page
-        var currentDate = new Date().toLocaleDateString();
-        var title = "OXFORD UNIVERSITY <br> Bsc. COMPUTER SCIENCE <br> COSC 484: Computer System Project";
-        var titleDiv = document.createElement('div');
-        titleDiv.style.position = 'absolute';
-        titleDiv.style.top = '10px';
-        titleDiv.style.left = '50%';
-        titleDiv.style.transform = 'translateX(-50%)';
-        titleDiv.style.textAlign = 'center';
-        titleDiv.style.fontWeight = 'bold';
-        titleDiv.innerHTML = title;
-        document.body.appendChild(titleDiv);
-    
-        // Print the table
-        window.print();
-    
-        // Remove the title and date divs
-        document.body.removeChild(titleDiv);
-    
-        // Show the header again
-        header.style.display = '';
-    
-        // show button again
-        var button = document.querySelector('#print-button');
-        button.style.display = '';
-    
-        // Show the action column again
-        actionColumn.forEach(function(element) {
-            element.style.display = '';
-        });
-    }
+  function printTable() {
+    // Hide the header
+    var header = document.querySelector("header");
+    header.style.display = "none";
+
+    // Hide button
+    var button = document.querySelector("#print-button");
+    button.style.display = "none";
+
+    // Hide the action column
+    var actionColumn = document.querySelectorAll(
+      "#print-table th:last-child, #print-table td:last-child"
+    );
+    actionColumn.forEach(function (element) {
+      element.style.display = "none";
+    });
+
+    // Add title to the top center of the page
+    var currentDate = new Date().toLocaleDateString();
+    var title =
+      "OXFORD UNIVERSITY <br> Bsc. COMPUTER SCIENCE <br> COSC 484: Computer System Project";
+    var titleDiv = document.createElement("div");
+    titleDiv.style.position = "absolute";
+    titleDiv.style.top = "10px";
+    titleDiv.style.left = "50%";
+    titleDiv.style.transform = "translateX(-50%)";
+    titleDiv.style.textAlign = "center";
+    titleDiv.style.fontWeight = "bold";
+    titleDiv.innerHTML = title;
+    document.body.appendChild(titleDiv);
+
+    // Print the table
+    window.print();
+
+    // Remove the title and date divs
+    document.body.removeChild(titleDiv);
+
+    // Show the header again
+    header.style.display = "";
+
+    // show button again
+    var button = document.querySelector("#print-button");
+    button.style.display = "";
+
+    // Show the action column again
+    actionColumn.forEach(function (element) {
+      element.style.display = "";
+    });
+  }
 </script>
-  
-<link rel="stylesheet" href="{% static 'css/mystudents.css' %}">
+
+<link rel="stylesheet" href="{% static 'css/mystudents.css' %}" />
 {% endblock %}

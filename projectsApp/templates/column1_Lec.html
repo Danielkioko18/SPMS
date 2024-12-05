@@ -1,28 +1,52 @@
 {% load static %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light flex-md-column sidebar  column-1">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav flex-column">
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'supervisor_dashboard' %}"><i class="fas fa-chart-line"></i> <strong>Dashboard</strong></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'mystudents' %}"><i class="fas fa-users"></i> <strong>My Students/Projects</strong></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'milestones' %}"><i class="fas fa-folder-open"></i> <strong>Student's Uploads</strong></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'announcement' %}"><i class="fas fa-bullhorn"></i> <strong>Announcements</strong></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'resource_upload' %}"><i class="fas fa-cloud-upload-alt"></i> <strong>Upload Resource</strong></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'supervisor_profile' %}"><i class="fas fa-user"></i> <strong>My Profile</strong></a>
-        </li>
-      </ul>
-    </div>
+<nav
+  class="navbar navbar-expand-lg navbar-light bg-light flex-md-column sidebar column-1"
+>
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarNav"
+    aria-controls="navbarNav"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'supervisor_dashboard' %}"
+          ><i class="fas fa-chart-line"></i> <strong>Dashboard</strong></a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'mystudents' %}"
+          ><i class="fas fa-users"></i> <strong>My Students/Projects</strong></a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'milestones' %}"
+          ><i class="fas fa-folder-open"></i>
+          <strong>Student's Uploads</strong></a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'announcement' %}"
+          ><i class="fas fa-bullhorn"></i> <strong>Announcements</strong></a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'resource_upload' %}"
+          ><i class="fas fa-cloud-upload-alt"></i>
+          <strong>Upload Resource</strong></a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'supervisor_profile' %}"
+          ><i class="fas fa-user"></i> <strong>My Profile</strong></a
+        >
+      </li>
+    </ul>
+  </div>
 </nav>

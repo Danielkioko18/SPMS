@@ -1003,7 +1003,7 @@ def add_supervisor(request):
 
 
         # Send registration email to the lecturer
-        recipient_email = email  # Lecturer's email address
+        '''recipient_email = email  # Lecturer's email address
         subject = 'Welcome to SPMS'
         message = f"""
                     <html>
@@ -1016,7 +1016,7 @@ def add_supervisor(request):
                 
         
         # Send the email
-        send_email(recipient_email, subject, message)
+        send_email(recipient_email, subject, message)'''
 
 
         success_message = "Registration successful. Please login to continue."
@@ -1260,7 +1260,7 @@ def approve_title(request, project_id):
             feedback = CoordinatorFeedbacks.objects.create(sender=request.user, project=project, comment=comment)
             feedback.save()
 
-            # Send approval email to the student
+            '''# Send approval email to the student
             name = project.student.name
             supervisor = lecturer_obj.name
             recipient_email = project.student.email
@@ -1277,7 +1277,7 @@ def approve_title(request, project_id):
                         """
             
             # Send the email
-            send_email(recipient_email, subject, message)
+            send_email(recipient_email, subject, message)'''
 
 
             messages.success(request, 'Project approved successfully!')
@@ -1305,7 +1305,7 @@ def reject_title(request, project_id):
             feedback.save()
 
 
-            # Send email email to the student
+            '''# Send email email to the student
             name = project.student.name
             recipient_email = project.student.email
             subject = 'Project Title Approval'
@@ -1321,7 +1321,7 @@ def reject_title(request, project_id):
                         """
             
             # Send the email
-            send_email(recipient_email, subject, message)
+            send_email(recipient_email, subject, message)'''
 
             messages.success(request, 'Project rejected successfully!')
             return HttpResponseRedirect(reverse('view_project_details', args=[project.id]))

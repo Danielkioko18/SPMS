@@ -1,82 +1,127 @@
-{% extends "base.html" %}
-{% load static %}
-
-{% block content %}
-{% include "column1_cord.html" %}
+{% extends "base.html" %} {% load static %} {% block content %} {% include
+"column1_cord.html" %}
 <div class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="card mb-5">
-                <div class="card-header text-center">
-                    <h4 class="text-success"><b>Project Details</b></h4>
-                </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="card mb-5">
+        <div class="card-header text-center">
+          <h4 class="text-success"><b>Project Details</b></h4>
+        </div>
 
-                <div class="card mb-5 mt-3">
-                    <div class="card-body">
-                    <u class="text-center text-success"><h4 ><strong >Project Title</strong></h4></u>
-                    <h2 class="text-center">{{project.title}}</h2>
-                </div>
-                </div>
+        <div class="card mb-5 mt-3">
+          <div class="card-body">
+            <u class="text-center text-success"
+              ><h4><strong>Project Title</strong></h4></u
+            >
+            <h2 class="text-center">{{project.title}}</h2>
+          </div>
+        </div>
 
-                <div class="card mb-5">
-                    <div class="card-body">
-                        <u class="text-center text-success"><h4> <strong >Project Description</strong></h4></u>
-                        <p>{{project.description}}</p>
-                    </div>                    
-                </div>
+        <div class="card mb-5">
+          <div class="card-body">
+            <u class="text-center text-success"
+              ><h4><strong>Project Description</strong></h4></u
+            >
+            <p>{{project.description}}</p>
+          </div>
+        </div>
 
-                <div class="card mb-5">
-                    <div class="card-body">
-                        <u class="text-center text-success"><h4 ><strong >Project Objectives</strong></h4></u>
-                        <p>{{project.objectives}}</p>
-                        <a href="" class="btn btn-success" data-toggle="modal" data-target="#approveModal">Approve</a>
-                        <a href="" class="btn btn-warning">Reject</a>
-                    </div>
-                </div>
+        <div class="card mb-5">
+          <div class="card-body">
+            <u class="text-center text-success"
+              ><h4><strong>Project Objectives</strong></h4></u
+            >
+            <p>{{project.objectives}}</p>
+            <a
+              href=""
+              class="btn btn-success"
+              data-toggle="modal"
+              data-target="#approveModal"
+              >Approve</a
+            >
+            <a href="" class="btn btn-warning">Reject</a>
+          </div>
+        </div>
 
-                <!-- Approval form -->
-                <div class="modal fade" id="approveModal" tabindex="-1" role="dialog" aria-labelledby="approveModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="approveModalLabel">Approve Project</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                          <form id="approve_form">
-                            <div class="form-group">
-                                <input type="hidden" id="project_id" value="{{ project.id }}">
-                              </div>
-                            <div class="form-group">
-                              <label for="allocated_lecturer">Allocate Lecturer:</label>
-                              <select class="form-control" id="allocated_lecturer" name="allocated_lecturer">
-                                </select>
-                            </div>
-                            <div class="form-group">
-                              <label for="comment">Comment (optional):</label>
-                              <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
-                            </div>
-                          </form>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary" id="submit_approval">Submit Approval</button>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-
-                <!--  end -->
+        <!-- Approval form -->
+        <div
+          class="modal fade"
+          id="approveModal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="approveModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="approveModalLabel">
+                  Approve Project
+                </h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="approve_form">
+                  <div class="form-group">
+                    <input
+                      type="hidden"
+                      id="project_id"
+                      value="{{ project.id }}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="allocated_lecturer">Allocate Lecturer:</label>
+                    <select
+                      class="form-control"
+                      id="allocated_lecturer"
+                      name="allocated_lecturer"
+                    ></select>
+                  </div>
+                  <div class="form-group">
+                    <label for="comment">Comment (optional):</label>
+                    <textarea
+                      class="form-control"
+                      id="comment"
+                      name="comment"
+                      rows="3"
+                    ></textarea>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  id="submit_approval"
+                >
+                  Submit Approval
+                </button>
+              </div>
             </div>
-            
-        </div> 
+          </div>
+        </div>
+
+        <!--  end -->
+      </div>
     </div>
+  </div>
 </div>
 
 <!--<script async defer src="js/approvemodal.js"></script>-->
-<link rel="stylesheet" href="{% static 'css/viewproject.css' %}">
-
+<link rel="stylesheet" href="{% static 'css/viewproject.css' %}" />
 
 {% endblock %}
